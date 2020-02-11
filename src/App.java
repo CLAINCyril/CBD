@@ -5,6 +5,7 @@ import DAO.Connexion;
 import DAO.DAOComputer;
 import DAO.DAOcompany;
 import entite.Company;
+import entite.Computer;
 
 /**
  * Hello world!
@@ -25,5 +26,9 @@ public class App
 	    List<Company> companylist = new ArrayList<Company>();
 	    companylist = daoC.getallCompany();
 	    System.out.println(companylist);
+	    DAOComputer daoCC = new DAOComputer();
+	    List<Computer> computerListe = new ArrayList<Computer>();
+	    computerListe = daoCC.getallcomputer();
+	    System.out.println(computerListe);
     }
 }

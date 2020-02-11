@@ -30,20 +30,23 @@ public class DAOComputer {
 	 * @param nom
 	 * @return
 	 */
-	public boolean persistecomputer(int id,String nom) {
+	public boolean persistecomputer(Computer computer) {
 		this.conn = new Connexion();
         conn.connect();
         
         Boolean addBdd = false;
         
-        String req = "INSERT INTO SUIVRE (id,  name)" +
-                "values(?, ?)";
+        String req = "INSERT INTO computer (id,  name, introduced, discontinued, company_id)" +
+                "values(?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement psmt = conn.getConn().prepareStatement(req);
 
-            psmt.setInt(1, id);
-            psmt.setString(2, nom);
+            psmt.setInt(1, computer.getId());
+            psmt.setString(2, computer.getName());
+            psmt.setDate(3, computer.getIntroduced());
+            psmt.setDate(4, computer.getDicontinued());
+            psmt.setInt(5, computer.getIdCompagny());
             psmt.executeUpdate();
             conn.close();
             addBdd = true;
@@ -101,6 +104,10 @@ public class DAOComputer {
 			resDetailcomputer.next();
 			computer.setId(resDetailcomputer.getInt(1));
 			computer.setName(resDetailcomputer.getString(2));
+			computer.setIntroduced(resDetailcomputer.getDate(3));
+			computer.setDicontinued(resDetailcomputer.getDate(4));
+			computer.setId(resDetailcomputer.getInt(5));
+
 			
 			conn.close();
 			return computer;
@@ -155,13 +162,15 @@ public class DAOComputer {
             	Computer computer = new Computer();
                 computer.setId(resListecomputer.getInt(1));
                 computer.setName(resListecomputer.getString(2));
-
+                computer.setIntroduced(resListecomputer.getDate(3));
+                computer.setDicontinued(resListecomputer.getDate(4));
+                computer.setIdCompagny(resListecomputer.getInt(5));
+                
                 computerlist.add(computer);
             }
 
 	            statementSelectall.close();
 	            conn.close();
-
 
 
 	        } catch (SQLException e) {

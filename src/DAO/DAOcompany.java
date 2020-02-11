@@ -37,7 +37,7 @@ public class DAOcompany {
         
         Boolean addBdd = false;
         
-        String req = "INSERT INTO SUIVRE (id,  name)" +
+        String req = "INSERT INTO company (id,  name)" +
                 "values(?, ?)";
         
         try {
@@ -65,7 +65,7 @@ public class DAOcompany {
 		this.conn = new Connexion();
         conn.connect();
         
-        String req = "DELETE FROM computer WHERE id=?";
+        String req = "DELETE FROM company WHERE id=?";
         
         try {
         	PreparedStatement statementSupresisoncompany = conn.getConn().prepareStatement(req);
@@ -93,7 +93,7 @@ public class DAOcompany {
 		
 		Company company = new Company();
 		
-		String req = " SELECT * FROM computer WHERE id=?";
+		String req = " SELECT * FROM company WHERE id=?";
 		try {
 			PreparedStatement statementGetCompany = conn.getConn().prepareStatement(req);
 			statementGetCompany.setInt(1,Id);
@@ -123,7 +123,7 @@ public class DAOcompany {
 	        this.conn = new Connexion();
 	        conn.connect();
 	        
-	        String sqlName = "UPDATE company " + "SET name = ? WHERE NUMETUDIANT = ?";
+	        String sqlName = "UPDATE company " + "SET name = ? WHERE Id = ?";
 
 	        Company comp = getCompany(company.getId());
 
