@@ -1,4 +1,4 @@
-package modele;
+package entite;
 
 /**
  * Nom de classe : Company Modele
@@ -12,9 +12,13 @@ package modele;
  * Copyright     : CLAIN Cyril
  */
 
-public class CompanyModele {
+public class Company {
 	private int Id;
 	private String name;
+	
+
+	public Company() {
+	}
 
 	public int getId() {
 		return Id;
@@ -32,7 +36,7 @@ public class CompanyModele {
 		this.name = name;
 	}
 
-	public CompanyModele(int id) {
+	public Company(int id) {
 		Id = id;
 	}
 
@@ -50,12 +54,12 @@ public class CompanyModele {
 			return this;
 		}
 
-		public CompanyModele build() {
-			return new CompanyModele(this);
+		public Company build() {
+			return new Company(this);
 		}
 	}
 
-	private CompanyModele(Builder builder) {
+	private Company(Builder builder) {
 		this.Id = builder.Id;
 		this.name = builder.name;
 	}
@@ -82,7 +86,7 @@ public class CompanyModele {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CompanyModele other = (CompanyModele) obj;
+		Company other = (Company) obj;
 		if (Id != other.Id)
 			return false;
 		return true;

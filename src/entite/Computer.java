@@ -1,4 +1,4 @@
-package modele;
+package entite;
 
 import java.sql.Date;
 
@@ -14,7 +14,7 @@ import java.sql.Date;
  * Copyright     : CLAIN Cyril
  */
 
-public class ComputerModele {
+public class Computer {
 
 	private int Id;
 	private String name;
@@ -22,7 +22,7 @@ public class ComputerModele {
 	private Date Dicontinued;
 	private int IdCompagny;
 
-	public ComputerModele(int id, String name, int idCompagny) {
+	public Computer(int id, String name, int idCompagny) {
 		Id = id;
 		this.name = name;
 		IdCompagny = idCompagny;
@@ -100,12 +100,12 @@ public class ComputerModele {
 			return this;
 		}
 
-		public ComputerModele build() {
-			return new ComputerModele(this);
+		public Computer build() {
+			return new Computer(this);
 		}
 	}
 
-	private ComputerModele(Builder builder) {
+	private Computer(Builder builder) {
 		this.Id = builder.Id;
 		this.name = builder.name;
 		this.introduced = builder.introduced;
@@ -130,7 +130,7 @@ public class ComputerModele {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ComputerModele other = (ComputerModele) obj;
+		Computer other = (Computer) obj;
 		if (Id != other.Id)
 			return false;
 		if (IdCompagny != other.IdCompagny)
