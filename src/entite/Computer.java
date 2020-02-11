@@ -1,6 +1,9 @@
 package entite;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Nom de classe : ComputerModele
@@ -18,8 +21,8 @@ public class Computer {
 
 	private int Id;
 	private String name;
-	private Date introduced;
-	private Date Dicontinued;
+	private LocalDateTime introduced;
+	private LocalDateTime Discontinued;
 	private int IdCompagny;
 
 	public Computer(int id, String name, int idCompagny) {
@@ -44,20 +47,20 @@ public class Computer {
 		this.name = name;
 	}
 
-	public Date getIntroduced() {
+	public LocalDateTime getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(Date introduced) {
+	public void setIntroduced(LocalDateTime introduced) {
 		this.introduced = introduced;
 	}
 
-	public Date getDicontinued() {
-		return Dicontinued;
+	public LocalDateTime getDiscontinued() {
+		return Discontinued;
 	}
 
-	public void setDicontinued(Date dicontinued) {
-		Dicontinued = dicontinued;
+	public void setDiscontinued(LocalDateTime dicontinued) {
+		Discontinued = dicontinued;
 	}
 
 	public int getIdCompagny() {
@@ -71,8 +74,8 @@ public class Computer {
 	public static class Builder {
 		private int Id;
 		private String name;
-		private Date introduced;
-		private Date Dicontinued;
+		private LocalDateTime introduced;
+		private LocalDateTime Discontinued;
 		private int IdCompagny;
 
 		public Builder Id(int Id) {
@@ -85,13 +88,13 @@ public class Computer {
 			return this;
 		}
 
-		public Builder introduced(Date introduced) {
+		public Builder introduced(LocalDateTime introduced) {
 			this.introduced = introduced;
 			return this;
 		}
 
-		public Builder Dicontinued(Date Dicontinued) {
-			this.Dicontinued = Dicontinued;
+		public Builder Discontinued(LocalDateTime Dicontinued) {
+			this.Discontinued = Dicontinued;
 			return this;
 		}
 
@@ -109,7 +112,7 @@ public class Computer {
 		this.Id = builder.Id;
 		this.name = builder.name;
 		this.introduced = builder.introduced;
-		this.Dicontinued = builder.Dicontinued;
+		this.Discontinued = builder.Discontinued;
 		this.IdCompagny = builder.IdCompagny;
 	}
 	
@@ -143,6 +146,6 @@ public class Computer {
 	@Override
 	public String toString() {
 		return "ComputerModele [Id=" + Id + ", name=" + name + ", introduced=" + introduced + ", Dicontinued="
-				+ Dicontinued + ", IdCompagny=" + IdCompagny + "]";
+				+ Discontinued + ", IdCompagny=" + IdCompagny + "]";
 	}
 }
