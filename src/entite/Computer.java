@@ -113,6 +113,8 @@ public class Computer {
 		this.IdCompagny = builder.IdCompagny;
 	}
 	
+	public Computer() {};
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
