@@ -216,8 +216,10 @@ public final class DAOComputer {
             	Computer computer = new Computer();
                 computer.setId(resListecomputer.getInt(1));
                 computer.setName(resListecomputer.getString(2));
-                computer.setIntroduced(resListecomputer.getTimestamp(3).toLocalDateTime());
-                computer.setDiscontinued(resListecomputer.getTimestamp(4).toLocalDateTime());
+    			computer.setIntroduced(resListecomputer.getTimestamp(3)!=null?
+    					resListecomputer.getTimestamp(3).toLocalDateTime():null);
+    			computer.setDiscontinued(resListecomputer.getTimestamp(3)!=null?
+    					resListecomputer.getTimestamp(3).toLocalDateTime():null);
                 Company comp = servCompany.getCompany(resListecomputer.getInt(5));
     			computer.setCompany(comp);
                 
@@ -254,8 +256,10 @@ public final class DAOComputer {
             	Computer computer = new Computer();
                 computer.setId(resListecomputer.getInt(1));
                 computer.setName(resListecomputer.getString(2));
-                computer.setIntroduced(resListecomputer.getTimestamp(3).toLocalDateTime());
-                computer.setDiscontinued(resListecomputer.getTimestamp(4).toLocalDateTime());
+    			computer.setIntroduced(resListecomputer.getTimestamp(3)!=null?
+    					resListecomputer.getTimestamp(3).toLocalDateTime():null);
+    			computer.setDiscontinued(resListecomputer.getTimestamp(3)!=null?
+    					resListecomputer.getTimestamp(3).toLocalDateTime():null);
                 Company comp = servCompany.getCompany(resListecomputer.getInt(5));
     			computer.setCompany(comp);
                 

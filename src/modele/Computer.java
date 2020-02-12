@@ -145,7 +145,7 @@ public class Computer {
 	@Override
 	public String toString() {
 		return "Computer [Id=" + Id + ", name=" + name + ", introduced=" + introduced + ", Discontinued=" + Discontinued
-				+ ", company=" + company + "]";
+				+ ", company=" + company + "]\n";
 	}
 
 }
