@@ -25,8 +25,8 @@ public final class DAOComputer {
 	private ServiceCompany servCompany;
 	
 	private DAOComputer() {
-		this.conn = new Connexion();
-		this.servCompany = new ServiceCompany();
+		this.conn = Connexion.getInstance();
+		this.servCompany = ServiceCompany.getInstance();
 	}
 	
 	 public final static DAOComputer getInstance() {
@@ -50,7 +50,7 @@ public final class DAOComputer {
 	 * @return
 	 */
 	public boolean persistecomputer(Computer computer) {
-		this.conn = new Connexion();
+		this.conn = Connexion.getInstance();
         conn.connect();
         
         Boolean addBdd = false;
@@ -86,9 +86,10 @@ public final class DAOComputer {
 	 * @author cyril
 	 * @param Id
 	 */
-	public void deletecomputer(int Id) {
-		this.conn = new Connexion();
+	public boolean deletecomputer(int Id) {
+		this.conn = Connexion.getInstance();
         conn.connect();
+        boolean estSupr = false;
         
         String req = "DELETE FROM computer WHERE id=?";
         
@@ -98,11 +99,12 @@ public final class DAOComputer {
         	statementSupresisoncomputer.executeUpdate();
         	statementSupresisoncomputer.close();
             conn.close();
+            estSupr = true;
         }
         catch (Exception e) {
 			e.printStackTrace();
 		}
-        
+        return estSupr;
 	}
 	
 
@@ -113,12 +115,14 @@ public final class DAOComputer {
 	 * @return computer
 	 */
 	public Computer getcomputer(int Id) {
-		this.conn = new Connexion();
+		this.conn = Connexion.getInstance();
 		conn.connect();
 		
 		Computer computer = new Computer();
-		
-		String req = " SELECT * FROM computer WHERE id=?";
+		Company comp = new Company();
+
+		String req = "SELECT * FROM computer "
+                + "LEFT JOIN company ON company_id = company.id WHERE computer.id = ?;";
 		try {
 			PreparedStatement statementGetcomputer = conn.getConn().prepareStatement(req);
 			statementGetcomputer.setInt(1,Id);
@@ -131,17 +135,18 @@ public final class DAOComputer {
 					resDetailcomputer.getTimestamp(3).toLocalDateTime():null);
 			computer.setDiscontinued(resDetailcomputer.getTimestamp(4)!=null?
 					resDetailcomputer.getTimestamp(4).toLocalDateTime():null);
-			Company comp = servCompany.getCompany(resDetailcomputer.getInt(5));
-			computer.setCompany(comp);
-			
+			comp.setId(resDetailcomputer.getInt("company_id"));
+			comp.setName(resDetailcomputer.getString("company.name"));
+//			System.out.println(comp);
+			computer.setCompany(comp);		
 			conn.close();
-			return computer;
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return computer;
 
 		}
+		return computer;
+
 		}
 	
 	
@@ -151,7 +156,7 @@ public final class DAOComputer {
 	 * @param computer
 	 */
 	 public void updatecomputer(Computer computer) {
-	        this.conn = new Connexion();
+	        this.conn = Connexion.getInstance();
 	        conn.connect();
 	        
 
@@ -198,7 +203,7 @@ public final class DAOComputer {
 	  */
 	 public List<Computer> getallcomputer(){
 
-		 this.conn = new Connexion();
+		 this.conn = Connexion.getInstance();
 	     conn.connect();
 	     
 	     List<Computer> computerlist = new ArrayList<Computer>();

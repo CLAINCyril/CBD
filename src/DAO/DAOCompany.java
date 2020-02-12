@@ -21,7 +21,7 @@ public final class DAOCompany {
     private static volatile DAOCompany instance = null;
 	
 	private DAOCompany() {
-		this.conn = new Connexion();
+		this.conn = Connexion.getInstance();
 		
 	}
 	
@@ -45,7 +45,7 @@ public final class DAOCompany {
 	 * @return
 	 */
 	public boolean persisteCompany(Company company) {
-		this.conn = new Connexion();
+		this.conn = Connexion.getInstance();
         conn.connect();
         
         Boolean addBdd = false;
@@ -75,7 +75,7 @@ public final class DAOCompany {
 	 * @param Id
 	 */
 	public boolean deletecompany(int Id) {
-		this.conn = new Connexion();
+		this.conn = Connexion.getInstance();
         conn.connect();
         
         boolean res = false;
@@ -103,7 +103,7 @@ public final class DAOCompany {
 	 * @return Company
 	 */
 	public Company getCompany(int Id) {
-		this.conn = new Connexion();
+		this.conn = Connexion.getInstance();
 		conn.connect();
 		
 		Company company = new Company();
@@ -135,7 +135,7 @@ public final class DAOCompany {
 	 * @param company
 	 */
 	 public void updateCompany(Company company) {
-	        this.conn = new Connexion();
+	        this.conn = Connexion.getInstance();
 	        conn.connect();
 	        
 	        String sqlName = "UPDATE company " + "SET name = ? WHERE Id = ?";
@@ -162,7 +162,7 @@ public final class DAOCompany {
 	  */
 	 public List<Company> getallCompany(){
 
-		 this.conn = new Connexion();
+		 this.conn = Connexion.getInstance();
 	     conn.connect();
 	     
 	     List<Company> companylist = new ArrayList<Company>();

@@ -1,7 +1,6 @@
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,6 +20,8 @@ public class App
 {
     public static void main( String[] args )
     {
-
+    	Computer comp;
+    	comp = DAOComputer.getInstance().getcomputer(5);
+    	System.out.println(comp);
     }
 }

@@ -2,16 +2,30 @@ package service;
 
 import java.util.List;
 
+import DAO.Connexion;
 import DAO.DAOCompany;
 import entite.Company;
 
-public class ServiceCompany {
+public final class ServiceCompany {
 	
 	DAOCompany dao;
-	
-	
-	public ServiceCompany() {
+	private static volatile ServiceCompany instance = null;
+		
+	private ServiceCompany() {
 		this.dao = DAOCompany.getInstance();
+		
+	}
+		
+		
+	public final static ServiceCompany getInstance() {
+        if (ServiceCompany.instance == null) {
+           synchronized(ServiceCompany.class) {
+             if (ServiceCompany.instance == null) {
+            	 ServiceCompany.instance = new ServiceCompany();
+             }
+           }
+        }
+        return ServiceCompany.instance;
 	}
 
 

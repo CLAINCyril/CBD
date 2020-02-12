@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import service.ServiceCompany;
+
 /**
  * Classe de connection au server MySql à la table "computer-database-db".<br/>
  * 
@@ -15,9 +17,26 @@ import java.sql.SQLException;
  * @author cyril
  *
  */
-public class Connexion {
+public final class Connexion {
 	
-	private static Connection conn; 
+	private static Connection conn;
+	
+	private static volatile Connexion instance = null;
+	
+	private Connexion() {
+		
+	}
+				
+	public final static Connexion getInstance() {
+        if (Connexion.instance == null) {
+           synchronized(Connexion.class) {
+             if (Connexion.instance == null) {
+            	 Connexion.instance = new Connexion();
+             }
+           }
+        }
+        return Connexion.instance;
+	}
 	
 	/**
 	 * ouvre une connection.

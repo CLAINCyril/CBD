@@ -40,16 +40,16 @@ public class Company {
 		Id = id;
 	}
 
-	public static class Builder {
+	public static class CompanyBuilder {
 		private int Id;
 		private String name;
 
-		public Builder Id(int Id) {
+		public CompanyBuilder Id(int Id) {
 			this.Id = Id;
 			return this;
 		}
 
-		public Builder name(String name) {
+		public CompanyBuilder name(String name) {
 			this.name = name;
 			return this;
 		}
@@ -59,9 +59,9 @@ public class Company {
 		}
 	}
 
-	private Company(Builder builder) {
-		this.Id = builder.Id;
-		this.name = builder.name;
+	private Company(CompanyBuilder companyBuilder) {
+		this.Id = companyBuilder.Id;
+		this.name = companyBuilder.name;
 	}
 
 	

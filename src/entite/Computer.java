@@ -67,7 +67,7 @@ public class Computer {
 		return company;
 	}
 
-	public void setCompany(Company compagny) {
+	public void setCompany(Company company) {
 		this.company = company;
 	}
 
@@ -144,7 +144,8 @@ public class Computer {
 
 	@Override
 	public String toString() {
-		return "ComputerModele [Id=" + Id + ", name=" + name + ", introduced=" + introduced + ", Dicontinued="
-				+ Discontinued + ", Company=" + company + "]";
+		return "Computer [Id=" + Id + ", name=" + name + ", introduced=" + introduced + ", Discontinued=" + Discontinued
+				+ ", company=" + company + "]";
 	}
+
 }
