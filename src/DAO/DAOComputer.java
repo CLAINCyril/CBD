@@ -15,13 +15,33 @@ import entite.Computer;
  * @author cyril
  *
  */
-public class DAOComputer {
+public final class DAOComputer {
+	
+    private static volatile DAOComputer instance = null;
+    
 	private Connexion conn;
 	
-	public DAOComputer() {
+	private DAOComputer() {
 		this.conn = new Connexion();
 		
 	}
+	
+	 public final static DAOComputer getInstance() {
+         //Le "Double-Checked Singleton"/"Singleton doublement vérifié" permet 
+         //d'éviter un appel coûteux à synchronized, 
+         //une fois que l'instanciation est faite.
+         if (DAOComputer.instance == null) {
+            // Le mot-clé synchronized sur ce bloc empêche toute instanciation
+            // multiple même par différents "threads".
+            // Il est TRES important.
+            synchronized(DAOComputer.class) {
+              if (DAOComputer.instance == null) {
+            	  DAOComputer.instance = new DAOComputer();
+              }
+            }
+         }
+         return DAOComputer.instance;
+     }
 	
 	/**
 	 * Persiste un element de "computer" par Id.
@@ -112,10 +132,17 @@ public class DAOComputer {
 			resDetailcomputer.next();
 			computer.setId(resDetailcomputer.getInt(1));
 			computer.setName(resDetailcomputer.getString(2));
-			computer.setIntroduced(resDetailcomputer.getTimestamp(3).toLocalDateTime());
-			computer.setDiscontinued(resDetailcomputer.getTimestamp(4).toLocalDateTime());
-			computer.setId(resDetailcomputer.getInt(5));
-
+			try {
+				computer.setIntroduced(resDetailcomputer.getTimestamp(3).toLocalDateTime());
+			}catch (Exception e) {
+				computer.setIntroduced(null);
+			}
+			try {
+				computer.setDiscontinued(resDetailcomputer.getTimestamp(4).toLocalDateTime());
+			}catch (Exception e) {
+				computer.setDiscontinued(null);
+			}
+			computer.setIdCompagny(resDetailcomputer.getInt(5));
 			
 			conn.close();
 			return computer;
@@ -129,7 +156,7 @@ public class DAOComputer {
 	
 	
 	/**
-	 * Modifie un element la table "computer".
+	 * Modifie un element la table "computer" élément par élément.
 	 * 
 	 * @param computer
 	 */
@@ -175,7 +202,10 @@ public class DAOComputer {
 	            e.printStackTrace();
 	} 
 }
-	 
+	 /**
+	  * Interroge la BDD et retourne la liste de tous les computers.
+	  * @return List computer
+	  */
 	 public List<Computer> getallcomputer(){
 
 		 this.conn = new Connexion();

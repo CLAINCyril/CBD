@@ -4,11 +4,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
+/**
+ * Classe de connection au server MySql à la table "computer-database-db".<br/>
+ * 
+ * Exemple:<br/>
+ * 	Connection conn = new Connexion();<br/>
+ * 	conn.connect();<br/>
+ * 	// do your things <br/>
+ * 	conn.close();<br/>
+ * @author cyril
+ *
+ */
 public class Connexion {
 	
 	private static Connection conn; 
 	
+	/**
+	 * ouvre une connection.
+	 */
     public void connect() {
         String host = "127.0.0.1";
         int port = 3306;
@@ -30,11 +43,19 @@ public class Connexion {
 		}
         
     }
+    /**
+     * recupère la connection.
+     * 
+     * @return Connection
+     */
     public Connection getConn() {
         return conn;
         }
     
     
+    /**
+     * Ferme la connection.
+     */
     public void close() {
         try {
             conn.close();

@@ -15,10 +15,10 @@ import entite.Company;
  * @author cyril
  *
  */
-public class DAOcompany {
+public class DAOCompany {
 	private Connexion conn;
 	
-	public DAOcompany() {
+	public DAOCompany() {
 		this.conn = new Connexion();
 		
 	}
@@ -140,7 +140,11 @@ public class DAOcompany {
 	            e.printStackTrace();
 	} 
 }
-	 
+	 /**
+	  * Interroge la BDD et retourne la liste de toutes les company.
+	  * 
+	  * @return List 
+	  */
 	 public List<Company> getallCompany(){
 
 		 this.conn = new Connexion();
