@@ -46,4 +46,8 @@ public final class ServiceComputer {
 	public List<Computer> getallComputer(){
 		return this.dao.getallcomputer();
 	}
+	
+	public List<Computer> getallComputer(int offset, int number){
+		return this.dao.getallcomputer(offset, number);
+	}
 }

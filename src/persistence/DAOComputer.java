@@ -232,5 +232,42 @@ public final class DAOComputer {
 	        }
 	        return computerlist;
 	    }
+	 
+	 /**
+	  * Interroge la BDD et retourne la liste de tous les computers pagine.
+	  * @return List computer
+	  */
+	 public List<Computer> getallcomputer(int offset, int number){
+
+		 this.conn = Connexion.getInstance();
+	     conn.connect();
+	     
+	     List<Computer> computerlist = new ArrayList<Computer>();
+
+	     String req = "SELECT * FROM computer Limit ?,?";
+	     try {
+            PreparedStatement statementSelecPage = conn.getConn().prepareStatement(req);
+            statementSelecPage.setInt(1, offset);
+            statementSelecPage.setInt(2, number);
+            ResultSet resListecomputer = statementSelecPage.executeQuery();
+            while(resListecomputer.next()){
+            	Computer computer = new Computer();
+                computer.setId(resListecomputer.getInt(1));
+                computer.setName(resListecomputer.getString(2));
+                computer.setIntroduced(resListecomputer.getTimestamp(3).toLocalDateTime());
+                computer.setDiscontinued(resListecomputer.getTimestamp(4).toLocalDateTime());
+                Company comp = servCompany.getCompany(resListecomputer.getInt(5));
+    			computer.setCompany(comp);
+                
+                computerlist.add(computer);
+            }
+
+	            conn.close();
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return computerlist;
+	    }
 
 }
