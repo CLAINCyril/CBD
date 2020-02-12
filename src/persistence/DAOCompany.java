@@ -1,4 +1,4 @@
-package DAO;
+package persistence;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import entite.Company;
+import modele.Company;
 
 /**
  * Classe d'accès aux données de l'objet Company.
@@ -179,7 +179,44 @@ public final class DAOCompany {
                 companylist.add(company);
             }
 
-	            statementSelectall.close();
+	            conn.close();
+
+
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return companylist;
+	    }
+	 /**
+	  * Interroge la BDD et retourne la liste de toutes les company pagine.
+	  * 
+	  * @param int 
+	  * @param int
+	  * @return List 
+	  */
+	 public List<Company> getallCompany(int offset, int number){
+
+		 this.conn = Connexion.getInstance();
+	     conn.connect();
+	     
+	     List<Company> companylist = new ArrayList<Company>();
+
+	     String req = "SELECT * FROM company LIMIT ?,? ";
+	     try {
+            PreparedStatement statementSelectPage = conn.getConn().prepareStatement(req);
+            statementSelectPage.setInt(1, offset);
+            statementSelectPage.setInt(2, number);
+            ResultSet resListeCompany = statementSelectPage.executeQuery();
+      
+            while(resListeCompany.next()){
+                Company company = new Company();
+                company.setId(resListeCompany.getInt(1));
+                company.setName(resListeCompany.getString(2));
+
+                companylist.add(company);
+            }
+
 	            conn.close();
 
 

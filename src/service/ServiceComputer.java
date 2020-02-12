@@ -2,11 +2,11 @@ package service;
 
 import java.util.List;
 
-import DAO.Connexion;
-import DAO.DAOCompany;
-import DAO.DAOComputer;
-import entite.Company;
-import entite.Computer;
+import modele.Company;
+import modele.Computer;
+import persistence.Connexion;
+import persistence.DAOCompany;
+import persistence.DAOComputer;
 
 public final class ServiceComputer {
 	

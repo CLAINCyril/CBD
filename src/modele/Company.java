@@ -1,4 +1,4 @@
-package entite;
+package modele;
 
 /**
  * Nom de classe : Company Modele

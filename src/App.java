@@ -6,11 +6,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import DAO.Connexion;
-import DAO.DAOComputer;
-import DAO.DAOCompany;
-import entite.Company;
-import entite.Computer;
+import modele.Company;
+import modele.Computer;
+import persistence.Connexion;
+import persistence.DAOCompany;
+import persistence.DAOComputer;
 
 /**
  * Hello world!
@@ -20,8 +20,8 @@ public class App
 {
     public static void main( String[] args )
     {
-    	Computer comp;
-    	comp = DAOComputer.getInstance().getcomputer(5);
+    	List<Company> comp;
+    	comp = DAOCompany.getInstance().getallCompany(1, 5);
     	System.out.println(comp);
     }
 }

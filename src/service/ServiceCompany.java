@@ -2,9 +2,9 @@ package service;
 
 import java.util.List;
 
-import DAO.Connexion;
-import DAO.DAOCompany;
-import entite.Company;
+import modele.Company;
+import persistence.Connexion;
+import persistence.DAOCompany;
 
 public final class ServiceCompany {
 	
@@ -43,5 +43,9 @@ public final class ServiceCompany {
 	
 	public List<Company> getallCompany(){
 		return this.dao.getallCompany();
+		
+	}
+	public List<Company> getallcompany(int offset, int number){
+		return this.dao.getallCompany(offset, number);
 	}
 }
