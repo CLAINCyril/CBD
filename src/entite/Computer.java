@@ -23,12 +23,12 @@ public class Computer {
 	private String name;
 	private LocalDateTime introduced;
 	private LocalDateTime Discontinued;
-	private int IdCompagny;
+	private Company company;
 
-	public Computer(int id, String name, int idCompagny) {
+	public Computer(int id, String name, Company compagny) {
 		Id = id;
 		this.name = name;
-		IdCompagny = idCompagny;
+		this.company = company;
 	}
 
 	public int getId() {
@@ -63,12 +63,12 @@ public class Computer {
 		Discontinued = dicontinued;
 	}
 
-	public int getIdCompagny() {
-		return IdCompagny;
+	public Company getCompany() {
+		return company;
 	}
 
-	public void setIdCompagny(int idCompagny) {
-		IdCompagny = idCompagny;
+	public void setCompany(Company compagny) {
+		this.company = company;
 	}
 
 	public static class Builder {
@@ -76,7 +76,7 @@ public class Computer {
 		private String name;
 		private LocalDateTime introduced;
 		private LocalDateTime Discontinued;
-		private int IdCompagny;
+		private Company company;
 
 		public Builder Id(int Id) {
 			this.Id = Id;
@@ -98,8 +98,8 @@ public class Computer {
 			return this;
 		}
 
-		public Builder IdCompagny(int IdCompagny) {
-			this.IdCompagny = IdCompagny;
+		public Builder IdCompagny(Company company) {
+			this.company = company;
 			return this;
 		}
 
@@ -113,17 +113,18 @@ public class Computer {
 		this.name = builder.name;
 		this.introduced = builder.introduced;
 		this.Discontinued = builder.Discontinued;
-		this.IdCompagny = builder.IdCompagny;
+		this.company = builder.company;
 	}
 	
 	public Computer() {};
+
+
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Id;
-		result = prime * result + IdCompagny;
 		return result;
 	}
 
@@ -138,14 +139,12 @@ public class Computer {
 		Computer other = (Computer) obj;
 		if (Id != other.Id)
 			return false;
-		if (IdCompagny != other.IdCompagny)
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "ComputerModele [Id=" + Id + ", name=" + name + ", introduced=" + introduced + ", Dicontinued="
-				+ Discontinued + ", IdCompagny=" + IdCompagny + "]";
+				+ Discontinued + ", Company=" + company + "]";
 	}
 }

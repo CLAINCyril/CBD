@@ -15,14 +15,27 @@ import entite.Company;
  * @author cyril
  *
  */
-public class DAOCompany {
+public final class DAOCompany {
 	private Connexion conn;
 	
-	public DAOCompany() {
+    private static volatile DAOCompany instance = null;
+	
+	private DAOCompany() {
 		this.conn = new Connexion();
 		
 	}
 	
+	
+	public final static DAOCompany getInstance() {
+        if (DAOCompany.instance == null) {
+           synchronized(DAOCompany.class) {
+             if (DAOCompany.instance == null) {
+            	 DAOCompany.instance = new DAOCompany();
+             }
+           }
+        }
+        return DAOCompany.instance;
+    }
 	/**
 	 * Persiste un element de "company" par Id.
 	 * 
@@ -31,7 +44,7 @@ public class DAOCompany {
 	 * @param nom
 	 * @return
 	 */
-	public boolean persisteCompany(int id,String nom) {
+	public boolean persisteCompany(Company company) {
 		this.conn = new Connexion();
         conn.connect();
         
@@ -43,8 +56,8 @@ public class DAOCompany {
         try {
             PreparedStatement psmt = conn.getConn().prepareStatement(req);
 
-            psmt.setInt(1, id);
-            psmt.setString(2, nom);
+            psmt.setInt(1, company.getId());
+            psmt.setString(2, company.getName());
             psmt.executeUpdate();
             conn.close();
             addBdd = true;
@@ -61,10 +74,11 @@ public class DAOCompany {
 	 * @author cyril
 	 * @param Id
 	 */
-	public void deletecompany(int Id) {
+	public boolean deletecompany(int Id) {
 		this.conn = new Connexion();
         conn.connect();
         
+        boolean res = false;
         String req = "DELETE FROM company WHERE id=?";
         
         try {
@@ -73,11 +87,12 @@ public class DAOCompany {
         	statementSupresisoncompany.executeUpdate();
         	statementSupresisoncompany.close();
             conn.close();
+            res = true;
         }
         catch (Exception e) {
 			e.printStackTrace();
 		}
-        
+        return res;
 	}
 	
 

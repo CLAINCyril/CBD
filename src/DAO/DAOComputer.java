@@ -7,7 +7,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import entite.Company;
 import entite.Computer;
+import service.ServiceCompany;
 
 /**
  * Classe d'accès aux données de l'objet computer.
@@ -20,10 +22,11 @@ public final class DAOComputer {
     private static volatile DAOComputer instance = null;
     
 	private Connexion conn;
+	private ServiceCompany servCompany;
 	
 	private DAOComputer() {
 		this.conn = new Connexion();
-		
+		this.servCompany = new ServiceCompany();
 	}
 	
 	 public final static DAOComputer getInstance() {
@@ -64,12 +67,9 @@ public final class DAOComputer {
             psmt.setString(2, computer.getName());
             psmt.setTimestamp(3, Timestamp.valueOf(computer.getIntroduced()));
             psmt.setTimestamp(4, Timestamp.valueOf(computer.getDiscontinued()));
-            psmt.setInt(5, computer.getIdCompagny());
-            
-            System.out.println("fin set");
+            psmt.setInt(5, computer.getCompany().getId());
             psmt.executeUpdate();
-            psmt.close();
-            System.out.println("fin set");
+            
             conn.close();
             addBdd = true;
 
@@ -127,17 +127,12 @@ public final class DAOComputer {
 			resDetailcomputer.next();
 			computer.setId(resDetailcomputer.getInt(1));
 			computer.setName(resDetailcomputer.getString(2));
-			try {
-				computer.setIntroduced(resDetailcomputer.getTimestamp(3).toLocalDateTime());
-			}catch (Exception e) {
-				computer.setIntroduced(null);
-			}
-			try {
-				computer.setDiscontinued(resDetailcomputer.getTimestamp(4).toLocalDateTime());
-			}catch (Exception e) {
-				computer.setDiscontinued(null);
-			}
-			computer.setIdCompagny(resDetailcomputer.getInt(5));
+			computer.setIntroduced(resDetailcomputer.getTimestamp(3)!=null?
+					resDetailcomputer.getTimestamp(3).toLocalDateTime():null);
+			computer.setDiscontinued(resDetailcomputer.getTimestamp(4)!=null?
+					resDetailcomputer.getTimestamp(4).toLocalDateTime():null);
+			Company comp = servCompany.getCompany(resDetailcomputer.getInt(5));
+			computer.setCompany(comp);
 			
 			conn.close();
 			return computer;
@@ -185,10 +180,10 @@ public final class DAOComputer {
 	                statementUpdatecomputer.executeUpdate();
 	              
 	            }
-	            if (comp.getIdCompagny() != computer.getIdCompagny()) {
+	            if (comp.getCompany().getId() != computer.getCompany().getId()) {
 	            	String sqlIdCompagny = "UPDATE computer " + "SET  IdCompagny = ? WHERE Id = ?";
 	                PreparedStatement statementUpdatecomputer = conn.getConn().prepareStatement(sqlIdCompagny);
-	                statementUpdatecomputer.setInt(2, computer.getIdCompagny());
+	                statementUpdatecomputer.setInt(2, computer.getCompany().getId());
 	                statementUpdatecomputer.executeUpdate();
 	              
 	            }
@@ -218,7 +213,8 @@ public final class DAOComputer {
                 computer.setName(resListecomputer.getString(2));
                 computer.setIntroduced(resListecomputer.getTimestamp(3).toLocalDateTime());
                 computer.setDiscontinued(resListecomputer.getTimestamp(4).toLocalDateTime());
-                computer.setIdCompagny(resListecomputer.getInt(5));
+                Company comp = servCompany.getCompany(resListecomputer.getInt(5));
+    			computer.setCompany(comp);
                 
                 computerlist.add(computer);
             }
