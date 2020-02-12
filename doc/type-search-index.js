@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"<Unnamed>","l":"App"},{"p":"entite","l":"Company.Builder"},{"p":"entite","l":"Computer.Builder"},{"p":"entite","l":"Company"},{"p":"entite","l":"Computer"},{"p":"DAO","l":"Connexion"},{"p":"DAO","l":"DAOCompany"},{"p":"DAO","l":"DAOComputer"}]
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"entite","l":"Computer.Builder"},{"p":"entite","l":"Computer"}]

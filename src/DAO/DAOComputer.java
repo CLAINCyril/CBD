@@ -27,13 +27,8 @@ public final class DAOComputer {
 	}
 	
 	 public final static DAOComputer getInstance() {
-         //Le "Double-Checked Singleton"/"Singleton doublement vérifié" permet 
-         //d'éviter un appel coûteux à synchronized, 
-         //une fois que l'instanciation est faite.
+
          if (DAOComputer.instance == null) {
-            // Le mot-clé synchronized sur ce bloc empêche toute instanciation
-            // multiple même par différents "threads".
-            // Il est TRES important.
             synchronized(DAOComputer.class) {
               if (DAOComputer.instance == null) {
             	  DAOComputer.instance = new DAOComputer();
