@@ -22,6 +22,7 @@ public class App
 {
     public static void main( String[] args )
     {
+	    	List<Company> companys;
 		Scanner sc = new Scanner(System.in);
     	boolean test = true;
     	while(test) {
@@ -50,27 +51,39 @@ public class App
 	    		  System.out.println(computers);
 	    		break;
 	    	  case 2:
-	    	    System.out.println("Tuesday");
-	    	    break;
+
+	    		  System.out.println("saisissez pages");
+	    		  companys = ServiceCompany.getInstance().getallCompany(sc.nextInt(),sc.nextInt());
+	    		  System.out.println(companys);
 	    	  case 3:
-	    	    System.out.println("Wednesday");
-	    	    break;
+	    		  System.out.println("saisissez l'ID computer");
+			  Computer computer = ServiceComputer.getInstance().getComputer(sc.nextInt());
+			  System.out.println(computer);
 	    	  case 4:
-		    	    Computer computer = new Computer();
-		    	    System.out.println("Veuillez saisir l'id :");
-			    	computer.setId(sc.nextInt());
-			    	computer.setName(sc.nextLine());
-			    	ServiceComputer.getInstance().persisteComputer(computer);
+		    	  Computer computer = new Computer();
+		    	  System.out.println("Veuillez saisir l'id :\n");
+			  computer.setId(sc.nextInt());
+			  System.out.println("Veuillez saisir le nom :\n");
+			  computer.setName(sc.nextLine());
+			  System.out.println("Veuillez saisir la date de sortie :\n");
+			  computer.setIntroduced(sc.nextLine());
+			  System.out.println("Veuillez saisir la date de fin de serie :\n");
+			  computer.setDiscontinued(sc.nextLine());
+			  System.out.println("Veuillez saisir l'id company:\n");
+			  computer.setName(sc.Int());
+			  ServiceComputer.getInstance().persisteComputer(computer);
 	    	    break;
 	    	  case 5:
 	    	    System.out.println("Friday");
 	    	    break;
 	    	  case 6:
-	    	    System.out.println("Saturday");
-	    	    break;
-	    	  case 7:
-	    	    System.out.println("Sunday");
-	    	    break;
+	    		  System.out.println("saisissez l'ID computer");
+			  try{
+			 	 Computer computer = ServiceComputer.getInstance().deletecomputer(sc.nextInt());
+				 System.out.println("Fait");
+			  }catch (Exception e) {
+				 System.out.println("erreur lors de la suppression ");
+			}
 	    	   default:
 	    		   System.out.println("touche non pris en compte");
 		    	   test = false;
