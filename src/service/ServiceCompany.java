@@ -30,12 +30,12 @@ public final class ServiceCompany {
 		return getallCompany().size();
 	}
 
-	public boolean persisteCompany(Company company) {
-		return this.dao.persisteCompany(company);
+	public void persisteCompany(Company company) {
+		this.dao.persisteCompany(company);
 	}
 	
-	public boolean deleteCompany(Company company) {
-		return this.dao.deletecompany(company.getId());
+	public void deleteCompany(Company company) {
+		this.dao.deletecompany(company.getId());
 	}
 	
 	public Company getCompany(int Id) {

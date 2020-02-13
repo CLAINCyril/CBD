@@ -30,15 +30,15 @@ public final class ServiceComputer {
 	}
 
 
-	public boolean persisteComputer(Computer computer) {
-		return this.dao.persistecomputer(computer);
+	public void persisteComputer(Computer computer) {
+		this.dao.persistecomputer(computer);
 	}
 	
 	public int getlength(){
 		return getallComputer().size();
 	}
-	public boolean deleteComputer(int id){
-		return this.dao.deletecomputer(id);
+	public void deleteComputer(int id){
+		this.dao.deletecomputer(id);
 	}
 	
 	public Computer getComputer(int Id) {

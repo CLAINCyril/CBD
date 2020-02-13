@@ -26,7 +26,6 @@ public class App
     {
     
     	CliUI cli = new CliUI();
-//    	DAOComputer dao = DAOComputer.getInstance();
-//    	System.out.println(dao.getallcomputer(0, 20));
+
     }
 }

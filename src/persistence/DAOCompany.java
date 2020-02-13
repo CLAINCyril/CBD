@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import mapper.CompanyMapper;
 import modele.Company;
 
 /**
@@ -44,12 +45,10 @@ public final class DAOCompany {
 	 * @param nom
 	 * @return
 	 */
-	public boolean persisteCompany(Company company) {
+	public void persisteCompany(Company company) {
 		this.conn = Connexion.getInstance();
         conn.connect();
-        
-        Boolean addBdd = false;
-        
+                
         String req = "INSERT INTO company (id,  name)" +
                 "values(?, ?)";
         
@@ -60,21 +59,19 @@ public final class DAOCompany {
             psmt.setString(2, company.getName());
             psmt.executeUpdate();
             conn.close();
-            addBdd = true;
 
         } catch (SQLException e) {
             conn.close();
 	}
-        return addBdd;
-
 	}
+	
 	
 	/**
 	 * Supprime un element de "company" par Id.
 	 * @author cyril
 	 * @param Id
 	 */
-	public boolean deletecompany(int Id) {
+	public void deletecompany(int Id) {
 		this.conn = Connexion.getInstance();
         conn.connect();
         
@@ -87,12 +84,10 @@ public final class DAOCompany {
         	statementSupresisoncompany.executeUpdate();
         	statementSupresisoncompany.close();
             conn.close();
-            res = true;
         }
         catch (Exception e) {
 			e.printStackTrace();
 		}
-        return res;
 	}
 	
 
@@ -115,17 +110,16 @@ public final class DAOCompany {
 			ResultSet resDetailCompany = statementGetCompany.executeQuery();
 			
 			resDetailCompany.next();
-			company.setId(resDetailCompany.getInt(1));
-			company.setName(resDetailCompany.getString(2));
+			company = CompanyMapper.getInstance().getCompany(resDetailCompany);
 			
 			conn.close();
-			return company;
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return company;
 
 		}
+		return company;
+
 		}
 	
 	
@@ -172,11 +166,8 @@ public final class DAOCompany {
             Statement statementSelectall = conn.getConn().createStatement();
             ResultSet resListeCompany = statementSelectall.executeQuery(req);
             while(resListeCompany.next()){
-                Company company = new Company();
-                company.setId(resListeCompany.getInt(1));
-                company.setName(resListeCompany.getString(2));
 
-                companylist.add(company);
+                companylist.add(CompanyMapper.getInstance().getCompany(resListeCompany));
             }
 
 	            conn.close();
@@ -210,11 +201,7 @@ public final class DAOCompany {
             ResultSet resListeCompany = statementSelectPage.executeQuery();
       
             while(resListeCompany.next()){
-                Company company = new Company();
-                company.setId(resListeCompany.getInt(1));
-                company.setName(resListeCompany.getString(2));
-
-                companylist.add(company);
+                companylist.add(CompanyMapper.getInstance().getCompany(resListeCompany));
             }
 
 	            conn.close();

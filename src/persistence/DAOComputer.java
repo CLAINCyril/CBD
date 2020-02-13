@@ -49,11 +49,10 @@ public final class DAOComputer {
 	 * @param nom
 	 * @return
 	 */
-	public boolean persistecomputer(Computer computer) {
+	public void persistecomputer(Computer computer) {
 		this.conn = Connexion.getInstance();
         conn.connect();
         
-        Boolean addBdd = false;
         
         String req = "INSERT INTO computer (id,  name, introduced, discontinued, company_id)" +
                 "values(?, ?, ?, ?, ?)";
@@ -69,13 +68,11 @@ public final class DAOComputer {
             psmt.executeUpdate();
             
             conn.close();
-            addBdd = true;
 
         } catch (SQLException e) {
 			e.printStackTrace();
 
 	}
-        return addBdd;
 
 	}
 	
@@ -83,11 +80,11 @@ public final class DAOComputer {
 	 * Supprime un element de "computer" par Id.
 	 * @author cyril
 	 * @param Id
+	 * @return 
 	 */
-	public boolean deletecomputer(int Id) {
+	public void deletecomputer(int Id) {
 		this.conn = Connexion.getInstance();
         conn.connect();
-        boolean estSupr = false;
         
         String req = "DELETE FROM computer WHERE id=?";
         
@@ -97,12 +94,10 @@ public final class DAOComputer {
         	statementSupresisoncomputer.executeUpdate();
         	statementSupresisoncomputer.close();
             conn.close();
-            estSupr = true;
         }
         catch (Exception e) {
 			e.printStackTrace();
 		}
-        return estSupr;
 	}
 	
 
@@ -127,16 +122,7 @@ public final class DAOComputer {
 			ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
 			
 			resDetailcomputer.next();
-			computer.setId(resDetailcomputer.getInt(1));
-			computer.setName(resDetailcomputer.getString(2));
-			computer.setIntroduced(resDetailcomputer.getTimestamp(3)!=null?
-					resDetailcomputer.getTimestamp(3).toLocalDateTime():null);
-			computer.setDiscontinued(resDetailcomputer.getTimestamp(4)!=null?
-					resDetailcomputer.getTimestamp(4).toLocalDateTime():null);
-			comp.setId(resDetailcomputer.getInt("company_id"));
-			comp.setName(resDetailcomputer.getString("company.name"));
-//			System.out.println(comp);
-			computer.setCompany(comp);		
+	
 			conn.close();
 
 		} catch (Exception e) {
