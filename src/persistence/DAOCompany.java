@@ -20,13 +20,18 @@ public final class DAOCompany {
 	private Connexion conn;
 	
     private static volatile DAOCompany instance = null;
+    private static final String PERSISTE_COMPANY = "INSERT INTO company (name)"+" values( ?)";
+    private static final String DELETE_COMPANY = "DELETE FROM company WHERE id=?";
+    private static final String GET_By_ID =" SELECT id,name FROM company WHERE id=?";
+    private static final String UPDATE_COMPANY = "UPDATE company " + "SET name = ? WHERE Id = ?";
+    private static final String SELECT_ALL_COMPANY = "SELECT id,name FROM company";
 	
 	private DAOCompany() {
 		this.conn = Connexion.getInstance();
 		
 	}
 	
-	
+
 	public final static DAOCompany getInstance() {
         if (DAOCompany.instance == null) {
            synchronized(DAOCompany.class) {
@@ -48,16 +53,12 @@ public final class DAOCompany {
 	public void persisteCompany(Company company) {
 		this.conn = Connexion.getInstance();
         conn.connect();
-                
-        String req = "INSERT INTO company (id,  name)" +
-                "values(?, ?)";
         
         try {
-            PreparedStatement psmt = conn.getConn().prepareStatement(req);
-
-            psmt.setInt(1, company.getId());
-            psmt.setString(2, company.getName());
-            psmt.executeUpdate();
+            PreparedStatement statementPersisteCompany = conn.getConn().prepareStatement(PERSISTE_COMPANY);
+            statementPersisteCompany.setString(1, company.getName());
+            statementPersisteCompany.executeUpdate();
+            statementPersisteCompany.close();
             conn.close();
 
         } catch (SQLException e) {
@@ -76,10 +77,9 @@ public final class DAOCompany {
         conn.connect();
         
         boolean res = false;
-        String req = "DELETE FROM company WHERE id=?";
         
         try {
-        	PreparedStatement statementSupresisoncompany = conn.getConn().prepareStatement(req);
+        	PreparedStatement statementSupresisoncompany = conn.getConn().prepareStatement(DELETE_COMPANY);
         	statementSupresisoncompany.setInt(1,Id);
         	statementSupresisoncompany.executeUpdate();
         	statementSupresisoncompany.close();
@@ -103,15 +103,13 @@ public final class DAOCompany {
 		
 		Company company = new Company();
 		
-		String req = " SELECT * FROM company WHERE id=?";
 		try {
-			PreparedStatement statementGetCompany = conn.getConn().prepareStatement(req);
+			PreparedStatement statementGetCompany = conn.getConn().prepareStatement(GET_By_ID);
 			statementGetCompany.setInt(1,Id);
 			ResultSet resDetailCompany = statementGetCompany.executeQuery();
-			
+			statementGetCompany.close();
 			resDetailCompany.next();
 			company = CompanyMapper.getInstance().getCompany(resDetailCompany);
-			
 			conn.close();
 
 		} catch (Exception e) {
@@ -132,52 +130,53 @@ public final class DAOCompany {
 	        this.conn = Connexion.getInstance();
 	        conn.connect();
 	        
-	        String sqlName = "UPDATE company " + "SET name = ? WHERE Id = ?";
 
 	        Company comp = getCompany(company.getId());
 
 	        try {
 
 	            if (comp.getName() != company.getName()) {
-	                PreparedStatement statementUpdatecompany = conn.getConn().prepareStatement(sqlName);
-	                statementUpdatecompany.setString(2, company.getName());
+	                PreparedStatement statementUpdatecompany = conn.getConn().prepareStatement(UPDATE_COMPANY);
+	                statementUpdatecompany.setString(1, company.getName());
 	                statementUpdatecompany.executeUpdate();
+	                statementUpdatecompany.close();
 
 	            }
 	        }
 	        catch (SQLException e){
 	            e.printStackTrace();
-	} 
+	        }
+	        conn.close();
 }
 	 /**
 	  * Interroge la BDD et retourne la liste de toutes les company.
 	  * 
 	  * @return List 
 	  */
-	 public List<Company> getallCompany(){
+	 public List<Company> getAllCompany(){
 
 		 this.conn = Connexion.getInstance();
 	     conn.connect();
 	     
 	     List<Company> companylist = new ArrayList<Company>();
 
-	     String req = "SELECT * FROM company";
 	     try {
             Statement statementSelectall = conn.getConn().createStatement();
-            ResultSet resListeCompany = statementSelectall.executeQuery(req);
+            ResultSet resListeCompany = statementSelectall.executeQuery(SELECT_ALL_COMPANY);
             while(resListeCompany.next()){
 
                 companylist.add(CompanyMapper.getInstance().getCompany(resListeCompany));
             }
 
-	            conn.close();
-
+            resListeCompany.close();
 
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
+	        conn.close();
 	        return companylist;
+	        
 	    }
 	 /**
 	  * Interroge la BDD et retourne la liste de toutes les company pagine.
@@ -186,7 +185,7 @@ public final class DAOCompany {
 	  * @param int
 	  * @return List 
 	  */
-	 public List<Company> getallCompany(int offset, int number){
+	 public List<Company> getPageCompany(int offset, int number){
 
 		 this.conn = Connexion.getInstance();
 	     conn.connect();
@@ -204,13 +203,12 @@ public final class DAOCompany {
                 companylist.add(CompanyMapper.getInstance().getCompany(resListeCompany));
             }
 
-	            conn.close();
-
-
+            statementSelectPage.close();
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
+	        conn.close();
 	        return companylist;
 	    }
 

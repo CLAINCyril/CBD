@@ -27,7 +27,7 @@ public final class ServiceCompany {
 	}
 
 	public int getlength(){
-		return getallCompany().size();
+		return getAllCompany().size();
 	}
 
 	public void persisteCompany(Company company) {
@@ -42,11 +42,11 @@ public final class ServiceCompany {
 		return this.dao.getCompany(Id);
 	}
 	
-	public List<Company> getallCompany(){
-		return this.dao.getallCompany();
+	public List<Company> getAllCompany(){
+		return this.dao.getAllCompany();
 		
 	}
-	public List<Company> getallCompany(int offset, int number){
-		return this.dao.getallCompany(offset, number);
+	public List<Company> getPageCompany(int offset, int number){
+		return this.dao.getPageCompany(offset, number);
 	}
 }

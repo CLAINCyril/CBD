@@ -53,11 +53,9 @@ public final class Connexion {
         try{
         	Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(url, user, mdp);
-//            System.out.println("Connexion ok");
         }catch(SQLException e){
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
@@ -78,7 +76,6 @@ public final class Connexion {
     public void close() {
         try {
             conn.close();
-//            System.out.println("connexion close");
         } catch (SQLException e) {
             e.printStackTrace();
         }

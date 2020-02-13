@@ -35,24 +35,24 @@ public final class ServiceComputer {
 	}
 	
 	public int getlength(){
-		return getallComputer().size();
+		return getAllComputer().size();
 	}
 	public void deleteComputer(int id){
 		this.dao.deletecomputer(id);
 	}
 	
 	public Computer getComputer(int Id) {
-		return this.dao.getcomputer(Id);
+		return this.dao.getComputer(Id);
 	}
 	
-	public List<Computer> getallComputer(){
-		return this.dao.getallcomputer();
+	public List<Computer> getAllComputer(){
+		return this.dao.getAllComputer();
 	}
 	
-	public List<Computer> getallComputer(int offset, int number){
-		return this.dao.getallcomputer(offset, number);
+	public List<Computer> getPageComputer(int offset, int number){
+		return this.dao.getPageComputer(offset, number);
 	}
 	public void updateComputer(Computer computer) {
-		this.dao.updatecomputer(computer);
+		this.dao.updateComputer(computer);
 	}
 }

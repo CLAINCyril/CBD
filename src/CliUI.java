@@ -35,7 +35,7 @@ public class CliUI {
 	 * @return
 	 */
 	public List<Computer> getOnePAgeOfComputer(int offset, int number){
-		return(ServiceComputer.getInstance().getallComputer(offset, number));
+		return(ServiceComputer.getInstance().getPageComputer(offset, number));
 	}
 	/**
 	 * retourne une page de company.
@@ -44,7 +44,7 @@ public class CliUI {
 	 * @return
 	 */
 	public List<Company> getOnePAgeOfCompany(int offset, int number){
-		return(ServiceCompany.getInstance().getallCompany(offset, number));
+		return(ServiceCompany.getInstance().getPageCompany(offset, number));
 	}
 	/**
 	 * Creer un ordinateur a l'aide des params saisie a l'entrée.

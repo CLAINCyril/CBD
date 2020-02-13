@@ -25,6 +25,15 @@ public final class DAOComputer {
 	private Connexion conn;
 	private ServiceCompany servCompany;
 	
+    private static final String PERSISTE_COMPUTER = "INSERT INTO computer (id,  name, introduced, discontinued, company_id)" +
+            "values(?, ?, ?, ?, ?)";
+    private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id=?";
+	private static final String GET_COMPUTER = "SELECT * FROM computer "
+            + "LEFT JOIN company ON company_id = company.id WHERE computer.id = ?;";
+	private static final String GET_ALL_COMPUTER = "SELECT * FROM computer LEFT JOIN company ON company_id = company.id";
+    private static final String GET_PAGE_COMPUTER = "SELECT * FROM computer LEFT JOIN company ON company_id = company.id  LIMIT ?,?;";
+
+    
 	private DAOComputer() {
 		this.conn = Connexion.getInstance();
 		this.servCompany = ServiceCompany.getInstance();
@@ -55,25 +64,23 @@ public final class DAOComputer {
         conn.connect();
         
         
-        String req = "INSERT INTO computer (id,  name, introduced, discontinued, company_id)" +
-                "values(?, ?, ?, ?, ?)";
-        
         try {
-            PreparedStatement psmt = conn.getConn().prepareStatement(req);
+            PreparedStatement statementPersisteComputer = conn.getConn().prepareStatement(PERSISTE_COMPUTER);
 
-            psmt.setInt(1, computer.getId());
-            psmt.setString(2, computer.getName());
-            psmt.setTimestamp(3, Timestamp.valueOf(computer.getIntroduced()));
-            psmt.setTimestamp(4, Timestamp.valueOf(computer.getDiscontinued()));
-            psmt.setInt(5, computer.getCompany().getId());
-            psmt.executeUpdate();
-            
-            conn.close();
+            statementPersisteComputer.setInt(1, computer.getId());
+            statementPersisteComputer.setString(2, computer.getName());
+            statementPersisteComputer.setTimestamp(3, Timestamp.valueOf(computer.getIntroduced()));
+            statementPersisteComputer.setTimestamp(4, Timestamp.valueOf(computer.getDiscontinued()));
+            statementPersisteComputer.setInt(5, computer.getCompany().getId());
+            statementPersisteComputer.executeUpdate();
+            statementPersisteComputer.close();
 
         } catch (SQLException e) {
 			e.printStackTrace();
 
 	}
+        conn.close();
+
 
 	}
 	
@@ -87,10 +94,10 @@ public final class DAOComputer {
 		this.conn = Connexion.getInstance();
         conn.connect();
         
-        String req = "DELETE FROM computer WHERE id=?";
+        String statementDeleteComputer = "DELETE FROM computer WHERE id=?";
         
         try {
-        	PreparedStatement statementSupresisoncomputer = conn.getConn().prepareStatement(req);
+        	PreparedStatement statementSupresisoncomputer = conn.getConn().prepareStatement(statementDeleteComputer);
         	statementSupresisoncomputer.setInt(1,id);
         	statementSupresisoncomputer.executeUpdate();
         	statementSupresisoncomputer.close();
@@ -108,19 +115,16 @@ public final class DAOComputer {
 	 * @param id
 	 * @return computer
 	 */
-	public Computer getcomputer(int id) {
+	public Computer getComputer(int id) {
 		this.conn = Connexion.getInstance();
 		conn.connect();
 		
 		Computer computer = new Computer();
 
-		String req = "SELECT * FROM computer "
-                + "LEFT JOIN company ON company_id = company.id WHERE computer.id = ?;";
 		try {
-			PreparedStatement statementGetcomputer = conn.getConn().prepareStatement(req);
+			PreparedStatement statementGetcomputer = conn.getConn().prepareStatement(GET_COMPUTER);
 			statementGetcomputer.setInt(1,id);
 			ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
-			
 			resDetailcomputer.next();
         	computer = ComputerMapper.getInstance().getComputer(resDetailcomputer);
 
@@ -140,11 +144,11 @@ public final class DAOComputer {
 	 * 
 	 * @param computer
 	 */
-	 public void updatecomputer(Computer computer) {
+	 public void updateComputer(Computer computer) {
 	        this.conn = Connexion.getInstance();
 	        conn.connect();
 
-	        Computer comp = getcomputer(computer.getId());
+	        Computer comp = getComputer(computer.getId());
 
 	        try {
 
@@ -185,7 +189,7 @@ public final class DAOComputer {
 	  * Interroge la BDD et retourne la liste de tous les computers.
 	  * @return List computer
 	  */
-	 public List<Computer> getallcomputer(){
+	 public List<Computer> getAllComputer(){
 
 		 this.conn = Connexion.getInstance();
 	     conn.connect();
@@ -193,10 +197,9 @@ public final class DAOComputer {
 	     
 	     List<Computer> computerlist = new ArrayList<Computer>();
 
-	     String req = "SELECT * FROM computer LEFT JOIN company ON company_id = company.id";
 	     try {
             Statement statementSelectall = conn.getConn().createStatement();
-            ResultSet resListecomputer = statementSelectall.executeQuery(req);
+            ResultSet resListecomputer = statementSelectall.executeQuery(GET_ALL_COMPUTER);
             while(resListecomputer.next()){
             	Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer);
                 computerlist.add(computer);
@@ -216,7 +219,7 @@ public final class DAOComputer {
 	  * Interroge la BDD et retourne la liste de tous les computers pagine.
 	  * @return List computer
 	  */
-	 public List<Computer> getallcomputer(int offset, int number){
+	 public List<Computer> getPageComputer(int offset, int number){
 
 		 this.conn = Connexion.getInstance();
 	     conn.connect();
@@ -226,12 +229,12 @@ public final class DAOComputer {
 	     
 	     List<Computer> computerlist = new ArrayList<Computer>();
 
-	     String req = "SELECT * FROM computer LEFT JOIN company ON company_id = company.id  LIMIT ?,?;";
 	     try {
-            PreparedStatement statementSelecPage = conn.getConn().prepareStatement(req);
+            PreparedStatement statementSelecPage = conn.getConn().prepareStatement(GET_PAGE_COMPUTER);
             statementSelecPage.setInt(1, offset);
             statementSelecPage.setInt(2, number);
             ResultSet resListecomputer = statementSelecPage.executeQuery();
+            statementSelecPage.close();
             while(resListecomputer.next()){
             	Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer);
 

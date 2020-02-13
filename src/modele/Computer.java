@@ -19,24 +19,24 @@ import java.time.LocalDateTime;
 
 public class Computer {
 
-	private int Id;
+	private int id;
 	private String name;
 	private LocalDateTime introduced;
-	private LocalDateTime Discontinued;
+	private LocalDateTime discontinued;
 	private Company company;
 
 	public Computer(int id, String name, Company compagny) {
-		Id = id;
+		this.id = id;
 		this.name = name;
 		this.company = company;
 	}
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public String getName() {
@@ -56,11 +56,11 @@ public class Computer {
 	}
 
 	public LocalDateTime getDiscontinued() {
-		return Discontinued;
+		return discontinued;
 	}
 
 	public void setDiscontinued(LocalDateTime dicontinued) {
-		Discontinued = dicontinued;
+		discontinued = dicontinued;
 	}
 
 	public Company getCompany() {
@@ -72,14 +72,14 @@ public class Computer {
 	}
 
 	public static class ComputerBuilder {
-		private int Id;
+		private int id;
 		private String name;
 		private LocalDateTime introduced;
-		private LocalDateTime Discontinued;
+		private LocalDateTime discontinued;
 		private Company company;
 
-		public ComputerBuilder Id(int Id) {
-			this.Id = Id;
+		public ComputerBuilder id(int id) {
+			this.id = id;
 			return this;
 		}
 
@@ -93,12 +93,12 @@ public class Computer {
 			return this;
 		}
 
-		public ComputerBuilder Discontinued(LocalDateTime Dicontinued) {
-			this.Discontinued = Dicontinued;
+		public ComputerBuilder Discontinued(LocalDateTime dicontinued) {
+			this.discontinued = dicontinued;
 			return this;
 		}
 
-		public ComputerBuilder IdCompagny(Company company) {
+		public ComputerBuilder idCompagny(Company company) {
 			this.company = company;
 			return this;
 		}
@@ -109,10 +109,10 @@ public class Computer {
 	}
 
 	private Computer(ComputerBuilder builder) {
-		this.Id = builder.Id;
+		this.id = builder.id;
 		this.name = builder.name;
 		this.introduced = builder.introduced;
-		this.Discontinued = builder.Discontinued;
+		this.discontinued = builder.discontinued;
 		this.company = builder.company;
 	}
 	
@@ -124,7 +124,7 @@ public class Computer {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Id;
+		result = prime * result + id;
 		return result;
 	}
 
@@ -137,14 +137,14 @@ public class Computer {
 		if (getClass() != obj.getClass())
 			return false;
 		Computer other = (Computer) obj;
-		if (Id != other.Id)
+		if (id != other.id)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Computer [Id=" + Id + ", name=" + name + ", introduced=" + introduced + ", Discontinued=" + Discontinued
+		return "Computer [Id=" + id + ", name=" + name + ", introduced=" + introduced + ", Discontinued=" + discontinued
 				+ ", company=" + company + "]\n";
 	}
 
