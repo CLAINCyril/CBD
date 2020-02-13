@@ -52,9 +52,7 @@ public class CliUI {
 	 */
 	public void createComputer(Scanner sc) {
 		int id = ServiceComputer.getInstance().getlength()+1;
-		computer.setId(id);
-		System.out.println("Veuillez saisir l'id :\n");
-  	  	computer.setId(sc.nextInt());
+  	  	computer.setId(id);
   	  	System.out.println("Veuillez saisir le nom :\n");
   	  	computer.setName(sc.next());
   	  	System.out.println("Veuillez saisir la date de sortie :\n");
@@ -86,8 +84,8 @@ public class CliUI {
 		System.out.println(computs);
 		while(condition) {
 			System.out.println("pres n for next p for previous page s fort stop");
-			saisie = sc.nextLine();
-			condition = (saisie == "s") || (saisie == "p");
+			saisie = sc.next();
+			condition = (saisie.contentEquals("n")) || (saisie.contentEquals("p"));
 			if (saisie == "n") {
 				if (20 > tailleL-number) {
 					
@@ -112,7 +110,6 @@ public class CliUI {
 			}
 			System.out.println(computs);
 		}
-		sc.close();
 	}
 	/**
 	 * Methode de pagination des companys.
@@ -131,8 +128,8 @@ public class CliUI {
 		System.out.println(company);
 		while(condition) {
 			System.out.println("pres n for next p for previous page s fort stop");
-			saisie = sc.nextLine();
-			condition = (saisie == "s") || (saisie == "p");
+			saisie = sc.next();
+			condition = (saisie.contentEquals("n")) || (saisie.contentEquals("p"));
 			if (saisie == "n") {
 				if (20 > tailleL-number) {
 					
@@ -157,7 +154,10 @@ public class CliUI {
 			}
 			System.out.println(company);
 		}
-		sc.close();
+	}
+	
+	public void UpdateComputer(Scanner sc) {
+		
 	}
 	
 	
@@ -168,13 +168,12 @@ public class CliUI {
 			Scanner sc = new Scanner(System.in);
 	    	boolean test = true;
 	    	while(test) {
-	    		System.out.println("Veuillez saisir une action :");
 	    		System.out.println("============================");
 	    		System.out.println("1 : List computers");
 	    		System.out.println("============================");
 	    		System.out.println("2 : List companies");
 	    		System.out.println("============================");
-	    		System.out.println("3 : Show computer details (the detailed information of only one computer)");
+	    		System.out.println("3 : Show computer details ");
 	    		System.out.println("============================");
 	    		System.out.println("4 : Create a computer");
 	    		System.out.println("============================");
@@ -188,30 +187,23 @@ public class CliUI {
 		    	switch (cases) {
 		    	  case 1:
 		    		  pagineCompute(sc);
-		    		break;
+		    		  break;
 		    	  case 2:
-//		    		  System.out.println("saisissez pages");
-////		    		  companys = ServiceCompany.getInstance().getallCompany(sc.nextInt(),sc.nextInt());
-//		    		  System.out.println(companys);
-//		    	  case 3:
-//		    		  System.out.println("saisissez l'ID computer");
-//		    		  computer = ServiceComputer.getInstance().getComputer(sc.nextInt());
-//		    		  System.out.println(computer);
+		    		  pagineCompany(sc);
+		    		  break;
+		    	  case 3:
+		    		  System.out.println("saisir Id Computer");
+		    		  System.out.println(ServiceComputer.getInstance().getComputer(sc.nextInt()));
 		    	  case 4:
 		    		  createComputer(sc);
 		    		  break;
-//		    	    break;
 //		    	  case 5:
 //		    	    System.out.println("Friday");
 //		    	    break;
-//		    	  case 6:
-//		    		  System.out.println("saisissez l'ID computer");
-//				  try{
-//					  tache = ServiceComputer.getInstance().deleteComputer(sc.nextInt());
-//					 System.out.println("delete computer : "+tache);
-//				  }catch (Exception e) {
-//					 System.out.println("erreur lors de la suppression ");
-//				}
+		    	  case 6:
+		    		  System.out.println("saisissez l'ID computer");
+		    		  System.out.println(ServiceComputer.getInstance().deleteComputer(sc.nextInt()));
+
 		    	}
 //	    	sc.close();
 	    	

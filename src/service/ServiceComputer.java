@@ -52,4 +52,7 @@ public final class ServiceComputer {
 	public List<Computer> getallComputer(int offset, int number){
 		return this.dao.getallcomputer(offset, number);
 	}
+	public void updateComputer(Computer computer) {
+		this.dao.updatecomputer(computer);
+	}
 }
