@@ -64,7 +64,7 @@ public class CliUI {
   	  	computer.setCompany(company);
   	  	ServiceComputer.getInstance().persisteComputer(computer);
 		computer.setName(sc.nextLine());
-		System.out.println(ServiceComputer.getInstance().persisteComputer(computer));
+		ServiceComputer.getInstance().persisteComputer(computer);
 
 	}
 	/**
@@ -110,6 +110,13 @@ public class CliUI {
 			}
 			System.out.println(computs);
 		}
+	}
+	public void printComputer(Scanner sc) {
+		  System.out.println(ServiceComputer.getInstance().getComputer(sc.nextInt()));
+	}
+	
+	public void deleteComputer(Scanner sc) {
+		  ServiceComputer.getInstance().deleteComputer(sc.nextInt());
 	}
 	/**
 	 * Methode de pagination des companys.
@@ -193,7 +200,8 @@ public class CliUI {
 		    		  break;
 		    	  case 3:
 		    		  System.out.println("saisir Id Computer");
-		    		  System.out.println(ServiceComputer.getInstance().getComputer(sc.nextInt()));
+		    		  printComputer(sc);
+		    		  break;
 		    	  case 4:
 		    		  createComputer(sc);
 		    		  break;
@@ -202,7 +210,8 @@ public class CliUI {
 //		    	    break;
 		    	  case 6:
 		    		  System.out.println("saisissez l'ID computer");
-		    		  System.out.println(ServiceComputer.getInstance().deleteComputer(sc.nextInt()));
+		    		  deleteComputer(sc);
+		    		  break;
 
 		    	}
 //	    	sc.close();
