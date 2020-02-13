@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import mapper.ComputerMapper;
 import modele.Company;
 import modele.Computer;
 import service.ServiceCompany;
@@ -122,7 +123,8 @@ public final class DAOComputer {
 			ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
 			
 			resDetailcomputer.next();
-	
+        	Computer computer = ComputerMapper.getInstance().getComputer(resDetailcomputer);
+
 			conn.close();
 
 		} catch (Exception e) {
@@ -198,18 +200,10 @@ public final class DAOComputer {
             Statement statementSelectall = conn.getConn().createStatement();
             ResultSet resListecomputer = statementSelectall.executeQuery(req);
             while(resListecomputer.next()){
-            	Computer computer = new Computer();
-                computer.setId(resListecomputer.getInt(1));
-                computer.setName(resListecomputer.getString(2));
-    			computer.setIntroduced(resListecomputer.getTimestamp(3)!=null?
-    					resListecomputer.getTimestamp(3).toLocalDateTime():null);
-    			computer.setDiscontinued(resListecomputer.getTimestamp(3)!=null?
-    					resListecomputer.getTimestamp(3).toLocalDateTime():null);
-    			company.setId(resListecomputer.getInt("company_id"));
-    			company.setName(resListecomputer.getString("company.name"));    
-    			computer.setCompany(company);
+            	Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer);
                 computerlist.add(computer);
-            }
+
+            	}
 
 	            statementSelectall.close();
 	            conn.close();
@@ -241,17 +235,8 @@ public final class DAOComputer {
             statementSelecPage.setInt(2, number);
             ResultSet resListecomputer = statementSelecPage.executeQuery();
             while(resListecomputer.next()){
-            	Computer computer = new Computer();
-                computer.setId(resListecomputer.getInt(1));
-                computer.setName(resListecomputer.getString(2));
-    			computer.setIntroduced(resListecomputer.getTimestamp(3)!=null?
-    					resListecomputer.getTimestamp(3).toLocalDateTime():null);
-    			computer.setDiscontinued(resListecomputer.getTimestamp(3)!=null?
-    					resListecomputer.getTimestamp(3).toLocalDateTime():null);
-    			company.setId(resListecomputer.getInt("company_id"));
-    			company.setName(resListecomputer.getString("company.name"));
-    			computer.setCompany(company);
-                
+            	Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer);
+
                 computerlist.add(computer);
             }
 
