@@ -3,7 +3,6 @@ package service;
 import java.util.List;
 
 import modele.Company;
-import persistence.Connexion;
 import persistence.DAOCompany;
 
 public final class ServiceCompany {
@@ -15,8 +14,7 @@ public final class ServiceCompany {
 		this.dao = DAOCompany.getInstance();
 		
 	}
-		
-		
+	
 	public final static ServiceCompany getInstance() {
         if (ServiceCompany.instance == null) {
            synchronized(ServiceCompany.class) {
@@ -28,6 +26,9 @@ public final class ServiceCompany {
         return ServiceCompany.instance;
 	}
 
+	public int getlength(){
+		return getallCompany().size();
+	}
 
 	public boolean persisteCompany(Company company) {
 		return this.dao.persisteCompany(company);
@@ -45,7 +46,7 @@ public final class ServiceCompany {
 		return this.dao.getallCompany();
 		
 	}
-	public List<Company> getallcompany(int offset, int number){
+	public List<Company> getallCompany(int offset, int number){
 		return this.dao.getallCompany(offset, number);
 	}
 }

@@ -59,9 +59,7 @@ public final class DAOComputer {
                 "values(?, ?, ?, ?, ?)";
         
         try {
-        	System.out.println("je rentre try");
             PreparedStatement psmt = conn.getConn().prepareStatement(req);
-        	System.out.println("je rentre set");
 
             psmt.setInt(1, computer.getId());
             psmt.setString(2, computer.getName());
@@ -205,10 +203,11 @@ public final class DAOComputer {
 
 		 this.conn = Connexion.getInstance();
 	     conn.connect();
+	     Company company = new Company();
 	     
 	     List<Computer> computerlist = new ArrayList<Computer>();
 
-	     String req = "SELECT * FROM computer";
+	     String req = "SELECT * FROM computer LEFT JOIN company ON company_id = company.id";
 	     try {
             Statement statementSelectall = conn.getConn().createStatement();
             ResultSet resListecomputer = statementSelectall.executeQuery(req);
@@ -220,9 +219,9 @@ public final class DAOComputer {
     					resListecomputer.getTimestamp(3).toLocalDateTime():null);
     			computer.setDiscontinued(resListecomputer.getTimestamp(3)!=null?
     					resListecomputer.getTimestamp(3).toLocalDateTime():null);
-                Company comp = servCompany.getCompany(resListecomputer.getInt(5));
-    			computer.setCompany(comp);
-                
+    			company.setId(resListecomputer.getInt("company_id"));
+    			company.setName(resListecomputer.getString("company.name"));    
+    			computer.setCompany(company);
                 computerlist.add(computer);
             }
 
@@ -244,9 +243,12 @@ public final class DAOComputer {
 		 this.conn = Connexion.getInstance();
 	     conn.connect();
 	     
+	     Company company = new Company();
+
+	     
 	     List<Computer> computerlist = new ArrayList<Computer>();
 
-	     String req = "SELECT * FROM computer Limit ?,?";
+	     String req = "SELECT * FROM computer LEFT JOIN company ON company_id = company.id  LIMIT ?,?;";
 	     try {
             PreparedStatement statementSelecPage = conn.getConn().prepareStatement(req);
             statementSelecPage.setInt(1, offset);
@@ -260,8 +262,9 @@ public final class DAOComputer {
     					resListecomputer.getTimestamp(3).toLocalDateTime():null);
     			computer.setDiscontinued(resListecomputer.getTimestamp(3)!=null?
     					resListecomputer.getTimestamp(3).toLocalDateTime():null);
-                Company comp = servCompany.getCompany(resListecomputer.getInt(5));
-    			computer.setCompany(comp);
+    			company.setId(resListecomputer.getInt("company_id"));
+    			company.setName(resListecomputer.getString("company.name"));
+    			computer.setCompany(company);
                 
                 computerlist.add(computer);
             }

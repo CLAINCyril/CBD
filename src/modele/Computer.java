@@ -71,34 +71,34 @@ public class Computer {
 		this.company = company;
 	}
 
-	public static class Builder {
+	public static class ComputerBuilder {
 		private int Id;
 		private String name;
 		private LocalDateTime introduced;
 		private LocalDateTime Discontinued;
 		private Company company;
 
-		public Builder Id(int Id) {
+		public ComputerBuilder Id(int Id) {
 			this.Id = Id;
 			return this;
 		}
 
-		public Builder name(String name) {
+		public ComputerBuilder name(String name) {
 			this.name = name;
 			return this;
 		}
 
-		public Builder introduced(LocalDateTime introduced) {
+		public ComputerBuilder introduced(LocalDateTime introduced) {
 			this.introduced = introduced;
 			return this;
 		}
 
-		public Builder Discontinued(LocalDateTime Dicontinued) {
+		public ComputerBuilder Discontinued(LocalDateTime Dicontinued) {
 			this.Discontinued = Dicontinued;
 			return this;
 		}
 
-		public Builder IdCompagny(Company company) {
+		public ComputerBuilder IdCompagny(Company company) {
 			this.company = company;
 			return this;
 		}
@@ -108,7 +108,7 @@ public class Computer {
 		}
 	}
 
-	private Computer(Builder builder) {
+	private Computer(ComputerBuilder builder) {
 		this.Id = builder.Id;
 		this.name = builder.name;
 		this.introduced = builder.introduced;
@@ -147,5 +147,6 @@ public class Computer {
 		return "Computer [Id=" + Id + ", name=" + name + ", introduced=" + introduced + ", Discontinued=" + Discontinued
 				+ ", company=" + company + "]\n";
 	}
+
 
 }

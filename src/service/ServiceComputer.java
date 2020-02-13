@@ -18,7 +18,6 @@ public final class ServiceComputer {
 		
 	}
 		
-		
 	public final static ServiceComputer getInstance() {
         if (ServiceComputer.instance == null) {
            synchronized(ServiceComputer.class) {
@@ -35,8 +34,11 @@ public final class ServiceComputer {
 		return this.dao.persistecomputer(computer);
 	}
 	
-	public boolean deleteComputer(Computer computer){
-		return this.dao.deletecomputer(computer.getId());
+	public int getlength(){
+		return getallComputer().size();
+	}
+	public boolean deleteComputer(int id){
+		return this.dao.deletecomputer(id);
 	}
 	
 	public Computer getComputer(int Id) {
