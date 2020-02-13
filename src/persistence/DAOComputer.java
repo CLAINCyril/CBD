@@ -80,10 +80,10 @@ public final class DAOComputer {
 	/**
 	 * Supprime un element de "computer" par Id.
 	 * @author cyril
-	 * @param Id
+	 * @param id
 	 * @return 
 	 */
-	public void deletecomputer(int Id) {
+	public void deletecomputer(int id) {
 		this.conn = Connexion.getInstance();
         conn.connect();
         
@@ -91,7 +91,7 @@ public final class DAOComputer {
         
         try {
         	PreparedStatement statementSupresisoncomputer = conn.getConn().prepareStatement(req);
-        	statementSupresisoncomputer.setInt(1,Id);
+        	statementSupresisoncomputer.setInt(1,id);
         	statementSupresisoncomputer.executeUpdate();
         	statementSupresisoncomputer.close();
             conn.close();
@@ -105,25 +105,24 @@ public final class DAOComputer {
 	/**
 	 * Récupère un element de "computer" par Id.
 	 * 
-	 * @param Id
+	 * @param id
 	 * @return computer
 	 */
-	public Computer getcomputer(int Id) {
+	public Computer getcomputer(int id) {
 		this.conn = Connexion.getInstance();
 		conn.connect();
 		
 		Computer computer = new Computer();
-		Company comp = new Company();
 
 		String req = "SELECT * FROM computer "
                 + "LEFT JOIN company ON company_id = company.id WHERE computer.id = ?;";
 		try {
 			PreparedStatement statementGetcomputer = conn.getConn().prepareStatement(req);
-			statementGetcomputer.setInt(1,Id);
+			statementGetcomputer.setInt(1,id);
 			ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
 			
 			resDetailcomputer.next();
-        	Computer computer = ComputerMapper.getInstance().getComputer(resDetailcomputer);
+        	computer = ComputerMapper.getInstance().getComputer(resDetailcomputer);
 
 			conn.close();
 
@@ -144,7 +143,6 @@ public final class DAOComputer {
 	 public void updatecomputer(Computer computer) {
 	        this.conn = Connexion.getInstance();
 	        conn.connect();
-	        
 
 	        Computer comp = getcomputer(computer.getId());
 

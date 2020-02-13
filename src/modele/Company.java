@@ -13,7 +13,7 @@ package modele;
  */
 
 public class Company {
-	private int Id;
+	private int id;
 	private String name;
 	
 
@@ -21,11 +21,11 @@ public class Company {
 	}
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public String getName() {
@@ -37,15 +37,15 @@ public class Company {
 	}
 
 	public Company(int id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public static class CompanyBuilder {
-		private int Id;
+		private int id;
 		private String name;
 
 		public CompanyBuilder Id(int Id) {
-			this.Id = Id;
+			this.id = Id;
 			return this;
 		}
 
@@ -60,21 +60,21 @@ public class Company {
 	}
 
 	private Company(CompanyBuilder companyBuilder) {
-		this.Id = companyBuilder.Id;
+		this.id = companyBuilder.id;
 		this.name = companyBuilder.name;
 	}
 
 	
 	@Override
 	public String toString() {
-		return "CompanyModele [Id=" + Id + ", name=" + name + "]";
+		return "CompanyModele [Id=" + id + ", name=" + name + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Id;
+		result = prime * result + id;
 		return result;
 	}
 
@@ -87,7 +87,7 @@ public class Company {
 		if (getClass() != obj.getClass())
 			return false;
 		Company other = (Company) obj;
-		if (Id != other.Id)
+		if (id != other.id)
 			return false;
 		return true;
 	}
