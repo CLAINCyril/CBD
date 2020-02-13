@@ -44,8 +44,8 @@ public class Company {
 		private int id;
 		private String name;
 
-		public CompanyBuilder Id(int Id) {
-			this.id = Id;
+		public CompanyBuilder Id(int id) {
+			this.id = id;
 			return this;
 		}
 
