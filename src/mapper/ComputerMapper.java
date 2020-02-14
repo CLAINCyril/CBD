@@ -29,12 +29,12 @@ public class ComputerMapper {
 		this.computer = new Computer();
 		this.company = new Company();
 		try {
-			computer.setId(resDetailcomputer.getInt("id"));
-			computer.setName(resDetailcomputer.getString("ResultSet"));
-			computer.setIntroduced(resDetailcomputer.getTimestamp("introduced")!=null?
-					resDetailcomputer.getTimestamp("introduced").toLocalDateTime():null);
+			computer.setId(resDetailcomputer.getInt("computer.id"));
+			computer.setName(resDetailcomputer.getString("computer.name"));
+			computer.setIntroduced(resDetailcomputer.getTimestamp("computer.introduced")!=null?
+					resDetailcomputer.getTimestamp("computer.introduced").toLocalDateTime():null);
 			computer.setDiscontinued(resDetailcomputer.getTimestamp("discontinued")!=null?
-					resDetailcomputer.getTimestamp("discontinued").toLocalDateTime():null);
+					resDetailcomputer.getTimestamp("computer.discontinued").toLocalDateTime():null);
 			company.setId(resDetailcomputer.getInt("company_id"));
 			company.setName(resDetailcomputer.getString("company.name"));
 			computer.setCompany(company);

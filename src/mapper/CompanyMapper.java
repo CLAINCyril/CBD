@@ -28,8 +28,8 @@ public class CompanyMapper {
 	public Company getCompany(ResultSet res){
         this.company = new Company();
         try {
-            company.setId(res.getInt(1));
-			company.setName(res.getString(2));
+            company.setId(res.getInt("company.id"));
+			company.setName(res.getString("company.name"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

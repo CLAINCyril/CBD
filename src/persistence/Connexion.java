@@ -19,6 +19,14 @@ import service.ServiceCompany;
  */
 public final class Connexion {
 	
+    String host = "127.0.0.1";
+    int port = 3306;
+    String user = "admincdb";
+    String mdp = "qwerty1234";
+    String BddName = "computer-database-db";
+    String url = "jdbc:mysql://" + host + ":"+ port + "/" + BddName;
+
+	
 	private static Connection conn;
 	
 	private static volatile Connexion instance = null;
@@ -38,35 +46,14 @@ public final class Connexion {
         return Connexion.instance;
 	}
 	
-	/**
-	 * ouvre une connection.
-	 */
-    public void connect() {
-        String host = "127.0.0.1";
-        int port = 3306;
-        String user = "admincdb";
-        String mdp = "qwerty1234";
-        String BddName = "computer-database-db";
-        String url = "jdbc:mysql://" + host + ":"+ port + "/" + BddName;
-
-
-        try{
-        	Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url, user, mdp);
-        }catch(SQLException e){
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-        
-    }
     /**
      * recupère la connection.
      * 
      * @return Connection
+     * @throws SQLException 
      */
-    public Connection getConn() {
-        return conn;
+    public Connection getConn() throws SQLException {
+        return DriverManager.getConnection(url, user, mdp);
         }
     
     

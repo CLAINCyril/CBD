@@ -106,9 +106,10 @@ public final class DAOCompany {
 			PreparedStatement statementGetCompany = conn.getConn().prepareStatement(GET_By_ID);
 			statementGetCompany.setInt(1,Id);
 			ResultSet resDetailCompany = statementGetCompany.executeQuery();
-			statementGetCompany.close();
 			resDetailCompany.next();
 			company = CompanyMapper.getInstance().getCompany(resDetailCompany);
+			statementGetCompany.close();
+
 			conn.close();
 
 		} catch (Exception e) {

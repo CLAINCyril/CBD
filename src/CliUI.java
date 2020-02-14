@@ -74,8 +74,6 @@ public class CliUI {
 	 * @param sc
 	 */
 	public void createComputer(Scanner sc) {
-		int id = ServiceComputer.getInstance().getlength()+1;
-  	  	computer.setId(id);
   	  	System.out.println("Veuillez saisir le nom :\n");
   	  	computer.setName(sc.next());
   	  	System.out.println("Veuillez saisir la date de sortie :\n");
@@ -89,6 +87,20 @@ public class CliUI {
 		computer.setName(sc.nextLine());
 		ServiceComputer.getInstance().persisteComputer(computer);
 
+	}
+	public void updateComputer(Scanner sc) {
+  	  	System.out.println("Veuillez saisir l'id :\n");
+  	  	Computer computer = ServiceComputer.getInstance().getComputer(sc.nextInt());
+  	  	System.out.println("Veuillez saisir le nom :\n");
+	  	computer.setName(sc.next());
+	  	System.out.println("Veuillez saisir la date de sortie :\n");
+	  	computer.setIntroduced(ConvertLocalDateTime(sc.next()));
+	  	System.out.println("Veuillez saisir la date de fin de serie :\n");
+	  	computer.setDiscontinued(ConvertLocalDateTime(sc.next()));
+	  	System.out.println("Veuillez saisir l'id company:\n");
+	  	company = ServiceCompany.getInstance().getCompany(sc.nextInt());
+	  	computer.setCompany(company);
+	  	ServiceComputer.getInstance().updateComputer(computer);
 	}
 	/**
 	 * methode de pagination des computers
@@ -214,30 +226,32 @@ public class CliUI {
 
 		    	int cases = sc.nextInt();
 		    	switch (ACTION.value(cases)) {
-		    	  case "LISTCOMPUTERS":
-		    		  pagineCompute(sc);
-		    		  break;
-		    	  case "LISTCOMPANIES":
-		    		  pagineCompany(sc);
-		    		  break;
-		    	  case "SHOWCOMPUTERDETAILS":
-		    		  System.out.println("saisir Id Computer");
-		    		  printComputer(sc);
-		    		  break;
-		    	  case "CREATECOMPUTER":
-		    		  createComputer(sc);
-		    		  break;
-		    	  case "UPDATECOMPUTER":
-		    	    System.out.println("Friday");
-		    	    break;
-		    	  case "DELETECOMPUTER":
-		    		  System.out.println("saisissez l'ID computer");
-		    		  deleteComputer(sc);
-		    		  break;
+				  case "LISTCOMPUTERS":
+					  pagineCompute(sc);
+					  break;
+				  case "LISTCOMPANIES":
+					  pagineCompany(sc);
+					  break;
+				  case "SHOWCOMPUTERDETAILS":
+				  System.out.println("saisir Id Computer");
+					  printComputer(sc);
+					  break;
+				  case "CREATECOMPUTER":
+					  createComputer(sc);
+					  break;
+				  case "UPDATECOMPUTER":
+					  System.out.println("saisissez l'ID computer");
+					  updateComputer(sc);
+					  break;
+				  case "DELETECOMPUTER":
+					  System.out.println("saisissez l'ID computer");
+					  deleteComputer(sc);
+				  break;
 
 		    	}
-	    	sc.close();
 	    	
-}
+	    	}
+	    	sc.close();
+
 }
 }

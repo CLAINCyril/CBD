@@ -67,7 +67,7 @@ public class Company {
 	
 	@Override
 	public String toString() {
-		return "CompanyModele [Id=" + id + ", name=" + name + "]";
+		return "CompanyModele num : "+ id + "  name : " + name;
 	}
 
 	@Override
