@@ -42,7 +42,7 @@ public final class ServiceComputer {
 	}
 	
 	public Computer getComputer(int Id) {
-		return this.dao.getComputer(Id);
+		return this.dao.getComputer(Id).get();
 	}
 	
 	public List<Computer> getAllComputer(){
@@ -50,7 +50,7 @@ public final class ServiceComputer {
 	}
 	
 	public List<Computer> getPageComputer(int offset, int number){
-		return this.dao.getPageComputer(offset, number);
+		return this.dao.getPageComputer(offset, number).get();
 	}
 	public void updateComputer(Computer computer) {
 		this.dao.updateComputer(computer);

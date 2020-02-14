@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import mapper.ComputerMapper;
 import modele.Company;
@@ -105,7 +106,7 @@ public final class DAOComputer {
 	 * @param id
 	 * @return computer
 	 */
-	public Computer getComputer(int id) {
+	public Optional<Computer> getComputer(int id) {
 		Computer computer = new Computer();
 
 
@@ -113,7 +114,6 @@ public final class DAOComputer {
 				PreparedStatement statementGetcomputer = conn.prepareStatement(GET_COMPUTER);) {
 			statementGetcomputer.setInt(1, id);
 			ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
-			resDetailcomputer.next();
 			computer = ComputerMapper.getInstance().getComputer(resDetailcomputer);
 
 			statementGetcomputer.close();
@@ -123,7 +123,7 @@ public final class DAOComputer {
 			e.printStackTrace();
 
 		}
-		return computer;
+		return Optional.ofNullable(computer);
 
 	}
 
@@ -133,8 +133,6 @@ public final class DAOComputer {
 	 * @param computer
 	 */
 	public void updateComputer(Computer computer) {
-
-		Computer comp = getComputer(computer.getId());
 
 		try (Connection conn = Connexion.getInstance().getConn();
 				PreparedStatement statementUpdatecomputer = conn.prepareStatement(UPDATE_COMPUTER);) {
@@ -191,7 +189,7 @@ public final class DAOComputer {
 	 * 
 	 * @return List computer
 	 */
-	public List<Computer> getPageComputer(int offset, int number) {
+	public Optional<List<Computer>> getPageComputer(int offset, int number) {
 
 		Company company = new Company();
 
@@ -215,7 +213,7 @@ public final class DAOComputer {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return computerlist;
+		return Optional.ofNullable(computerlist);
 	}
 
 }

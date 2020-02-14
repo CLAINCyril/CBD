@@ -25,10 +25,10 @@ public class ComputerMapper {
         }
         return ComputerMapper.instance;
 }
-	public Computer getComputer(ResultSet resDetailcomputer) {
+	public Computer getComputer(ResultSet resDetailcomputer) throws SQLException {
 		this.computer = new Computer();
 		this.company = new Company();
-		try {
+		if (resDetailcomputer.next()){
 			computer.setId(resDetailcomputer.getInt("computer.id"));
 			computer.setName(resDetailcomputer.getString("computer.name"));
 			computer.setIntroduced(resDetailcomputer.getTimestamp("computer.introduced")!=null?
@@ -38,8 +38,6 @@ public class ComputerMapper {
 			company.setId(resDetailcomputer.getInt("company_id"));
 			company.setName(resDetailcomputer.getString("company.name"));
 			computer.setCompany(company);
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		
 		return computer;
