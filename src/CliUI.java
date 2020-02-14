@@ -9,6 +9,29 @@ import modele.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
 
+enum  ACTION { LISTCOMPUTERS,LISTCOMPANIES, SHOWCOMPUTERDETAILS ,CREATECOMPUTER,
+	UPDATECOMPUTER,DELETECOMPUTER;
+
+	static String value(int entree) {
+		switch (entree) {
+	  	  case 1:
+	  		  return("LISTCOMPUTERS");
+		case 2:
+			  return("LISTCOMPANNIES");
+		  case 3:
+			  return("SHOWCOMPUTERDETAILS");
+		  case 4:
+			  return("CREATECOMPUTER");
+		  case 5:
+			  return("UPDATECOMPUTER");
+		  case 6:
+			  return("DELETECOMPUTER");
+
+		}
+		return null;
+		}
+	};
+
 public class CliUI {
 	List<Company> companys;
 	List<Computer> computers;
@@ -189,32 +212,31 @@ public class CliUI {
 	    		System.out.println("6 :  Delete a computer");
 	    		System.out.println("============================");	
 
-
 		    	int cases = sc.nextInt();
-		    	switch (cases) {
-		    	  case 1:
+		    	switch (ACTION.value(cases)) {
+		    	  case "LISTCOMPUTERS":
 		    		  pagineCompute(sc);
 		    		  break;
-		    	  case 2:
+		    	  case "LISTCOMPANIES":
 		    		  pagineCompany(sc);
 		    		  break;
-		    	  case 3:
+		    	  case "SHOWCOMPUTERDETAILS":
 		    		  System.out.println("saisir Id Computer");
 		    		  printComputer(sc);
 		    		  break;
-		    	  case 4:
+		    	  case "CREATECOMPUTER":
 		    		  createComputer(sc);
 		    		  break;
-//		    	  case 5:
-//		    	    System.out.println("Friday");
-//		    	    break;
-		    	  case 6:
+		    	  case "UPDATECOMPUTER":
+		    	    System.out.println("Friday");
+		    	    break;
+		    	  case "DELETECOMPUTER":
 		    		  System.out.println("saisissez l'ID computer");
 		    		  deleteComputer(sc);
 		    		  break;
 
 		    	}
-//	    	sc.close();
+	    	sc.close();
 	    	
 }
 }

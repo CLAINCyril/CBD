@@ -25,8 +25,8 @@ public final class DAOComputer {
 	private Connexion conn;
 	private ServiceCompany servCompany;
 	
-    private static final String PERSISTE_COMPUTER = "INSERT INTO computer (id,  name, introduced, discontinued, company_id)" +
-            "values(?, ?, ?, ?, ?)";
+    private static final String PERSISTE_COMPUTER = "INSERT INTO computer ( name, introduced, discontinued, company_id)" +
+            "values( ?, ?, ?, ?)";
     private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id=?";
 	private static final String GET_COMPUTER = "SELECT * FROM computer "
             + "LEFT JOIN company ON company_id = company.id WHERE computer.id = ?;";
@@ -67,7 +67,6 @@ public final class DAOComputer {
         try {
             PreparedStatement statementPersisteComputer = conn.getConn().prepareStatement(PERSISTE_COMPUTER);
 
-            statementPersisteComputer.setInt(1, computer.getId());
             statementPersisteComputer.setString(2, computer.getName());
             statementPersisteComputer.setTimestamp(3, Timestamp.valueOf(computer.getIntroduced()));
             statementPersisteComputer.setTimestamp(4, Timestamp.valueOf(computer.getDiscontinued()));
