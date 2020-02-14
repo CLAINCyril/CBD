@@ -27,8 +27,7 @@ public final class DAOCompany {
     private static final String SELECT_ALL_COMPANY = "SELECT id,name FROM company";
 	
 	private DAOCompany() {
-		this.conn = Connexion.getInstance();
-		
+		this.conn = Connexion.getInstance();	
 	}
 	
 

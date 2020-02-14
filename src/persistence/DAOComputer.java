@@ -30,8 +30,8 @@ public final class DAOComputer {
     private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id=?";
 	private static final String GET_COMPUTER = "SELECT * FROM computer "
             + "LEFT JOIN company ON company_id = company.id WHERE computer.id = ?;";
-	private static final String GET_ALL_COMPUTER = "SELECT * FROM computer LEFT JOIN company ON company_id = company.id";
-    private static final String GET_PAGE_COMPUTER = "SELECT * FROM computer LEFT JOIN company ON company_id = company.id  LIMIT ?,?;";
+	private static final String GET_ALL_COMPUTER = "SELECT id, name, introduced , discontinued , company_id FROM computer LEFT JOIN company ON company_id = company.id";
+    private static final String GET_PAGE_COMPUTER = "SELECT id, name, introduced , discontinued , company_id FROM computer FROM computer LEFT JOIN company ON company_id = company.id  LIMIT ?,?;";
 
     
 	private DAOComputer() {
