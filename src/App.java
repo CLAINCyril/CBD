@@ -19,16 +19,10 @@ import service.ServiceComputer;
  * Hello world!
  *
  */
-public class App 
-{
-	
-    public static void main( String[] args )
-    {
-    
-//    	CliUI cli = new CliUI();
-    	DAOComputer dao = DAOComputer.getInstance();
-    	Computer comp = dao.getComputer(12);
-    	comp.setName("toto");
-    	dao.updateComputer(comp);
-    }
+public class App {
+
+	public static void main(String[] args) {
+
+		CliUI cli = new CliUI();
+	}
 }
