@@ -39,7 +39,7 @@ public final class ServiceCompany {
 	}
 	
 	public Company getCompany(int Id) {
-		return this.dao.getCompany(Id);
+		return this.dao.getCompany(Id).get();
 	}
 	
 	public List<Company> getAllCompany(){

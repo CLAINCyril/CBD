@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import mapper.CompanyMapper;
 import modele.Company;
@@ -84,7 +85,7 @@ public final class DAOCompany {
 	 * @param Id
 	 * @return Company
 	 */
-	public Company getCompany(int Id) {
+	public Optional<Company> getCompany(int Id) {
 
 		Company company = new Company();
 
@@ -102,7 +103,7 @@ public final class DAOCompany {
 			e.printStackTrace();
 
 		}
-		return company;
+		return Optional.ofNullable(company);
 
 	}
 
@@ -113,17 +114,13 @@ public final class DAOCompany {
 	 */
 	public void updateCompany(Company company) {
 
-		Company comp = getCompany(company.getId());
-
 		try (Connection conn = Connexion.getInstance().getConn();
 				PreparedStatement statementUpdatecompany = conn.prepareStatement(UPDATE_COMPANY);) {
 
-			if (comp.getName() != company.getName()) {
-				statementUpdatecompany.setString(1, company.getName());
-				statementUpdatecompany.executeUpdate();
-				statementUpdatecompany.close();
+			statementUpdatecompany.setString(1, company.getName());
+			statementUpdatecompany.executeUpdate();
+			statementUpdatecompany.close();
 
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
