@@ -30,7 +30,7 @@ public final class ServiceComputer {
 	}
 
 	public void persisteComputer(Computer computer) {
-		this.dao.persistecomputer(computer);
+		this.dao.persisteComputer(computer);
 	}
 
 	public int getlength() {
@@ -38,7 +38,7 @@ public final class ServiceComputer {
 	}
 
 	public void deleteComputer(int id) {
-		this.dao.deletecomputer(id);
+		this.dao.deleteComputer(id);
 	}
 
 	public Computer getComputer(int Id) {

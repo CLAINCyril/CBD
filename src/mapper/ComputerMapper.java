@@ -29,15 +29,14 @@ public class ComputerMapper {
 		if (resDetailcomputer.next()) {
 			company = new Company.CompanyBuilder().setName(resDetailcomputer.getString("company.name"))
 					.setId(resDetailcomputer.getInt("company_id")).build();
-			computer = new Computer.ComputerBuilder().setCompany(company)
-					.setId(resDetailcomputer.getInt("computer.id"))
+			computer = new Computer.ComputerBuilder().setCompany(company).setId(resDetailcomputer.getInt("computer.id"))
 					.setName(resDetailcomputer.getString("computer.name"))
 					.setIntroduced(resDetailcomputer.getTimestamp("computer.introduced") != null
-					? resDetailcomputer.getTimestamp("computer.introduced").toLocalDateTime()
-					: null)
+							? resDetailcomputer.getTimestamp("computer.introduced").toLocalDateTime()
+							: null)
 					.setDiscontinued(resDetailcomputer.getTimestamp("discontinued") != null
 							? resDetailcomputer.getTimestamp("computer.discontinued").toLocalDateTime()
-									: null)
+							: null)
 					.build();
 		}
 

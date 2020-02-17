@@ -68,7 +68,7 @@ public final class DAOCompany {
 	 * @author cyril
 	 * @param Id
 	 */
-	public void deletecompany(int Id) {
+	public void deleteCompany(int Id) {
 		try (Connection conn = Connexion.getInstance().getConn();
 				PreparedStatement statementSupresisoncompany = conn.prepareStatement(DELETE_COMPANY);) {
 			statementSupresisoncompany.setInt(1, Id);

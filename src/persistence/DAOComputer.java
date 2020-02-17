@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +59,7 @@ public final class DAOComputer {
 	 * @param nom
 	 * @return
 	 */
-	public void persistecomputer(Computer computer) {
+	public void persisteComputer(Computer computer) {
 
 		try (Connection conn = Connexion.getInstance().getConn();
 				PreparedStatement statementPersisteComputer = conn.prepareStatement(PERSISTE_COMPUTER);) {
@@ -87,13 +86,13 @@ public final class DAOComputer {
 	 * @param id
 	 * @return
 	 */
-	public void deletecomputer(int id) {
+	public void deleteComputer(int id) {
 
 		try (Connection conn = Connexion.getInstance().getConn();
-				PreparedStatement statementSupresisoncomputer = conn.prepareStatement(DELETE_COMPUTER);) {
-			statementSupresisoncomputer.setInt(1, id);
-			statementSupresisoncomputer.executeUpdate();
-			statementSupresisoncomputer.close();
+				PreparedStatement statementDeleteComputer = conn.prepareStatement(DELETE_COMPUTER);) {
+			statementDeleteComputer.setInt(1, id);
+			statementDeleteComputer.executeUpdate();
+			statementDeleteComputer.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

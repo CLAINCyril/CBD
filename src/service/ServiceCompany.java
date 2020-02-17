@@ -35,7 +35,7 @@ public final class ServiceCompany {
 	}
 	
 	public void deleteCompany(Company company) {
-		this.dao.deletecompany(company.getId());
+		this.dao.deleteCompany(company.getId());
 	}
 	
 	public Company getCompany(int Id) {
