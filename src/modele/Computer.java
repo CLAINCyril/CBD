@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 /**
  * Nom de classe : ComputerModele
  *
- * Description   : Modele Computer (MVC) contient les méthode a appliquer
+ * Description : Modele Computer (MVC) contient les méthode a appliquer
  *
- * Version       : 1.0
+ * Version : 1.0
  *
- * Date          : 10/02/2020
+ * Date : 10/02/2020
  *
- * Copyright     : CLAIN Cyril
+ * Copyright : CLAIN Cyril
  */
 
 public class Computer {
@@ -78,27 +78,27 @@ public class Computer {
 		private LocalDateTime discontinued;
 		private Company company;
 
-		public ComputerBuilder id(int id) {
+		public ComputerBuilder setId(int id) {
 			this.id = id;
 			return this;
 		}
 
-		public ComputerBuilder name(String name) {
+		public ComputerBuilder setName(String name) {
 			this.name = name;
 			return this;
 		}
 
-		public ComputerBuilder introduced(LocalDateTime introduced) {
+		public ComputerBuilder setIntroduced(LocalDateTime introduced) {
 			this.introduced = introduced;
 			return this;
 		}
 
-		public ComputerBuilder Discontinued(LocalDateTime dicontinued) {
+		public ComputerBuilder setDiscontinued(LocalDateTime dicontinued) {
 			this.discontinued = dicontinued;
 			return this;
 		}
 
-		public ComputerBuilder idCompagny(Company company) {
+		public ComputerBuilder setCompany(Company company) {
 			this.company = company;
 			return this;
 		}
@@ -115,10 +115,9 @@ public class Computer {
 		this.discontinued = builder.discontinued;
 		this.company = builder.company;
 	}
-	
-	public Computer() {};
 
-
+	public Computer() {
+	};
 
 	@Override
 	public int hashCode() {
@@ -147,6 +146,5 @@ public class Computer {
 		return "Computer [Id=" + id + ", name=" + name + ", introduced=" + introduced + ", Discontinued=" + discontinued
 				+ ", company=" + company + "]\n";
 	}
-
 
 }

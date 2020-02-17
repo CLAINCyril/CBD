@@ -44,16 +44,15 @@ public class Company {
 		private int id;
 		private String name;
 
-		public CompanyBuilder id(int id) {
+		public CompanyBuilder setId(int id) {
 			this.id = id;
 			return this;
 		}
 
-		public CompanyBuilder name(String name) {
+		public CompanyBuilder setName(String name) {
 			this.name = name;
 			return this;
 		}
-
 		public Company build() {
 			return new Company(this);
 		}
