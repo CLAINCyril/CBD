@@ -132,7 +132,7 @@ public class CliUI {
 			saisie = sc.next();
 			condition = (saisie.contentEquals("n")) || (saisie.contentEquals("p"));
 			if (saisie == "n") {
-				if (20 > tailleL - number) {
+				if (20 >= tailleL - number) {
 
 					offset += 20;
 					number += 20;
@@ -142,7 +142,7 @@ public class CliUI {
 				}
 			}
 			if (saisie == "p") {
-				if (offset < 20) {
+				if (offset <= 20) {
 					System.out.println("vous etes a la premiere page!");
 				} else {
 					offset -= 20;
@@ -183,8 +183,8 @@ public class CliUI {
 			System.out.println("pres n for next p for previous page s fort stop");
 			saisie = sc.next();
 			condition = (saisie.contentEquals("n")) || (saisie.contentEquals("p"));
-			if (saisie == "n") {
-				if (20 > tailleL - number) {
+			if (saisie.equals("n")) {
+				if (20 <= tailleL - number) {
 
 					offset += 20;
 					number += 20;
@@ -193,8 +193,8 @@ public class CliUI {
 					System.out.println("vous etes a la derniere page!");
 				}
 			}
-			if (saisie == "p") {
-				if (offset < 20) {
+			if (saisie.equals("p")) {
+				if (offset >= 20) {
 					System.out.println("vous etes a la premiere page!");
 				} else {
 					offset -= 20;
