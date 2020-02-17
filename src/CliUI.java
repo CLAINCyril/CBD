@@ -2,6 +2,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import modele.Company;
@@ -98,7 +99,7 @@ public class CliUI {
 
 	public void updateComputer(Scanner sc) {
 		System.out.println("Veuillez saisir l'id :\n");
-		Computer computer = ServiceComputer.getInstance().getComputer(sc.nextInt());
+		Computer computer = new Computer.ComputerBuilder().setId(sc.nextInt()).build();
 		System.out.println("Veuillez saisir le nom :\n");
 		computer.setName(sc.next());
 		System.out.println("Veuillez saisir la date de sortie :\n");
@@ -131,8 +132,8 @@ public class CliUI {
 			System.out.println("pres n for next p for previous page s fort stop");
 			saisie = sc.next();
 			condition = (saisie.contentEquals("n")) || (saisie.contentEquals("p"));
-			if (saisie == "n") {
-				if (20 >= tailleL - number) {
+			if (saisie.equals("n")) {
+				if (20 > tailleL - number) {
 
 					offset += 20;
 					number += 20;
@@ -141,8 +142,8 @@ public class CliUI {
 					System.out.println("vous etes a la derniere page!");
 				}
 			}
-			if (saisie == "p") {
-				if (offset <= 20) {
+			if (saisie.equals("p")) {
+				if (offset < 20) {
 					System.out.println("vous etes a la premiere page!");
 				} else {
 					offset -= 20;
@@ -156,7 +157,11 @@ public class CliUI {
 	}
 
 	public void printComputer(Scanner sc) {
-		System.out.println(ServiceComputer.getInstance().getComputer(sc.nextInt()));
+		Optional<Computer> computer = ServiceComputer.getInstance().getComputer(sc.nextInt());
+		if (computer.isPresent()) {
+			System.out.println(computer);
+		}
+		System.out.println("non présent");
 	}
 
 	public void deleteComputer(Scanner sc) {
@@ -183,8 +188,8 @@ public class CliUI {
 			System.out.println("pres n for next p for previous page s fort stop");
 			saisie = sc.next();
 			condition = (saisie.contentEquals("n")) || (saisie.contentEquals("p"));
-			if (saisie.equals("n")) {
-				if (20 <= tailleL - number) {
+			if (saisie == "n") {
+				if (20 > tailleL - number) {
 
 					offset += 20;
 					number += 20;
@@ -193,8 +198,8 @@ public class CliUI {
 					System.out.println("vous etes a la derniere page!");
 				}
 			}
-			if (saisie.equals("p")) {
-				if (offset >= 20) {
+			if (saisie == "p") {
+				if (offset < 20) {
 					System.out.println("vous etes a la premiere page!");
 				} else {
 					offset -= 20;

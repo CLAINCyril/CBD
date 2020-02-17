@@ -1,6 +1,7 @@
 package service;
 
 import java.util.List;
+import java.util.Optional;
 
 import modele.Company;
 import modele.Computer;
@@ -41,8 +42,8 @@ public final class ServiceComputer {
 		this.dao.deleteComputer(id);
 	}
 
-	public Computer getComputer(int Id) {
-		return this.dao.getComputer(Id).get();
+	public Optional<Computer> getComputer(int Id) {
+		return this.dao.getComputer(Id);
 	}
 
 	public List<Computer> getAllComputer() {

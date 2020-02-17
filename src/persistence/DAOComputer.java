@@ -106,23 +106,22 @@ public final class DAOComputer {
 	 * @return computer
 	 */
 	public Optional<Computer> getComputer(int id) {
-		Computer computer = new Computer();
-
-
+		Optional<Computer> computer = Optional.empty();
 		try (Connection conn = Connexion.getInstance().getConn();
 				PreparedStatement statementGetcomputer = conn.prepareStatement(GET_COMPUTER);) {
 			statementGetcomputer.setInt(1, id);
 			ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
+			
 			computer = ComputerMapper.getInstance().getComputer(resDetailcomputer);
 
-			statementGetcomputer.close();
+//			statementGetcomputer.close();
 			resDetailcomputer.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 
 		}
-		return Optional.ofNullable(computer);
+		return computer;
 
 	}
 
@@ -169,7 +168,7 @@ public final class DAOComputer {
 			ResultSet resListecomputer = statementSelectall.executeQuery();
 
 			while (resListecomputer.next()) {
-				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer);
+				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
 				computerlist.add(computer);
 
 			}
@@ -201,7 +200,7 @@ public final class DAOComputer {
 			statementSelecPage.setInt(2, number);
 			ResultSet resListecomputer = statementSelecPage.executeQuery();
 			while (resListecomputer.next()) {
-				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer);
+				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
 
 				computerlist.add(computer);
 			}

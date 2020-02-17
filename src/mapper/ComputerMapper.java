@@ -3,6 +3,7 @@ package mapper;
 import modele.Company;
 import modele.Computer;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.sql.ResultSet;
 
 public class ComputerMapper {
@@ -25,7 +26,7 @@ public class ComputerMapper {
 		return ComputerMapper.instance;
 	}
 
-	public Computer getComputer(ResultSet resDetailcomputer) throws SQLException {
+	public Optional<Computer> getComputer(ResultSet resDetailcomputer) throws SQLException {
 		if (resDetailcomputer.next()) {
 			company = new Company.CompanyBuilder().setName(resDetailcomputer.getString("company.name"))
 					.setId(resDetailcomputer.getInt("company_id")).build();
@@ -38,8 +39,9 @@ public class ComputerMapper {
 							? resDetailcomputer.getTimestamp("computer.discontinued").toLocalDateTime()
 							: null)
 					.build();
-		}
 
-		return computer;
+		}
+		return Optional.ofNullable(computer);
+
 	}
 }
