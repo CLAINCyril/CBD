@@ -27,7 +27,6 @@ public class ComputerMapper {
 	}
 
 	public Optional<Computer> getComputer(ResultSet resDetailcomputer) throws SQLException {
-		if (resDetailcomputer.next()) {
 			company = new Company.CompanyBuilder().setName(resDetailcomputer.getString("company.name"))
 					.setId(resDetailcomputer.getInt("company_id")).build();
 			computer = new Computer.ComputerBuilder().setCompany(company).setId(resDetailcomputer.getInt("computer.id"))
@@ -40,7 +39,7 @@ public class ComputerMapper {
 							: null)
 					.build();
 
-		}
+		
 		return Optional.ofNullable(computer);
 
 	}

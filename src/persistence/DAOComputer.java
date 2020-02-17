@@ -111,10 +111,9 @@ public final class DAOComputer {
 				PreparedStatement statementGetcomputer = conn.prepareStatement(GET_COMPUTER);) {
 			statementGetcomputer.setInt(1, id);
 			ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
-			
+			if(resDetailcomputer.next()) {
 			computer = ComputerMapper.getInstance().getComputer(resDetailcomputer);
-
-//			statementGetcomputer.close();
+			}
 			resDetailcomputer.close();
 
 		} catch (SQLException e) {
