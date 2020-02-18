@@ -63,6 +63,27 @@ public final class DAOCompany {
 
 		}
 	}
+	/**
+	 * Persiste un element de "company" par Id.
+	 * 
+	 * @author cyril
+	 * @param id
+	 * @param nom
+	 * @return
+	 * @throws ClassNotFoundException 
+	 */
+	public void persisteCompanyTest(Company company) throws ClassNotFoundException {
+		try (Connection conn = Connexion.getInstance().getconnTest();
+				PreparedStatement statementPersisteCompany = conn.prepareStatement(PERSISTE_COMPANY);) {
+			statementPersisteCompany.setString(1, company.getName());
+			statementPersisteCompany.executeUpdate();
+			statementPersisteCompany.close();
+
+		} catch (SQLException e) {
+			Loggin.display(e.getMessage());
+
+		}
+	}
 
 	/**
 	 * Supprime un element de "company" par Id.
@@ -81,6 +102,22 @@ public final class DAOCompany {
 		}
 	}
 
+	/**
+	 * Supprime un element de "company" par Id pour test h2.
+	 * 
+	 * @author cyril
+	 * @param Id
+	 */
+	public void deleteCompanyTest(int Id) {
+		try (Connection conn = Connexion.getInstance().getconnTest();
+				PreparedStatement statementSupresisoncompany = conn.prepareStatement(DELETE_COMPANY);) {
+			statementSupresisoncompany.setInt(1, Id);
+			statementSupresisoncompany.executeUpdate();
+			statementSupresisoncompany.close();
+		} catch (Exception e) {
+			Loggin.display(e.getMessage());
+		}
+	}
 	/**
 	 * Récupère un element de "company" par Id.
 	 * 
@@ -110,6 +147,34 @@ public final class DAOCompany {
 	}
 
 	/**
+	 * Récupère un element de "company" par Id pour les test h2db
+	 * 
+	 * @param Id
+	 * @return Company
+	 */
+	public Optional<Company> getCompanyTest(int Id) {
+
+		Optional<Company> company = Optional.empty();
+
+		try (Connection conn = Connexion.getInstance().getconnTest();
+				PreparedStatement statementGetCompany = conn.prepareStatement(GET_By_ID);) {
+			statementGetCompany.setInt(1, Id);
+			ResultSet resDetailCompany = statementGetCompany.executeQuery();
+			resDetailCompany.next();
+			company = CompanyMapper.getInstance().getCompany(resDetailCompany);
+			statementGetCompany.close();
+			resDetailCompany.close();
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return company;
+
+	}
+	
+	/**
 	 * Modifie un element la table "company".
 	 * 
 	 * @param company
@@ -138,6 +203,35 @@ public final class DAOCompany {
 		List<Company> companylist = new ArrayList<Company>();
 
 		try (Connection conn = Connexion.getInstance().getConn();
+				Statement statementSelectall = conn.createStatement();) {
+
+			ResultSet resListeCompany = statementSelectall.executeQuery(SELECT_ALL_COMPANY);
+			while (resListeCompany.next()) {
+
+				companylist.add(CompanyMapper.getInstance().getCompany(resListeCompany).get());
+			}
+
+			resListeCompany.close();
+
+		} catch (SQLException e) {
+			Loggin.display(e.getMessage());
+		}
+		return companylist;
+
+	}
+	
+
+	/**
+	 * Interroge la BDD et retourne la liste de toutes les company pour les test h2db.
+	 * 
+	 * @return List
+	 * @throws ClassNotFoundException 
+	 */
+	public List<Company> getAllCompanyTest() throws ClassNotFoundException {
+
+		List<Company> companylist = new ArrayList<Company>();
+
+		try (Connection conn = Connexion.getInstance().getconnTest();
 				Statement statementSelectall = conn.createStatement();) {
 
 			ResultSet resListeCompany = statementSelectall.executeQuery(SELECT_ALL_COMPANY);

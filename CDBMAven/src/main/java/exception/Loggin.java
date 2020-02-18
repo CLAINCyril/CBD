@@ -11,9 +11,7 @@ public class Loggin {
 	
 	public static void display(String msg)
 	{
-		PropertyConfigurator.configure(Loggin.class.getClassLoader().getResource("log4jConsole.properties"));
+		PropertyConfigurator.configure(Loggin.class.getClassLoader().getResource("log4j.properties"));
 		logCons.error(msg);
-		PropertyConfigurator.configure(Loggin.class.getClassLoader().getResource("log4jFile.properties"));
-		logFile.error(msg);
 	}
 }

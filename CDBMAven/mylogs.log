@@ -1,0 +1,73 @@
+18-02-2020 16:53:41 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 16:53:41 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 16:53:41 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 16:53:41 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 16:53:41 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 16:55:59 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 16:55:59 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 16:55:59 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 16:55:59 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 16:55:59 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 17:04:57 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 17:04:57 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 17:04:57 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 17:04:57 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 17:10:44 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 17:13:30 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 17:16:18 ERROR Loggin:15 - La base de données est peut-être en cours d'utilisation: null. Solutions posibles: fermer toutes les autres connexions; utilisez le mode serveur
+Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+18-02-2020 17:27:28 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+DELETE FROM company WHERE id=? [42102-200]
+18-02-2020 17:28:16 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+DELETE FROM company WHERE id=? [42102-200]
+18-02-2020 17:28:16 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+SELECT id,name FROM company [42102-200]
+18-02-2020 17:30:16 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+DELETE FROM company WHERE id=? [42102-200]
+18-02-2020 17:30:16 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+SELECT id,name FROM company [42102-200]
+18-02-2020 17:31:24 ERROR Loggin:15 - Table "COMPUTER" non trouvée
+Table "COMPUTER" not found; SQL statement:
+DELETE FROM COMPUTER-DATABASE-DB.COMPANY [42102-200]
+18-02-2020 17:31:24 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+SELECT id,name FROM company [42102-200]
+18-02-2020 17:33:24 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+DELETE FROM company WHERE id=? [42102-200]
+18-02-2020 17:33:24 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+SELECT id,name FROM company [42102-200]
+18-02-2020 17:51:00 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+DELETE FROM company WHERE id=? [42102-200]
+18-02-2020 17:51:00 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+SELECT id,name FROM company [42102-200]
+18-02-2020 17:55:30 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+DELETE FROM company WHERE id=? [42102-200]
+18-02-2020 17:55:30 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+SELECT id,name FROM company [42102-200]

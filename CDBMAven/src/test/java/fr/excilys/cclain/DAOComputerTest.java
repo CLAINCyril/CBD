@@ -16,14 +16,14 @@ public class DAOComputerTest {
 	@Test
 	public void testGetComputerById() {
 		Computer computer1 = new Computer.ComputerBuilder().setId(1).build();
-		Computer company2 = DAOComputer.getInstance().getComputer(1).get();
+		Computer company2 = DAOComputer.getInstance().getComputerTest(1).get();
 		assertEquals(computer1, company2);
 	}
 	
 	@Test
 	public void testGetListCompany() {
 		List<Computer> companyList = new ArrayList<>();
-		companyList = DAOComputer.getInstance().getAllComputer();
+		companyList = DAOComputer.getInstance().getAllComputerTest();
 		companyList.stream().forEach(companyDetails-> assertTrue(companyDetails instanceof Computer));
 	}
 }

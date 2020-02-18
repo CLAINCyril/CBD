@@ -19,9 +19,9 @@ import java.sql.SQLException;
 public final class Connexion {
 	
 
-	private static final String USER = "admincdb";
-	private static final String MDP = "qwerty1234";
-	private static final  String URL = "jdbc:mysql://127.0.0.1:3306/computer-database-db";
+	private String user = "admincdb";
+	private String mdp = "qwerty1234";
+	private   String url = "jdbc:mysql://127.0.0.1:3306/computer-database-db";
 	
 	private static Connection conn;
 	
@@ -30,7 +30,15 @@ public final class Connexion {
 	private Connexion() {
 		
 	}
+	
 				
+	private Connexion(String user, String mdp, String url) {
+		this.user = user;
+		this.mdp = mdp;
+		this.url = url;
+	}
+
+
 	public final static Connexion getInstance() {
         if (Connexion.instance == null) {
            synchronized(Connexion.class) {
@@ -49,10 +57,14 @@ public final class Connexion {
      * @throws SQLException 
      */
     public Connection getConn() throws SQLException {
-        return DriverManager.getConnection(URL, USER, MDP);
+        return DriverManager.getConnection(url, user, mdp);
         }
     
-    
+    public Connection getconnTest() throws SQLException, ClassNotFoundException {
+    	Class.forName("org.h2.Driver");
+        return DriverManager.getConnection("jdbc:h2:~/COMPUTER-DATABASE-DB;DB_CLOSE_DELAY=-1","sa", "");
+
+    }
     /**
      * Ferme la connection.
      */
