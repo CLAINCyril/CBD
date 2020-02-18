@@ -1,4 +1,4 @@
-package persistence;
+package fr.excilys.cclain.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import mapper.ComputerMapper;
-import modele.Company;
-import modele.Computer;
-import service.ServiceCompany;
+import exception.Loggin;
+import fr.excilys.cclain.mapper.ComputerMapper;
+import fr.excilys.cclain.modele.Company;
+import fr.excilys.cclain.modele.Computer;
+import fr.excilys.cclain.service.ServiceCompany;
 
 /**
  * Classe d'accès aux données de l'objet computer. Permets les verbes CRUD.
@@ -73,7 +74,7 @@ public final class DAOComputer {
             statementPersisteComputer.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Loggin.display(e.getMessage());
 
 		}
 
@@ -95,7 +96,7 @@ public final class DAOComputer {
 			statementDeleteComputer.close();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Loggin.display(e.getMessage());
 		}
 	}
 
@@ -117,7 +118,7 @@ public final class DAOComputer {
 			resDetailcomputer.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Loggin.display(e.getMessage());
 
 		}
 		return computer;
@@ -144,7 +145,7 @@ public final class DAOComputer {
 			statementUpdatecomputer.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Loggin.display(e.getMessage());
 		}
 
 	}
@@ -176,7 +177,7 @@ public final class DAOComputer {
 			resListecomputer.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Loggin.display(e.getMessage());
 		}
 		return computerlist;
 	}
@@ -208,7 +209,7 @@ public final class DAOComputer {
 			resListecomputer.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Loggin.display(e.getMessage());
 		}
 		return Optional.ofNullable(computerlist);
 	}

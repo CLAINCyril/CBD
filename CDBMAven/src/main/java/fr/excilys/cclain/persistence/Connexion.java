@@ -1,10 +1,9 @@
-package persistence;
+package fr.excilys.cclain.persistence;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import service.ServiceCompany;
 
 /**
  * Classe de connection au server MySql à la table "computer-database-db".<br/>

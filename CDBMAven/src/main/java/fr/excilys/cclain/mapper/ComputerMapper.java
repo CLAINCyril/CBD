@@ -1,7 +1,7 @@
-package mapper;
+package fr.excilys.cclain.mapper;
 
-import modele.Company;
-import modele.Computer;
+import fr.excilys.cclain.modele.Company;
+import fr.excilys.cclain.modele.Computer;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.sql.ResultSet;

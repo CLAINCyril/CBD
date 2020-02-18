@@ -1,13 +1,13 @@
-package service;
+package fr.excilys.cclain.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import modele.Company;
-import modele.Computer;
-import persistence.Connexion;
-import persistence.DAOCompany;
-import persistence.DAOComputer;
+import fr.excilys.cclain.modele.Company;
+import fr.excilys.cclain.modele.Computer;
+import fr.excilys.cclain.persistence.Connexion;
+import fr.excilys.cclain.persistence.DAOCompany;
+import fr.excilys.cclain.persistence.DAOComputer;
 
 public final class ServiceComputer {
 

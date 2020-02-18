@@ -1,3 +1,4 @@
+package fr.excilys.cclain;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -5,10 +6,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import modele.Company;
-import modele.Computer;
-import service.ServiceCompany;
-import service.ServiceComputer;
+import fr.excilys.cclain.modele.Company;
+import fr.excilys.cclain.modele.Computer;
+import fr.excilys.cclain.service.ServiceCompany;
+import fr.excilys.cclain.service.ServiceComputer;
 
 enum ACTION {
 	LISTCOMPUTERS, LISTCOMPANIES, SHOWCOMPUTERDETAILS, CREATECOMPUTER, UPDATECOMPUTER, DELETECOMPUTER;

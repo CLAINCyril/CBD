@@ -1,9 +1,9 @@
-package service;
+package fr.excilys.cclain.service;
 
 import java.util.List;
 
-import modele.Company;
-import persistence.DAOCompany;
+import fr.excilys.cclain.modele.Company;
+import fr.excilys.cclain.persistence.DAOCompany;
 
 public final class ServiceCompany {
 	

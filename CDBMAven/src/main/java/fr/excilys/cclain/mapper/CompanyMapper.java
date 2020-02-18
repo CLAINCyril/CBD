@@ -1,9 +1,10 @@
-package mapper;
+package fr.excilys.cclain.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
-import modele.Company;
+import fr.excilys.cclain.modele.Company;
 
 public class CompanyMapper {
 
@@ -25,14 +26,10 @@ public class CompanyMapper {
 		return CompanyMapper.instance;
 	}
 
-	public Company getCompany(ResultSet res) {
-		try {
-			company = new Company.CompanyBuilder().setId(res.getInt("company.id")).
-					setName(res.getString("company.name")).build();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return company;
+	public Optional<Company> getCompany(ResultSet res) throws SQLException {
+		company = new Company.CompanyBuilder().setName(res.getString("company.name"))
+				.setId(res.getInt("company_id")).build();
+		return Optional.ofNullable(company);
 	}
 
 }

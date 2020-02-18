@@ -1,8 +1,5 @@
-package modele;
+package fr.excilys.cclain.modele;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**

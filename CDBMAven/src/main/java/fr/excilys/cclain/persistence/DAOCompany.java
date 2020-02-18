@@ -1,4 +1,4 @@
-package persistence;
+package fr.excilys.cclain.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import mapper.CompanyMapper;
-import modele.Company;
+import exception.Loggin;
+import fr.excilys.cclain.mapper.CompanyMapper;
+import fr.excilys.cclain.modele.Company;
 
 /**
  * Classe d'accès aux données de l'objet Company. Permets les verbes CRUD.
@@ -59,6 +60,8 @@ public final class DAOCompany {
 			statementPersisteCompany.close();
 
 		} catch (SQLException e) {
+			Loggin.display(e.getMessage());
+
 		}
 	}
 
@@ -75,7 +78,7 @@ public final class DAOCompany {
 			statementSupresisoncompany.executeUpdate();
 			statementSupresisoncompany.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Loggin.display(e.getMessage());
 		}
 	}
 
@@ -87,7 +90,7 @@ public final class DAOCompany {
 	 */
 	public Optional<Company> getCompany(int Id) {
 
-		Company company = new Company();
+		Optional<Company> company = Optional.empty();
 
 		try (Connection conn = Connexion.getInstance().getConn();
 				PreparedStatement statementGetCompany = conn.prepareStatement(GET_By_ID);) {
@@ -103,7 +106,7 @@ public final class DAOCompany {
 			e.printStackTrace();
 
 		}
-		return Optional.ofNullable(company);
+		return company;
 
 	}
 
@@ -122,7 +125,7 @@ public final class DAOCompany {
 			statementUpdatecompany.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Loggin.display(e.getMessage());
 		}
 	}
 
@@ -141,13 +144,13 @@ public final class DAOCompany {
 			ResultSet resListeCompany = statementSelectall.executeQuery(SELECT_ALL_COMPANY);
 			while (resListeCompany.next()) {
 
-				companylist.add(CompanyMapper.getInstance().getCompany(resListeCompany));
+				companylist.add(CompanyMapper.getInstance().getCompany(resListeCompany).get());
 			}
 
 			resListeCompany.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Loggin.display(e.getMessage());
 		}
 		return companylist;
 
@@ -171,13 +174,13 @@ public final class DAOCompany {
 			ResultSet resListeCompany = statementSelectPage.executeQuery();
 
 			while (resListeCompany.next()) {
-				companylist.add(CompanyMapper.getInstance().getCompany(resListeCompany));
+				companylist.add(CompanyMapper.getInstance().getCompany(resListeCompany).get());
 			}
 
 			statementSelectPage.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Loggin.display(e.getMessage());
 		}
 		return companylist;
 	}
