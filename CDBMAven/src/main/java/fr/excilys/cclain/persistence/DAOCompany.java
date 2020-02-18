@@ -29,7 +29,6 @@ public final class DAOCompany {
 	private static final String SELECT_ALL_COMPANY = "SELECT id,name FROM company";
 	private static final String SELECT_COMPANY_PAGE = "SELECT * FROM company LIMIT ?,? ";
 
-
 	private DAOCompany() {
 	}
 

@@ -1,4 +1,4 @@
-package fr.excilys.cclain.persistence;
+package fr.excilys.cclain;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,30 +16,33 @@ import java.sql.SQLException;
  * @author cyril
  *
  */
-public final class Connexion {
+public final class ConnexionTest {
 	
+    String host = "127.0.0.1";
+    int port = 8082;
+    String user = "sa";
+    String mdp = "";
+    String BddName = "computer-database-db";
+    String url = "jdbc:h2:~/" + BddName;
 
-	private static final String USER = "admincdb";
-	private static final String MDP = "qwerty1234";
-	private static final  String URL = "jdbc:mysql://127.0.0.1:3306/computer-database-db";
 	
 	private static Connection conn;
 	
-	private static volatile Connexion instance = null;
+	private static volatile ConnexionTest instance = null;
 	
-	private Connexion() {
+	private ConnexionTest() {
 		
 	}
 				
-	public final static Connexion getInstance() {
-        if (Connexion.instance == null) {
-           synchronized(Connexion.class) {
-             if (Connexion.instance == null) {
-            	 Connexion.instance = new Connexion();
+	public final static ConnexionTest getInstance() {
+        if (ConnexionTest.instance == null) {
+           synchronized(ConnexionTest.class) {
+             if (ConnexionTest.instance == null) {
+            	 ConnexionTest.instance = new ConnexionTest();
              }
            }
         }
-        return Connexion.instance;
+        return ConnexionTest.instance;
 	}
 	
     /**
@@ -49,7 +52,7 @@ public final class Connexion {
      * @throws SQLException 
      */
     public Connection getConn() throws SQLException {
-        return DriverManager.getConnection(URL, USER, MDP);
+        return DriverManager.getConnection(url, user, mdp);
         }
     
     
