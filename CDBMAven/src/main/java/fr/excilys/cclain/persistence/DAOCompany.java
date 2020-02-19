@@ -20,7 +20,9 @@ import fr.excilys.cclain.modele.Company;
  *
  */
 public final class DAOCompany {
-
+	Connection conn;
+	
+	
 	private static volatile DAOCompany instance = null;
 	private static final String PERSISTE_COMPANY = "INSERT INTO company (name)" + " values( ?)";
 	private static final String DELETE_COMPANY = "DELETE FROM company WHERE id=?";
@@ -29,14 +31,15 @@ public final class DAOCompany {
 	private static final String SELECT_ALL_COMPANY = "SELECT id,name FROM company";
 	private static final String SELECT_COMPANY_PAGE = "SELECT * FROM company LIMIT ?,? ";
 
-	private DAOCompany() {
+	private DAOCompany(Connection conn) throws SQLException {
+		this.conn = conn;
 	}
 
-	public final static DAOCompany getInstance() {
+	public final static DAOCompany getInstance(Connection conn) throws SQLException {
 		if (DAOCompany.instance == null) {
 			synchronized (DAOCompany.class) {
 				if (DAOCompany.instance == null) {
-					DAOCompany.instance = new DAOCompany();
+					DAOCompany.instance = new DAOCompany(conn);
 				}
 			}
 		}
@@ -52,28 +55,7 @@ public final class DAOCompany {
 	 * @return
 	 */
 	public void persisteCompany(Company company) {
-		try (Connection conn = Connexion.getInstance().getConn();
-				PreparedStatement statementPersisteCompany = conn.prepareStatement(PERSISTE_COMPANY);) {
-			statementPersisteCompany.setString(1, company.getName());
-			statementPersisteCompany.executeUpdate();
-			statementPersisteCompany.close();
-
-		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
-
-		}
-	}
-	/**
-	 * Persiste un element de "company" par Id.
-	 * 
-	 * @author cyril
-	 * @param id
-	 * @param nom
-	 * @return
-	 * @throws ClassNotFoundException 
-	 */
-	public void persisteCompanyTest(Company company) throws ClassNotFoundException {
-		try (Connection conn = Connexion.getInstance().getconnTest();
+		try (
 				PreparedStatement statementPersisteCompany = conn.prepareStatement(PERSISTE_COMPANY);) {
 			statementPersisteCompany.setString(1, company.getName());
 			statementPersisteCompany.executeUpdate();
@@ -102,22 +84,7 @@ public final class DAOCompany {
 		}
 	}
 
-	/**
-	 * Supprime un element de "company" par Id pour test h2.
-	 * 
-	 * @author cyril
-	 * @param Id
-	 */
-	public void deleteCompanyTest(int Id) {
-		try (Connection conn = Connexion.getInstance().getconnTest();
-				PreparedStatement statementSupresisoncompany = conn.prepareStatement(DELETE_COMPANY);) {
-			statementSupresisoncompany.setInt(1, Id);
-			statementSupresisoncompany.executeUpdate();
-			statementSupresisoncompany.close();
-		} catch (Exception e) {
-			Loggin.display(e.getMessage());
-		}
-	}
+
 	/**
 	 * Récupère un element de "company" par Id.
 	 * 
@@ -129,34 +96,6 @@ public final class DAOCompany {
 		Optional<Company> company = Optional.empty();
 
 		try (Connection conn = Connexion.getInstance().getConn();
-				PreparedStatement statementGetCompany = conn.prepareStatement(GET_By_ID);) {
-			statementGetCompany.setInt(1, Id);
-			ResultSet resDetailCompany = statementGetCompany.executeQuery();
-			resDetailCompany.next();
-			company = CompanyMapper.getInstance().getCompany(resDetailCompany);
-			statementGetCompany.close();
-			resDetailCompany.close();
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		}
-		return company;
-
-	}
-
-	/**
-	 * Récupère un element de "company" par Id pour les test h2db
-	 * 
-	 * @param Id
-	 * @return Company
-	 */
-	public Optional<Company> getCompanyTest(int Id) {
-
-		Optional<Company> company = Optional.empty();
-
-		try (Connection conn = Connexion.getInstance().getconnTest();
 				PreparedStatement statementGetCompany = conn.prepareStatement(GET_By_ID);) {
 			statementGetCompany.setInt(1, Id);
 			ResultSet resDetailCompany = statementGetCompany.executeQuery();
@@ -189,7 +128,7 @@ public final class DAOCompany {
 			statementUpdatecompany.close();
 
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
+			Loggin.display(e.getMessage()+"updateCompany ");
 		}
 	}
 
@@ -214,41 +153,11 @@ public final class DAOCompany {
 			resListeCompany.close();
 
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
+			Loggin.display(e.getMessage()+"   getAllCompany");
 		}
 		return companylist;
 
 	}
-	
-
-	/**
-	 * Interroge la BDD et retourne la liste de toutes les company pour les test h2db.
-	 * 
-	 * @return List
-	 * @throws ClassNotFoundException 
-	 */
-	public List<Company> getAllCompanyTest() throws ClassNotFoundException {
-
-		List<Company> companylist = new ArrayList<Company>();
-
-		try (Connection conn = Connexion.getInstance().getconnTest();
-				Statement statementSelectall = conn.createStatement();) {
-
-			ResultSet resListeCompany = statementSelectall.executeQuery(SELECT_ALL_COMPANY);
-			while (resListeCompany.next()) {
-
-				companylist.add(CompanyMapper.getInstance().getCompany(resListeCompany).get());
-			}
-
-			resListeCompany.close();
-
-		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
-		}
-		return companylist;
-
-	}
-
 	/**
 	 * Interroge la BDD et retourne la liste de toutes les company pagine.
 	 * 
@@ -273,7 +182,7 @@ public final class DAOCompany {
 			statementSelectPage.close();
 
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
+			Loggin.display(e.getMessage() + "getPageCompany");
 		}
 		return companylist;
 	}

@@ -28,7 +28,7 @@ public class CompanyMapper {
 
 	public Optional<Company> getCompany(ResultSet res) throws SQLException {
 		company = new Company.CompanyBuilder().setName(res.getString("company.name"))
-				.setId(res.getInt("company_id")).build();
+				.setId(res.getInt("company.id")).build();
 		return Optional.ofNullable(company);
 	}
 

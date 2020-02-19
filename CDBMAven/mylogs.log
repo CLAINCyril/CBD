@@ -71,3 +71,56 @@ DELETE FROM company WHERE id=? [42102-200]
 18-02-2020 17:55:30 ERROR Loggin:15 - Table "COMPANY" non trouvée
 Table "COMPANY" not found; SQL statement:
 SELECT id,name FROM company [42102-200]
+19-02-2020 09:42:47 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+DELETE FROM company WHERE id=? [42102-200]
+19-02-2020 09:42:48 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+SELECT id,name FROM company [42102-200]
+19-02-2020 10:02:43 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+DELETE FROM company WHERE id=? [42102-200]
+19-02-2020 10:02:43 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+SELECT id,name FROM company [42102-200]
+19-02-2020 10:14:24 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+DELETE FROM company WHERE id=? [42102-200]
+19-02-2020 10:14:24 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+SELECT id,name FROM company [42102-200]
+19-02-2020 10:38:40 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+DELETE FROM company WHERE id=? [42102-200]
+19-02-2020 10:38:40 ERROR Loggin:15 - Table "COMPANY" non trouvée
+Table "COMPANY" not found; SQL statement:
+SELECT id,name FROM company [42102-200]
+19-02-2020 10:40:49 ERROR Loggin:15 - Colonne "company_id" non trouvée
+Column "company_id" not found [42122-200]
+19-02-2020 10:45:25 ERROR Loggin:15 - Colonne "company_id" non trouvée
+Column "company_id" not found [42122-200]
+19-02-2020 10:48:47 ERROR Loggin:15 - Colonne "company_id" non trouvée
+Column "company_id" not found [42122-200]
+19-02-2020 10:49:00 ERROR Loggin:15 - Colonne "company_id" non trouvée
+Column "company_id" not found [42122-200]
+19-02-2020 10:49:52 ERROR Loggin:15 - Colonne "company_id" non trouvée
+Column "company_id" not found [42122-200]
+19-02-2020 11:04:08 ERROR Loggin:15 - Colonne "company_id" non trouvée
+Column "company_id" not found [42122-200]getAllCompanyTest 
+19-02-2020 14:49:24 ERROR Loggin:15 - Erreur de syntaxe dans l'instruction SQL "runscript from [*]'/CDBMAven/src/test/resources/schema-creation.sql"
+Syntax error in SQL statement "runscript from [*]'/CDBMAven/src/test/resources/schema-creation.sql"; SQL statement:
+runscript from '/CDBMAven/src/test/resources/schema-creation.sql [42000-200]getCompanyTest 
+19-02-2020 14:49:24 ERROR Loggin:15 - Erreur de syntaxe dans l'instruction SQL "runscript from [*]'/CDBMAven/src/test/resources/schema-creation.sql"
+Syntax error in SQL statement "runscript from [*]'/CDBMAven/src/test/resources/schema-creation.sql"; SQL statement:
+runscript from '/CDBMAven/src/test/resources/schema-creation.sql [42000-200]getCompanyTest 
+19-02-2020 14:49:25 ERROR Loggin:15 - Erreur de syntaxe dans l'instruction SQL "runscript from [*]'/CDBMAven/src/test/resources/schema-creation.sql"
+Syntax error in SQL statement "runscript from [*]'/CDBMAven/src/test/resources/schema-creation.sql"; SQL statement:
+runscript from '/CDBMAven/src/test/resources/schema-creation.sql [42000-200]getCompanyTest 
+19-02-2020 14:49:51 ERROR Loggin:15 - Mauvais nom d'utilisateur ou mot de passe
+Wrong user name or password [28000-200]getCompanyTest 
+19-02-2020 14:49:52 ERROR Loggin:15 - Mauvais nom d'utilisateur ou mot de passe
+Wrong user name or password [28000-200]getCompanyTest 
+19-02-2020 14:49:53 ERROR Loggin:15 - Mauvais nom d'utilisateur ou mot de passe
+Wrong user name or password [28000-200]getCompanyTest 
+19-02-2020 15:12:43 ERROR Loggin:15 - Cannot delete or update a parent row: a foreign key constraint fails (`computer-database-db`.`computer`, CONSTRAINT `fk_computer_company_1` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`))
+19-02-2020 15:45:11 ERROR Loggin:15 - Cannot delete or update a parent row: a foreign key constraint fails (`computer-database-db`.`computer`, CONSTRAINT `fk_computer_company_1` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`))

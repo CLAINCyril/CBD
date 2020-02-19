@@ -1,5 +1,6 @@
 package fr.excilys.cclain.service;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,20 +11,20 @@ import fr.excilys.cclain.persistence.DAOCompany;
 import fr.excilys.cclain.persistence.DAOComputer;
 
 public final class ServiceComputer {
+	private Connection conn;
 
-	DAOComputer dao;
 	private static volatile ServiceComputer instance = null;
 
-	private ServiceComputer() {
-		this.dao = DAOComputer.getInstance();
+	private ServiceComputer(Connection conn) {
+		this.conn = conn;
 
 	}
 
-	public final static ServiceComputer getInstance() {
+	public final static ServiceComputer getInstance(Connection conn) {
 		if (ServiceComputer.instance == null) {
 			synchronized (ServiceComputer.class) {
 				if (ServiceComputer.instance == null) {
-					ServiceComputer.instance = new ServiceComputer();
+					ServiceComputer.instance = new ServiceComputer(conn);
 				}
 			}
 		}
@@ -31,7 +32,7 @@ public final class ServiceComputer {
 	}
 
 	public void persisteComputer(Computer computer) {
-		this.dao.persisteComputer(computer);
+		DAOComputer.getInstance(conn).persisteComputer(computer);
 	}
 
 	public int getlength() {
@@ -39,22 +40,22 @@ public final class ServiceComputer {
 	}
 
 	public void deleteComputer(int id) {
-		this.dao.deleteComputer(id);
+		DAOComputer.getInstance(conn).deleteComputer(id);
 	}
 
 	public Optional<Computer> getComputer(int Id) {
-		return this.dao.getComputer(Id);
+		return DAOComputer.getInstance(conn).getComputer(Id);
 	}
 
 	public List<Computer> getAllComputer() {
-		return this.dao.getAllComputer();
+		return DAOComputer.getInstance(conn).getAllComputer();
 	}
 
 	public List<Computer> getPageComputer(int offset, int number) {
-		return this.dao.getPageComputer(offset, number).get();
+		return DAOComputer.getInstance(conn).getPageComputer(offset, number).get();
 	}
 
 	public void updateComputer(Computer computer) {
-		this.dao.updateComputer(computer);
+		DAOComputer.getInstance(conn).updateComputer(computer);
 	}
 }

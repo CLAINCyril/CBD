@@ -26,6 +26,7 @@ public final class DAOComputer {
 	private static volatile DAOComputer instance = null;
 
 	private ServiceCompany servCompany;
+	private Connection conn;
 
 	private static final String PERSISTE_COMPUTER = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
 	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id=?";
@@ -36,16 +37,17 @@ public final class DAOComputer {
 	private static final String UPDATE_COMPUTER = "UPDATE computer " + "SET  name = ?, Introduced = ?,"
 			+ "Discontinued = ?,company_id = ? WHERE Id = ?";
 
-	private DAOComputer() {
-		this.servCompany = ServiceCompany.getInstance();
+	private DAOComputer(Connection conn) {
+		this.conn = conn;
+		this.servCompany = ServiceCompany.getInstance(conn);
 	}
 
-	public final static DAOComputer getInstance() {
+	public final static DAOComputer getInstance(Connection conn) {
 
 		if (DAOComputer.instance == null) {
 			synchronized (DAOComputer.class) {
 				if (DAOComputer.instance == null) {
-					DAOComputer.instance = new DAOComputer();
+					DAOComputer.instance = new DAOComputer(conn);
 				}
 			}
 		}
@@ -62,7 +64,7 @@ public final class DAOComputer {
 	 */
 	public void persisteComputer(Computer computer) {
 
-		try (Connection conn = Connexion.getInstance().getConn();
+		try (
 				PreparedStatement statementPersisteComputer = conn.prepareStatement(PERSISTE_COMPUTER);) {
 			
 			statementPersisteComputer.setString(1, computer.getName());
@@ -89,7 +91,7 @@ public final class DAOComputer {
 	 */
 	public void deleteComputer(int id) {
 
-		try (Connection conn = Connexion.getInstance().getConn();
+		try (
 				PreparedStatement statementDeleteComputer = conn.prepareStatement(DELETE_COMPUTER);) {
 			statementDeleteComputer.setInt(1, id);
 			statementDeleteComputer.executeUpdate();
@@ -108,7 +110,7 @@ public final class DAOComputer {
 	 */
 	public Optional<Computer> getComputer(int id) {
 		Optional<Computer> computer = Optional.empty();
-		try (Connection conn = Connexion.getInstance().getConn();
+		try (
 				PreparedStatement statementGetcomputer = conn.prepareStatement(GET_COMPUTER);) {
 			statementGetcomputer.setInt(1, id);
 			ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
@@ -133,7 +135,7 @@ public final class DAOComputer {
 	 */
 	public Optional<Computer> getComputerTest(int id) {
 		Optional<Computer> computer = Optional.empty();
-		try (Connection conn = Connexion.getInstance().getConn();
+		try (
 				PreparedStatement statementGetcomputer = conn.prepareStatement(GET_COMPUTER);) {
 			statementGetcomputer.setInt(1, id);
 			ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
@@ -156,7 +158,7 @@ public final class DAOComputer {
 	 */
 	public void updateComputer(Computer computer) {
 
-		try (Connection conn = Connexion.getInstance().getConn();
+		try (
 				PreparedStatement statementUpdatecomputer = conn.prepareStatement(UPDATE_COMPUTER);) {
 
 			statementUpdatecomputer.setString(1, computer.getName());
@@ -187,7 +189,7 @@ public final class DAOComputer {
 
 		List<Computer> computerlist = new ArrayList<Computer>();
 
-		try (Connection conn = Connexion.getInstance().getConn();
+		try (
 				PreparedStatement statementSelectall = conn.prepareStatement(GET_ALL_COMPUTER);) {
 			ResultSet resListecomputer = statementSelectall.executeQuery();
 
@@ -218,7 +220,7 @@ public final class DAOComputer {
 
 				List<Computer> computerlist = new ArrayList<Computer>();
 
-				try (Connection conn = Connexion.getInstance().getConn();
+				try (
 						PreparedStatement statementSelectall = conn.prepareStatement(GET_ALL_COMPUTER);) {
 					ResultSet resListecomputer = statementSelectall.executeQuery();
 
@@ -248,7 +250,7 @@ public final class DAOComputer {
 
 		List<Computer> computerlist = new ArrayList<Computer>();
 
-		try (Connection conn = Connexion.getInstance().getConn();
+		try (
 				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER);) {
 
 			statementSelecPage.setInt(1, offset);

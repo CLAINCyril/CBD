@@ -45,6 +45,7 @@ proguard/
 *.zip
 *.tar.gz
 *.rar
+*.log
 
 # Apple Files
 .DS_Store

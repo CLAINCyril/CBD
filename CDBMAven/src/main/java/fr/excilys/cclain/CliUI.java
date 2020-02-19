@@ -1,4 +1,6 @@
 package fr.excilys.cclain;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,6 +10,8 @@ import java.util.Scanner;
 
 import fr.excilys.cclain.modele.Company;
 import fr.excilys.cclain.modele.Computer;
+import fr.excilys.cclain.persistence.Connexion;
+import fr.excilys.cclain.persistence.ConnexionTest;
 import fr.excilys.cclain.service.ServiceCompany;
 import fr.excilys.cclain.service.ServiceComputer;
 
@@ -63,9 +67,11 @@ public class CliUI {
 	 * @param offset
 	 * @param number
 	 * @return
+	 * @throws SQLException 
 	 */
-	public List<Computer> getOnePAgeOfComputer(int offset, int number) {
-		return (ServiceComputer.getInstance().getPageComputer(offset, number));
+	public List<Computer> getOnePAgeOfComputer(int offset, int number) throws SQLException {
+		Connection conn = Connexion.getInstance().getConn();
+		return (ServiceComputer.getInstance(conn).getPageComputer(offset, number));
 	}
 
 	/**
@@ -74,17 +80,23 @@ public class CliUI {
 	 * @param offset
 	 * @param number
 	 * @return
+	 * @throws SQLException 
 	 */
-	public List<Company> getOnePAgeOfCompany(int offset, int number) {
-		return (ServiceCompany.getInstance().getPageCompany(offset, number));
+	public List<Company> getOnePAgeOfCompany(int offset, int number) throws SQLException {
+		Connection conn = Connexion.getInstance().getConn();
+		return (ServiceCompany.getInstance(conn).getPageCompany(offset, number));
 	}
 
 	/**
 	 * Creer un ordinateur a l'aide des params saisie a l'entrée.
 	 * 
 	 * @param sc
+	 * @throws SQLException 
 	 */
-	public void createComputer(Scanner sc) {
+	public void createComputer(Scanner sc) throws SQLException {
+		
+		Connection conn = Connexion.getInstance().getConn();
+
 		System.out.println("Veuillez saisir le nom :\n");
 		computer.setName(sc.next());
 		System.out.println("Veuillez saisir la date de sortie :\n");
@@ -92,13 +104,15 @@ public class CliUI {
 		System.out.println("Veuillez saisir la date de fin de serie :\n");
 		computer.setDiscontinued(ConvertLocalDateTime(sc.next()));
 		System.out.println("Veuillez saisir l'id company:\n");
-		company = ServiceCompany.getInstance().getCompany(sc.nextInt());
+		company = ServiceCompany.getInstance(conn).getCompany(sc.nextInt());
 		computer.setCompany(company);
-		ServiceComputer.getInstance().persisteComputer(computer);
+		ServiceComputer.getInstance(conn).persisteComputer(computer);
 
 	}
 
-	public void updateComputer(Scanner sc) {
+	public void updateComputer(Scanner sc) throws SQLException {
+		Connection conn = Connexion.getInstance().getConn();
+
 		System.out.println("Veuillez saisir l'id :\n");
 		Computer computer = new Computer.ComputerBuilder().setId(sc.nextInt()).build();
 		System.out.println("Veuillez saisir le nom :\n");
@@ -108,9 +122,9 @@ public class CliUI {
 		System.out.println("Veuillez saisir la date de fin de serie :\n");
 		computer.setDiscontinued(ConvertLocalDateTime(sc.next()));
 		System.out.println("Veuillez saisir l'id company:\n");
-		company = ServiceCompany.getInstance().getCompany(sc.nextInt());
+		company = ServiceCompany.getInstance(conn).getCompany(sc.nextInt());
 		computer.setCompany(company);
-		ServiceComputer.getInstance().updateComputer(computer);
+		ServiceComputer.getInstance(conn).updateComputer(computer);
 	}
 
 	/**
@@ -118,14 +132,18 @@ public class CliUI {
 	 * existe.
 	 * 
 	 * @param sc
+	 * @throws SQLException 
 	 */
-	public void pagineCompute(Scanner sc) {
+	public void pagineCompute(Scanner sc) throws SQLException {
 		List<Computer> computs = new ArrayList();
+		Connection conn = Connexion.getInstance().getConn();
+
 		boolean condition = true;
 		String saisie;
 		int offset = 0;
 		int number = 20;
-		int tailleL = ServiceComputer.getInstance().getlength();
+		
+		int tailleL = ServiceComputer.getInstance(conn).getlength();
 
 		computs = getOnePAgeOfComputer(offset, number);
 		System.out.println(computs);
@@ -157,16 +175,20 @@ public class CliUI {
 		}
 	}
 
-	public void printComputer(Scanner sc) {
-		Optional<Computer> computer = ServiceComputer.getInstance().getComputer(sc.nextInt());
+	public void printComputer(Scanner sc) throws SQLException {
+		Connection conn = Connexion.getInstance().getConn();
+
+		Optional<Computer> computer = ServiceComputer.getInstance(conn).getComputer(sc.nextInt());
 		if (computer.isPresent()) {
 			System.out.println(computer);
 		}
 		System.out.println("non présent");
 	}
 
-	public void deleteComputer(Scanner sc) {
-		ServiceComputer.getInstance().deleteComputer(sc.nextInt());
+	public void deleteComputer(Scanner sc) throws SQLException {
+		Connection conn = Connexion.getInstance().getConn();
+
+		ServiceComputer.getInstance(conn).deleteComputer(sc.nextInt());
 	}
 
 	/**
@@ -174,14 +196,18 @@ public class CliUI {
 	 * existe.
 	 * 
 	 * @param sc
+	 * @throws SQLException 
 	 */
-	public void pagineCompany(Scanner sc) {
+	public void pagineCompany(Scanner sc) throws SQLException {
+		Connection conn = Connexion.getInstance().getConn();
+
+		
 		List<Company> company = new ArrayList();
 		boolean condition = true;
 		String saisie;
 		int offset = 0;
 		int number = 20;
-		int tailleL = ServiceCompany.getInstance().getlength();
+		int tailleL = ServiceCompany.getInstance(conn).getlength();
 
 		company = getOnePAgeOfCompany(offset, number);
 		System.out.println(company);
@@ -217,7 +243,7 @@ public class CliUI {
 
 	}
 
-	public CliUI() {
+	public CliUI() throws SQLException {
 		this.computer = new Computer();
 		this.company = new Company();
 		this.tache = false;

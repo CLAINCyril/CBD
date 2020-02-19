@@ -59,12 +59,7 @@ public final class Connexion {
     public Connection getConn() throws SQLException {
         return DriverManager.getConnection(url, user, mdp);
         }
-    
-    public Connection getconnTest() throws SQLException, ClassNotFoundException {
-    	Class.forName("org.h2.Driver");
-        return DriverManager.getConnection("jdbc:h2:~/COMPUTER-DATABASE-DB;DB_CLOSE_DELAY=-1","sa", "");
 
-    }
     /**
      * Ferme la connection.
      */
