@@ -9,13 +9,12 @@ public class ConnexionTest {
 
 	private String user = "";
 	private String mdp = "sa";
-	private   String url = "jdbc:h2:tcp://localhost/~/test";
+	private  String url = "jdbc:h2:mem:computer-database-db;INIT=RUNSCRIPT FROM 'src/test/resources/schema-creation.sql'";
 	private static Connection conn;
 	
 	private static volatile ConnexionTest instance = null;
 
 	public ConnexionTest() {
-		super();
 	}
 
 

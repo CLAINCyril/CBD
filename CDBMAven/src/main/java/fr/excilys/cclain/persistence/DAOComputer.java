@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,6 @@ public final class DAOComputer {
 
 	private static volatile DAOComputer instance = null;
 
-	private ServiceCompany servCompany;
 	private Connection conn;
 
 	private static final String PERSISTE_COMPUTER = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
@@ -39,7 +39,6 @@ public final class DAOComputer {
 
 	private DAOComputer(Connection conn) {
 		this.conn = conn;
-		this.servCompany = ServiceCompany.getInstance(conn);
 	}
 
 	public final static DAOComputer getInstance(Connection conn) {
@@ -67,9 +66,12 @@ public final class DAOComputer {
 		try (
 				PreparedStatement statementPersisteComputer = conn.prepareStatement(PERSISTE_COMPUTER);) {
 			
+			LocalDateTime introduced = computer.getIntroduced();
+			LocalDateTime Discontinued = computer.getDiscontinued();
+
 			statementPersisteComputer.setString(1, computer.getName());
-			statementPersisteComputer.setTimestamp(2, Timestamp.valueOf(computer.getIntroduced()));
-			statementPersisteComputer.setTimestamp(3, Timestamp.valueOf(computer.getDiscontinued()));
+			statementPersisteComputer.setTimestamp(2, introduced!=null?Timestamp.valueOf(computer.getIntroduced()):null);
+			statementPersisteComputer.setTimestamp(3, introduced!=null?Timestamp.valueOf(computer.getIntroduced()):null);
 			statementPersisteComputer.setInt(4, computer.getCompany().getId());
 			statementPersisteComputer.executeUpdate();
 			
@@ -128,30 +130,6 @@ public final class DAOComputer {
 	}
 
 	/**
-	 * Test la recupereration d'un element par id dans une h2db
-	 * 
-	 * @param id
-	 * @return computer
-	 */
-	public Optional<Computer> getComputerTest(int id) {
-		Optional<Computer> computer = Optional.empty();
-		try (
-				PreparedStatement statementGetcomputer = conn.prepareStatement(GET_COMPUTER);) {
-			statementGetcomputer.setInt(1, id);
-			ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
-			if(resDetailcomputer.next()) {
-			computer = ComputerMapper.getInstance().getComputer(resDetailcomputer);
-			}
-			resDetailcomputer.close();
-
-		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
-
-		}
-		return computer;
-
-	}
-	/**
 	 * Modifie un element la table "computer".
 	 * 
 	 * @param computer
@@ -160,10 +138,12 @@ public final class DAOComputer {
 
 		try (
 				PreparedStatement statementUpdatecomputer = conn.prepareStatement(UPDATE_COMPUTER);) {
+			LocalDateTime introduced = computer.getIntroduced();
+			LocalDateTime Discontinued = computer.getDiscontinued();
 
 			statementUpdatecomputer.setString(1, computer.getName());
-			statementUpdatecomputer.setTimestamp(2, Timestamp.valueOf(computer.getIntroduced()));
-			statementUpdatecomputer.setTimestamp(3, Timestamp.valueOf(computer.getDiscontinued()));
+			statementUpdatecomputer.setTimestamp(2, introduced!=null?Timestamp.valueOf(computer.getIntroduced()):null);
+			statementUpdatecomputer.setTimestamp(3, introduced!=null?Timestamp.valueOf(computer.getIntroduced()):null);
 			statementUpdatecomputer.setInt(4, computer.getCompany().getId());
 			statementUpdatecomputer.setInt(5, computer.getId());
 			statementUpdatecomputer.executeUpdate();
@@ -207,37 +187,7 @@ public final class DAOComputer {
 		}
 		return computerlist;
 	}
-			/**
-			 * Interroge la BDD et retourne la liste de tous les computers.
-			 * 
-			 * @return List computer
-			 */
-			public List<Computer> getAllComputerTest() {
 
-//				 this.conn = Connexion.getInstance();
-//			     conn.connect();
-				Company company = new Company();
-
-				List<Computer> computerlist = new ArrayList<Computer>();
-
-				try (
-						PreparedStatement statementSelectall = conn.prepareStatement(GET_ALL_COMPUTER);) {
-					ResultSet resListecomputer = statementSelectall.executeQuery();
-
-					while (resListecomputer.next()) {
-						Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
-						computerlist.add(computer);
-
-					}
-
-					statementSelectall.close();
-					resListecomputer.close();
-
-				} catch (SQLException e) {
-					Loggin.display(e.getMessage());
-				}
-				return computerlist;
-			}
 
 	/**
 	 * Interroge la BDD et retourne la liste de tous les computers pagine.
