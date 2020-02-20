@@ -1,6 +1,7 @@
 package fr.excilys.cclain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
@@ -30,12 +31,24 @@ public class DAOComputerTest {
 	@Test
 	public void testAddComputer() throws ClassNotFoundException, SQLException {
 		Connection conn = ConnexionTest.getInstance().getConn();
-		Computer computer1 = new Computer.ComputerBuilder().setId(600)
+		Computer computer1 = new Computer.ComputerBuilder()
 				.setCompany(new Company.CompanyBuilder().setId(5).build()).setName("toto").setDiscontinued(null)
 				.setIntroduced(null).build();
 		DAOComputer.getInstance(conn).persisteComputer(computer1);
-		System.out.println((DAOComputer.getInstance(conn).getComputer(600).isPresent()));
+		assertTrue((DAOComputer.getInstance(conn).getComputer(21).isPresent()));
 
+	}
+	
+	@Test 
+	public void testupdateComputer()throws ClassNotFoundException, SQLException {
+		Connection conn = ConnexionTest.getInstance().getConn();
+		Computer computer1 = DAOComputer.getInstance(conn).getComputer(5).get();
+		Computer computer2 = new Computer.ComputerBuilder().setId(5)
+				.setCompany(new Company.CompanyBuilder().setId(5).build()).setName("toto").setDiscontinued(null)
+				.setIntroduced(null).build();
+		DAOComputer.getInstance(conn).updateComputer(computer2);
+		computer2 = DAOComputer.getInstance(conn).getComputer(5).get();
+		assertNotEquals(computer1.getName(), computer2.getName());
 	}
 
 	@Test
