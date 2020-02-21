@@ -1,4 +1,4 @@
-package fr.excilys.cclain.modele;
+package modele;
 
 /**
  * Nom de classe : Company Modele

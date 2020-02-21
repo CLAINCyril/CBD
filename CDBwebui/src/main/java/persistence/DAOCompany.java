@@ -1,4 +1,4 @@
-package fr.excilys.cclain.persistence;
+package persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 import exception.Loggin;
-import fr.excilys.cclain.mapper.CompanyMapper;
-import fr.excilys.cclain.modele.Company;
+import mapper.CompanyMapper;
+import modele.Company;
 
 /**
  * Classe d'accès aux données de l'objet Company. Permets les verbes CRUD.

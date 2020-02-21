@@ -1,4 +1,4 @@
-package fr.excilys.cclain.modele;
+package modele;
 
 import java.time.LocalDateTime;
 

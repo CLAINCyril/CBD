@@ -1,12 +1,12 @@
-package fr.excilys.cclain.service;
+package service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import fr.excilys.cclain.modele.Company;
-import fr.excilys.cclain.persistence.Connexion;
-import fr.excilys.cclain.persistence.DAOCompany;
+import modele.Company;
+import persistence.Connexion;
+import persistence.DAOCompany;
 
 public final class ServiceCompany {
 	Connection conn;

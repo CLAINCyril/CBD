@@ -1,10 +1,10 @@
-package fr.excilys.cclain.mapper;
+package mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import fr.excilys.cclain.modele.Company;
+import modele.Company;
 
 public class CompanyMapper {
 

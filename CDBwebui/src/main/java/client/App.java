@@ -1,4 +1,4 @@
-package fr.excilys.cclain;
+package client;
 
 
 import java.sql.SQLException;

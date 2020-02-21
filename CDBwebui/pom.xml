@@ -5,31 +5,24 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.excilys.cclain</groupId>
-  <artifactId>CDBMaven</artifactId>
+  <artifactId>CDBwebui</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>CDBMaven Maven Webapp</name>
+  <name>CDBwebui Maven Webapp</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
   <properties>
-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<maven.compiler.source>1.7</maven.compiler.source>
-	<maven.compiler.target>1.7</maven.compiler.target>
-	<slf4j-api-version>1.7.5</slf4j-api-version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  	<slf4j-api-version>1.7.5</slf4j-api-version>
 	<slf4j-version>1.7.5</slf4j-version>
-</properties>
+  </properties>
 
-<dependencies>
-	<dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<version>4.11</version>
-		<scope>test</scope>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-	<dependency>
+  <dependencies>
+  <dependency>
 		<groupId>mysql</groupId>
 		<artifactId>mysql-connector-java</artifactId>
 		<version>8.0.19</version>
@@ -67,12 +60,17 @@
 		<version>1.4.200</version>
 		<scope>test</scope>
 	</dependency>
-
-</dependencies>
-
+  
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
   <build>
-    <finalName>CDBMaven</finalName>
+    <finalName>CDBwebui</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>

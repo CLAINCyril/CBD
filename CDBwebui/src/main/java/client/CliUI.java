@@ -1,4 +1,4 @@
-package fr.excilys.cclain;
+package client;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import fr.excilys.cclain.modele.Company;
-import fr.excilys.cclain.modele.Computer;
-import fr.excilys.cclain.persistence.Connexion;
-import fr.excilys.cclain.persistence.ConnexionTest;
-import fr.excilys.cclain.service.ServiceCompany;
-import fr.excilys.cclain.service.ServiceComputer;
+import modele.Company;
+import modele.Computer;
+import persistence.Connexion;
+import persistence.ConnexionTest;
+import service.ServiceCompany;
+import service.ServiceComputer;
 
 enum ACTION {
 	LISTCOMPUTERS, LISTCOMPANIES, SHOWCOMPUTERDETAILS, CREATECOMPUTER, UPDATECOMPUTER, DELETECOMPUTER;

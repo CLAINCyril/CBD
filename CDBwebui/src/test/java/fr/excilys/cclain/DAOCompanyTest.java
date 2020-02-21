@@ -1,6 +1,8 @@
 package fr.excilys.cclain;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -9,10 +11,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import fr.excilys.cclain.modele.Company;
-import fr.excilys.cclain.persistence.Connexion;
-import fr.excilys.cclain.persistence.ConnexionTest;
-import fr.excilys.cclain.persistence.DAOCompany;
+import modele.Company;
+import persistence.ConnexionTest;
+import persistence.DAOCompany;
 
 public class DAOCompanyTest {
 

@@ -1,4 +1,4 @@
-package fr.excilys.cclain.persistence;
+package persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 import exception.Loggin;
-import fr.excilys.cclain.mapper.ComputerMapper;
-import fr.excilys.cclain.modele.Company;
-import fr.excilys.cclain.modele.Computer;
-import fr.excilys.cclain.service.ServiceCompany;
+import mapper.ComputerMapper;
+import modele.Company;
+import modele.Computer;
+import service.ServiceCompany;
 
 /**
  * Classe d'accès aux données de l'objet computer. Permets les verbes CRUD.

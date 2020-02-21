@@ -1,4 +1,5 @@
-package fr.excilys.cclain.persistence;
+package persistence;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;

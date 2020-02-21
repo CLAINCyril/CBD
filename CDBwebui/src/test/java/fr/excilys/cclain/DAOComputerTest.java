@@ -12,11 +12,11 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Test;
 
-import fr.excilys.cclain.modele.Company;
-import fr.excilys.cclain.modele.Computer;
-import fr.excilys.cclain.persistence.Connexion;
-import fr.excilys.cclain.persistence.ConnexionTest;
-import fr.excilys.cclain.persistence.DAOComputer;
+import modele.Company;
+import modele.Computer;
+import persistence.Connexion;
+import persistence.ConnexionTest;
+import persistence.DAOComputer;
 
 public class DAOComputerTest {
 
