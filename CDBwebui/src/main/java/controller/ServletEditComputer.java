@@ -16,11 +16,9 @@ public class ServletEditComputer extends HttpServlet{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public void doGet( HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException{
-	    req.setCharacterEncoding("utf-8");
+	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 
-	    resp.setContentType("text/plain");
-	    resp.setCharacterEncoding("utf-8");
-	    resp.getWriter().write("Hello " + "!");
+		request.getRequestDispatcher("views/editComputer.html").forward(request, response);
+
 	}
 }

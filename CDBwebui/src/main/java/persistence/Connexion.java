@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import exception.Loggin;
+
 /**
  * Classe de connection au server MySql à la table "computer-database-db".<br/>
  * 
@@ -30,12 +32,6 @@ public final class Connexion {
 
 	}
 
-	private Connexion(String user, String mdp, String url) {
-		this.user = user;
-		this.mdp = mdp;
-		this.url = url;
-	}
-
 	public final static Connexion getInstance() {
 		if (Connexion.instance == null) {
 			synchronized (Connexion.class) {
@@ -54,6 +50,11 @@ public final class Connexion {
 	 * @throws SQLException
 	 */
 	public Connection getConn() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			Loggin.display(e.getMessage());
+		}
 		return DriverManager.getConnection(url, user, mdp);
 	}
 

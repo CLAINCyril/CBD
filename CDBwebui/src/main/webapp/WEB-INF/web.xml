@@ -13,4 +13,12 @@
 		<servlet-name>ServletEditComputer</servlet-name>
 		<url-pattern>/EditComputer</url-pattern>
 	</servlet-mapping>
+		<servlet>
+		<servlet-name>ServletDashBard</servlet-name>
+		<servlet-class>controller.ServletDashBard</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ServletDashBard</servlet-name>
+		<url-pattern>/ListComputer</url-pattern>
+	</servlet-mapping>
 </web-app>
