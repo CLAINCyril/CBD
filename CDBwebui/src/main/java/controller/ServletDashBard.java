@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,20 +17,43 @@ import service.ServiceComputer;
 
 public class ServletDashBard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private  int pageIterator;
+	private int taillePage=20;
+	private int maxPage;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceComputer service;
 		try {
 			service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
-			List<Computer> computers = service.getAllComputer();
-			request.setAttribute("list", computers);
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			Loggin.display(e.getMessage());
 		}
+		List<Computer> computers = service.getPageComputer(0, 20);
+		int sizeComputer=service.getAllComputer().size();;
+		maxPage=sizeComputer/taillePage;
+		request.setAttribute("maxPage", maxPage);
+		List<ComputerDTO>computerDTOList=new ArrayList<ComputerDTO>();
+		List<Computer>computerList=new ArrayList<Computer>();
+		if(request.getParameter("taillePage")!=null) {
+			taillePage=Integer.parseInt(request.getParameter("taillePage"));
+		}
+		if(request.getParameter("pageIterator")!=null) {
+			pageIterator=Integer.parseInt(request.getParameter("pageIterator"));
+			computerList=service.getPageComputer(pageIterator*taillePage,taillePage );
+		}
+		else {
+			pageIterator=0;//Initialisation de l'iterateur : premier appel
+			computerList=service.getPageComputer(pageIterator*taillePage,taillePage );
+		}
+		computerList.stream()
+					.forEach(computer->computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer)));
 		
+		request.setAttribute("sizeComputer", sizeComputer);
+		request.setAttribute("computerList", computerDTOList);
+		request.setAttribute("pageIterator", pageIterator);
+		request.getRequestDispatcher("views/dashboard.jsp").forward(request, response);
 		
-		request.getRequestDispatcher("ListComputer.jsp").forward(request, response);
 	}
 }
