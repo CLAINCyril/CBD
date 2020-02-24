@@ -18,7 +18,7 @@ public class ServletEditComputer extends HttpServlet{
 
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 
-		request.getRequestDispatcher("views/editComputer.html").forward(request, response);
+		request.getRequestDispatcher("views/EditComputer.jsp").forward(request, response);
 
 	}
 }

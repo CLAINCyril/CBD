@@ -22,7 +22,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.jsp"> Application - Computer Database </a>
+            <a class="navbar-brand" href="ListComputer"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -42,7 +42,7 @@
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-success" id="addComputer" href="AddComputerServlet">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-default" id="EditComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
         </div>
@@ -92,7 +92,7 @@
                             <input type="checkbox" name="cb" class="cb" value="0">
                         </td>
                         <td>
-                            <a href="editComputer.jsp" onclick=""><c:out value="${computer.name}"></c:out></a>
+                            <a href="EditComputer" onclick=""><c:out value="${computer.name}"></c:out></a>
                         </td>
                         <td><c:out value="${computer.introduced}"></c:out> </td>
                         <td><c:out value="${computer.discontinued}"></c:out> </td>
@@ -126,6 +126,7 @@
                 </c:if>
             </li>
         </ul>
+        </div>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
             <button type="button" class="btn btn-default"><a href="ListComputer?taillePage=10">10</a></button>
