@@ -92,7 +92,7 @@
                             <input type="checkbox" name="cb" class="cb" value="0">
                         </td>
                         <td>
-                            <a href="EditComputer" onclick=""><c:out value="${computer.name}"></c:out></a>
+                            <a href="EditComputer?computerid=${computer.id}" onclick=""><c:out value="${computer.name}"></c:out></a>
                         </td>
                         <td><c:out value="${computer.introduced}"></c:out> </td>
                         <td><c:out value="${computer.discontinued}"></c:out> </td>

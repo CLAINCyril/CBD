@@ -28,8 +28,6 @@ public class ServletDashBard extends HttpServlet {
 		try {
 			service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
 
-
-		List<Computer> computers = service.getPageComputer(0, 20);
 		int sizeComputer=service.getAllComputer().size();;
 		maxPage=sizeComputer/taillePage;
 		request.setAttribute("maxPage", maxPage);

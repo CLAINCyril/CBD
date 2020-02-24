@@ -2,6 +2,7 @@ package service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import modele.Company;
@@ -51,5 +52,15 @@ public final class ServiceCompany {
 	}
 	public List<Company> getPageCompany(int offset, int number) throws SQLException {
 		return DAOCompany.getInstance(Connexion.getInstance().getConn()).getPageCompany(offset, number);
+	}
+
+	public List<Integer> getAllCompanyid() throws SQLException {
+		List<Integer> listId = new ArrayList<Integer>();
+		List<Company> listCompany =  getAllCompany();
+		for (Company company : listCompany) {
+			listId.add(company.getId());
+		}
+		return listId;
+		
 	}
 }

@@ -33,7 +33,8 @@ public class ComputerMapper {
 	public Optional<Computer> getComputer(ResultSet resDetailcomputer) throws SQLException {
 			company = new Company.CompanyBuilder().setName(resDetailcomputer.getString("company.name"))
 					.setId(resDetailcomputer.getInt("company_id")).build();
-			computer = new Computer.ComputerBuilder().setCompany(company).setId(resDetailcomputer.getInt("computer.id"))
+			computer = new Computer.ComputerBuilder().setCompany(company)
+					.setId(resDetailcomputer.getInt("computer.id"))
 					.setName(resDetailcomputer.getString("computer.name"))
 					.setIntroduced(resDetailcomputer.getTimestamp("computer.introduced") != null
 							? resDetailcomputer.getTimestamp("computer.introduced").toLocalDateTime()
@@ -49,14 +50,11 @@ public class ComputerMapper {
 	}
 
 	public static  ComputerDTO convertFromComputerToComputerDTO(Computer computer) {
-		System.out.println(computer);
-		CompanyDTO companyDTO = new CompanyDTO();
-		companyDTO.setId(computer.getCompany().getId());
-		companyDTO.setName(computer.getCompany().getName());
-
+		CompanyDTO companyDTO = CompanyMapper.getInstance().comvertFromCompanyToCompanyDTO(computer.getCompany());
 		ComputerDTO compDTO = new ComputerDTO( computer.getName(),
 				computer.getIntroduced()==null?null:computer.getIntroduced().toString(),
 				computer.getDiscontinued()==null?null:computer.getDiscontinued().toString(),companyDTO);
+		compDTO.setId(computer.getId());
 		return compDTO;
 	}
 

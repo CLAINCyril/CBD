@@ -2,8 +2,11 @@ package mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import DTO.CompanyDTO;
 import modele.Company;
 
 public class CompanyMapper {
@@ -31,5 +34,30 @@ public class CompanyMapper {
 				.setId(res.getInt("company.id")).build();
 		return Optional.ofNullable(company);
 	}
+
+	public List<String> convertIdlistfromInteger(List<Integer> allCompanyid) {
+		List<String> listString = new ArrayList<String>();
+		for (Integer integer : allCompanyid) {
+			listString.add(integer.toString());
+		}
+		return listString;
+	}
+	
+	public static CompanyDTO comvertFromCompanyToCompanyDTO(Company company) {
+		CompanyDTO companyDTO = new CompanyDTO();
+		companyDTO.setId(company.getId());
+		companyDTO.setName(company.getName());
+		return companyDTO;
+	}
+
+	public List<CompanyDTO> convertToCompanyDTO(List<Company> allCompanyid) {
+		List<CompanyDTO> listCompanyDTO = new ArrayList<CompanyDTO>();
+		for (Company company : allCompanyid) {
+			listCompanyDTO.add(comvertFromCompanyToCompanyDTO(company));
+		}
+		System.out.println(listCompanyDTO);
+		return listCompanyDTO;
+	}
+	
 
 }
