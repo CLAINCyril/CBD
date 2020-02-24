@@ -4,6 +4,10 @@ import modele.Company;
 import modele.Computer;
 import java.sql.SQLException;
 import java.util.Optional;
+
+import DTO.CompanyDTO;
+import DTO.ComputerDTO;
+
 import java.sql.ResultSet;
 
 public class ComputerMapper {
@@ -43,4 +47,18 @@ public class ComputerMapper {
 		return Optional.ofNullable(computer);
 
 	}
+
+	public static  ComputerDTO convertFromComputerToComputerDTO(Computer computer) {
+		System.out.println(computer);
+		CompanyDTO companyDTO = new CompanyDTO();
+		companyDTO.setId(computer.getCompany().getId());
+		companyDTO.setName(computer.getCompany().getName());
+
+		ComputerDTO compDTO = new ComputerDTO( computer.getName(),
+				computer.getIntroduced()==null?null:computer.getIntroduced().toString(),
+				computer.getDiscontinued()==null?null:computer.getDiscontinued().toString(),companyDTO);
+		return compDTO;
+	}
+
+
 }

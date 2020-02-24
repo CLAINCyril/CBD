@@ -10,15 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DTO.ComputerDTO;
 import exception.Loggin;
+import mapper.ComputerMapper;
 import modele.Computer;
 import persistence.Connexion;
 import service.ServiceComputer;
 
 public class ServletDashBard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private  int pageIterator;
-	private int taillePage=20;
+	private int pageIterator;
+	private int taillePage = 20;
 	private int maxPage;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,10 +28,7 @@ public class ServletDashBard extends HttpServlet {
 		try {
 			service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			Loggin.display(e.getMessage());
-		}
+
 		List<Computer> computers = service.getPageComputer(0, 20);
 		int sizeComputer=service.getAllComputer().size();;
 		maxPage=sizeComputer/taillePage;
@@ -44,7 +43,7 @@ public class ServletDashBard extends HttpServlet {
 			computerList=service.getPageComputer(pageIterator*taillePage,taillePage );
 		}
 		else {
-			pageIterator=0;//Initialisation de l'iterateur : premier appel
+			pageIterator=0;
 			computerList=service.getPageComputer(pageIterator*taillePage,taillePage );
 		}
 		computerList.stream()
@@ -53,7 +52,12 @@ public class ServletDashBard extends HttpServlet {
 		request.setAttribute("sizeComputer", sizeComputer);
 		request.setAttribute("computerList", computerDTOList);
 		request.setAttribute("pageIterator", pageIterator);
-		request.getRequestDispatcher("views/dashboard.jsp").forward(request, response);
+		request.getRequestDispatcher("views/ListComputer.jsp").forward(request, response);
 		
 	}
+	catch(SQLException e)
+	{
+		Loggin.display(e.getMessage());
+	}
+}
 }

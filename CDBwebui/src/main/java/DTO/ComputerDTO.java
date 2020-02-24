@@ -6,7 +6,7 @@ public class ComputerDTO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	private Long id;
+	private int id;
 	public String name;
 	private String introduced;
 	private String discontinued;
@@ -19,7 +19,7 @@ public class ComputerDTO {
 		this.discontinued = discontinued;
 		this.company = company;
 	}
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 	public String getName() {
@@ -34,7 +34,7 @@ public class ComputerDTO {
 	public CompanyDTO getCompany() {
 		return company;
 	}
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public void setName(String name) {

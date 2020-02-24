@@ -1,8 +1,6 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.excilys.computerDatabase.dto.ComputerDTO"%>
-<%@page import="com.excilys.computerDatabase.dto.CompanyDTO"%>
 
 <%@ page isELIgnored="false"%>
 
@@ -112,17 +110,17 @@
             <ul class="pagination">
               <li>
               	<c:if test="${pageIterator>0}">
-              		<a href="DashboardComputerServlet?pageIterator=${pageIterator-1}" aria-label="Previous">
+              		<a href="ListComputer?pageIterator=${pageIterator-1}" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                     </a>
 				</c:if>      
               </li>
               <c:forEach  var = "i" begin = "1" end = "5">
-              <li><a href="DashboardComputerServlet?pageIterator=${pageIterator+i}"><c:out value="${pageIterator+i}"></c:out></a></li>
+              <li><a href="ListComputer?pageIterator=${pageIterator+i}"><c:out value="${pageIterator+i}"></c:out></a></li>
 			  </c:forEach>
               <li>
               <c:if test="${pageIterator<maxPage}">
-                <a href="DashboardComputerServlet?pageIterator=${pageIterator+1}" aria-label="Next">
+                <a href="ListComputer?pageIterator=${pageIterator+1}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
                 </c:if>
@@ -130,9 +128,9 @@
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default"><a href="DashboardComputerServlet?taillePage=10">10</a></button>
-            <button type="button" class="btn btn-default"><a href="DashboardComputerServlet?taillePage=50">50</a></button>
-            <button type="button" class="btn btn-default"><a href="DashboardComputerServlet?taillePage=100">100</a></button>
+            <button type="button" class="btn btn-default"><a href="ListComputer?taillePage=10">10</a></button>
+            <button type="button" class="btn btn-default"><a href="ListComputer?taillePage=50">50</a></button>
+            <button type="button" class="btn btn-default"><a href="ListComputer?taillePage=100">100</a></button>
         </div>
 
     </footer>

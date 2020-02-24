@@ -16,6 +16,5 @@ public class App {
 
 		CliUI cli = new CliUI();
 
-
-	}
+}
 }
