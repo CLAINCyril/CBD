@@ -36,13 +36,13 @@ public class ServletAddComputer extends HttpServlet {
 			companys.stream().forEach(company->companysDTO.add(
 							   CompanyMapper.comvertFromCompanyToCompanyDTO(company)));
 			
-
+			request.setAttribute("companysDTO", companysDTO);
+			request.getRequestDispatcher("views/addComputer.jsp").forward(request, response);
+		
 		} catch (SQLException e) {
 			Loggin.display(e.getMessage());
 		}
-		request.setAttribute("companysDTO", companysDTO);
 
-		request.getRequestDispatcher("views/addComputer.jsp").forward(request, response);
 
 	}
 	
@@ -70,6 +70,7 @@ public class ServletAddComputer extends HttpServlet {
 		try {
 			serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
 			serviceComputer.persisteComputer(computer);
+			response.sendRedirect("ListComputer");
 
 		} catch (SQLException e) {
 			Loggin.display("in servlet add computer : "+e.getMessage());

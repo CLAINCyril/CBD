@@ -83,6 +83,7 @@ public class ComputerMapper {
 		company = CompanyMapper.getInstance().fromCompanyDTOToCompany(computerDTO.getCompany());
 		
 		computer = new Computer.ComputerBuilder().setCompany(company)
+				.setId(computerDTO.getId())
 				.setDiscontinued(ConvertStringToLocalDateTime(computerDTO.getDiscontinued()))
 				.setIntroduced(ConvertStringToLocalDateTime(computerDTO.getIntroduced()))
 				.setName(computerDTO.getName())

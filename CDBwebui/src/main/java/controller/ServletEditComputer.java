@@ -17,6 +17,7 @@ import exception.Loggin;
 import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import modele.Company;
+import modele.Computer;
 import persistence.Connexion;
 import service.ServiceCompany;
 import service.ServiceComputer;
@@ -29,10 +30,11 @@ public class ServletEditComputer extends HttpServlet{
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		ServiceComputer serviceComputer;
 		ServiceCompany serviceCompany;
+		
 		List<CompanyDTO> companysDTO = new ArrayList<CompanyDTO>();
-		ComputerDTO computerDTO = new ComputerDTO();
-
 		List<Company> companyList=new ArrayList<Company>();
+
+		ComputerDTO computerDTO = new ComputerDTO();
 
 		computerid = Integer.parseInt(request.getParameter("computerid"));
 		try {
@@ -59,6 +61,39 @@ public class ServletEditComputer extends HttpServlet{
 		request.setAttribute("computerDTO", computerDTO);
 		request.getRequestDispatcher("views/EditComputer.jsp").forward(request, response);
 
+	}
+	
+	public void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		ServiceComputer serviceComputer;
+		Computer computer;
+		ComputerDTO computerDTO = new ComputerDTO();
+		CompanyDTO companyDTO = new CompanyDTO();
+
+		int computerId = Integer.parseInt(request.getParameter("computerId"));
+		String computerName = request.getParameter("computerName");
+		String introduced = request.getParameter("introduced");
+		String discontinued  = request.getParameter("discontinued");
+		int companyId = Integer.parseInt(request.getParameter("companyId"));
+		
+		companyDTO.setId(companyId);
+		
+		
+		computerDTO.setId(computerId);
+		computerDTO.setDiscontinued(discontinued);
+		computerDTO.setIntroduced(introduced);
+		computerDTO.setCompany(companyDTO);
+		computerDTO.setName(computerName);
+		
+		computer = ComputerMapper.getInstance().fromComputerDTOToComputer(computerDTO);
+		System.out.println(computer);
+		try {
+			serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+			serviceComputer.updateComputer(computer);
+
+		} catch (SQLException e) {
+			Loggin.display("in servlet add computer : "+e.getMessage());
+		}
 	}
 
 }

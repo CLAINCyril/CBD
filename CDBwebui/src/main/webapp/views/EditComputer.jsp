@@ -34,28 +34,28 @@
 					${computerDTO.id}</div>
 				<h1>Edit Computer</h1>
 
-				<form action="editComputer" method="POST">
-					<input type="hidden" value="0" id="id" />
+				<form action="EditComputer" method="POST">
+					<input type="hidden" value="${computerDTO.id}" name="computerId" id="computerId"/>
 					<!-- TODO: Change this value with the computer id -->
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName">Computer name</label> <input
-								type="text" class="form-control" id="computerName"
+								type="text" class="form-control" name="computerName" id="computerName"
 								placeholder="${computerDTO.name}">
 						</div>
 						<div class="form-group">
 							<label for="introduced">Introduced date</label> <input
-								type="text" class="form-control" id="introduced"
+								type="text" class="form-control" name="introduced" id="introduced"
 								placeholder="${computerDTO.introduced}">
 						</div>
 						<div class="form-group">
 							<label for="discontinued">Discontinued date</label> <input
-								type="text" class="form-control" id="discontinued"
+								type="text" class="form-control" name="discontinued" id="discontinued"
 								placeholder="${computerDTO.discontinued}">
 						</div>
 						<div class="form-group">
 							<label for="companyId">Company</label> <select
-								class="form-control" id="companyId">
+								class="form-control" name="companyId" id="companyId">
 								<c:forEach items="${companysDTO}" var="company">
 									<c:if test="${ company.id==computerToUpdate.company.id}">
 										<option value="${company.id}" selected><c:out
