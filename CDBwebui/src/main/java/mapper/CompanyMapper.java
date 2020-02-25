@@ -58,6 +58,14 @@ public class CompanyMapper {
 		System.out.println(listCompanyDTO);
 		return listCompanyDTO;
 	}
+
+	public Company fromCompanyDTOToCompany(CompanyDTO company2) {
+		Company company;
+		company = new Company.CompanyBuilder().setId(company2.getId()).build();
+
+		
+		return company;
+	}
 	
 
 }

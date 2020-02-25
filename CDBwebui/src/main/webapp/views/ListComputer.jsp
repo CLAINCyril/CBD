@@ -41,7 +41,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="AddComputerServlet">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="AddComputer">Add Computer</a> 
                     <a class="btn btn-default" id="EditComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>

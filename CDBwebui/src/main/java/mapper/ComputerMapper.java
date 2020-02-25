@@ -3,6 +3,8 @@ package mapper;
 import modele.Company;
 import modele.Computer;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import DTO.CompanyDTO;
@@ -56,6 +58,36 @@ public class ComputerMapper {
 				computer.getDiscontinued()==null?null:computer.getDiscontinued().toString(),companyDTO);
 		compDTO.setId(computer.getId());
 		return compDTO;
+	}
+
+	/**
+	 * Transform un type String en type LocalDatetime.
+	 * 
+	 * @param date
+	 * @return
+	 */
+	private static LocalDateTime ConvertStringToLocalDateTime(String date) {
+		if (date.isEmpty()) {
+			return null;
+		}
+		date = date + " 00:00:00";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime datetime = LocalDateTime.parse(date, formatter);
+		return datetime;
+	}
+	
+	public Computer fromComputerDTOToComputer(ComputerDTO computerDTO) {
+		Computer computer;
+		Company company;
+		
+		company = CompanyMapper.getInstance().fromCompanyDTOToCompany(computerDTO.getCompany());
+		
+		computer = new Computer.ComputerBuilder().setCompany(company)
+				.setDiscontinued(ConvertStringToLocalDateTime(computerDTO.getDiscontinued()))
+				.setIntroduced(ConvertStringToLocalDateTime(computerDTO.getIntroduced()))
+				.setName(computerDTO.getName())
+				.build();
+		return computer;
 	}
 
 

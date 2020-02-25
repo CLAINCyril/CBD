@@ -71,7 +71,7 @@ public final class DAOComputer {
 
 			statementPersisteComputer.setString(1, computer.getName());
 			statementPersisteComputer.setTimestamp(2, introduced!=null?Timestamp.valueOf(computer.getIntroduced()):null);
-			statementPersisteComputer.setTimestamp(3, introduced!=null?Timestamp.valueOf(computer.getIntroduced()):null);
+			statementPersisteComputer.setTimestamp(3, introduced!=null?Timestamp.valueOf(computer.getDiscontinued()):null);
 			statementPersisteComputer.setInt(4, computer.getCompany().getId());
 			statementPersisteComputer.executeUpdate();
 			

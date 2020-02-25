@@ -60,4 +60,5 @@ public class ServletEditComputer extends HttpServlet{
 		request.getRequestDispatcher("views/EditComputer.jsp").forward(request, response);
 
 	}
+
 }
