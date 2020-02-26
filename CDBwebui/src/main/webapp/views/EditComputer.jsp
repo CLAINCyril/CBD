@@ -7,6 +7,7 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE HTML PUBLIC  "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -18,6 +19,10 @@
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="css/main.css" rel="stylesheet" media="screen">
+
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
@@ -35,23 +40,26 @@
 				<h1>Edit Computer</h1>
 
 				<form action="EditComputer" method="POST">
-					<input type="hidden" value="${computerDTO.id}" name="computerId" id="computerId"/>
+					<input type="hidden" value="${computerDTO.id}" name="computerId"
+						id="computerId" />
 					<!-- TODO: Change this value with the computer id -->
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName">Computer name</label> <input
-								type="text" class="form-control" name="computerName" id="computerName"
-								placeholder="${computerDTO.name}">
+								type="text" class="form-control" name="computerName"
+								id="computerName" placeholder="${computerDTO.name}" required
+								maxlength="255">
 						</div>
+
 						<div class="form-group">
 							<label for="introduced">Introduced date</label> <input
-								type="text" class="form-control" name="introduced" id="introduced"
-								placeholder="${computerDTO.introduced}">
+								type="text" name="introduced" class="form-control"
+								id="introduced">
 						</div>
 						<div class="form-group">
 							<label for="discontinued">Discontinued date</label> <input
-								type="text" class="form-control" name="discontinued" id="discontinued"
-								placeholder="${computerDTO.discontinued}">
+								type="text" name="discontinued" class="form-control"
+								id="discontinued">
 						</div>
 						<div class="form-group">
 							<label for="companyId">Company</label> <select
@@ -80,6 +88,10 @@
 		</div>
 	</div>
 	</section>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+	<script src="js/dateValidation.js"></script>
 
 </body>
 </html>
