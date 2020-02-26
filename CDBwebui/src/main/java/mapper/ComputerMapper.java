@@ -3,12 +3,18 @@ package mapper;
 import modele.Company;
 import modele.Computer;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.Date;
+
 
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
+import exception.Loggin;
 
 import java.sql.ResultSet;
 
@@ -70,19 +76,18 @@ public class ComputerMapper {
 		if (date.isEmpty()) {
 			return null;
 		}
-		date = date + " 00:00:00";
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime datetime = LocalDateTime.parse(date, formatter);
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		LocalDateTime datetime = LocalDate.parse(date, formatter).atTime(0, 0, 0);
 		return datetime;
 	}
 	
+	
+
 	public Computer fromComputerDTOToComputer(ComputerDTO computerDTO) {
-		Computer computer;
-		Company company;
+		Company company = CompanyMapper.getInstance().fromCompanyDTOToCompany(computerDTO.getCompany());
 		
-		company = CompanyMapper.getInstance().fromCompanyDTOToCompany(computerDTO.getCompany());
-		
-		computer = new Computer.ComputerBuilder().setCompany(company)
+		Computer computer = new Computer.ComputerBuilder().setCompany(company)
 				.setId(computerDTO.getId())
 				.setDiscontinued(ConvertStringToLocalDateTime(computerDTO.getDiscontinued()))
 				.setIntroduced(ConvertStringToLocalDateTime(computerDTO.getIntroduced()))
