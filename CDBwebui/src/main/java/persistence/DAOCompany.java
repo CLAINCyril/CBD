@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import exception.Loggin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import mapper.CompanyMapper;
 import modele.Company;
 
@@ -21,7 +23,8 @@ import modele.Company;
  */
 public final class DAOCompany {
 	Connection conn;
-	
+	private static Logger logger = LoggerFactory.getLogger(DAOCompany.class);
+
 	
 	private static volatile DAOCompany instance = null;
 	private static final String PERSISTE_COMPANY = "INSERT INTO company (name)" + " values( ?)";
@@ -62,7 +65,7 @@ public final class DAOCompany {
 			statementPersisteCompany.close();
 
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
+			logger.error(e.getMessage());
 
 		}
 	}
@@ -80,7 +83,7 @@ public final class DAOCompany {
 			statementSupresisoncompany.executeUpdate();
 			statementSupresisoncompany.close();
 		} catch (Exception e) {
-			Loggin.display(e.getMessage());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -106,7 +109,7 @@ public final class DAOCompany {
 
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 
 		}
 		return company;
@@ -128,7 +131,7 @@ public final class DAOCompany {
 			statementUpdatecompany.close();
 
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage()+"updateCompany ");
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -153,7 +156,7 @@ public final class DAOCompany {
 			resListeCompany.close();
 
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage()+"   getAllCompany");
+			logger.error(e.getMessage());
 		}
 		return companylist;
 
@@ -182,7 +185,7 @@ public final class DAOCompany {
 			statementSelectPage.close();
 
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage() + "getPageCompany");
+			logger.error(e.getMessage());
 		}
 		return companylist;
 	}

@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import DTO.ComputerDTO;
-import exception.Loggin;
 import mapper.ComputerMapper;
 import modele.Computer;
 import persistence.Connexion;
@@ -19,11 +21,13 @@ import service.ServiceComputer;
 
 public class ServletDashBard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private int pageIterator;
-	private int taillePage = 20;
-	private int maxPage;
+	private static Logger logger = LoggerFactory.getLogger(ServletDashBard.class);
+
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int pageIterator;
+		int taillePage = 20;
+		int maxPage;
 		ServiceComputer service;
 		try {
 			service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
@@ -55,7 +59,8 @@ public class ServletDashBard extends HttpServlet {
 	}
 	catch(SQLException e)
 	{
-		Loggin.display(e.getMessage());
+		logger.error(e.getMessage());
+
 	}
 }
 }

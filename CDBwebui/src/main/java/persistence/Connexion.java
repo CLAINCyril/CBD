@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import exception.Loggin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import controller.ServletAddComputer;
 
 /**
  * Classe de connection au server MySql à la table "computer-database-db".<br/>
@@ -23,6 +26,9 @@ public final class Connexion {
 	private String user = "admincdb";
 	private String mdp = "qwerty1234";
 	private String url = "jdbc:mysql://127.0.0.1:3306/computer-database-db";
+	
+	private static Logger logger = LoggerFactory.getLogger(Connexion.class);
+
 
 	private static Connection conn;
 
@@ -53,19 +59,9 @@ public final class Connexion {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
-			Loggin.display(e.getMessage());
+			logger.error(e.getMessage());
 		}
 		return DriverManager.getConnection(url, user, mdp);
 	}
 
-	/**
-	 * Ferme la connection.
-	 */
-	public void close() {
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 }

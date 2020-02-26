@@ -2,10 +2,8 @@ package DTO;
 
 public class ComputerDTO {
 
-	public ComputerDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public ComputerDTO() {}
+	
 	private int id;
 	public String name;
 	private String introduced;

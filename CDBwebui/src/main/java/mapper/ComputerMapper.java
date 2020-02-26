@@ -3,18 +3,14 @@ package mapper;
 import modele.Company;
 import modele.Computer;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import java.util.Date;
 
 
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
-import exception.Loggin;
 
 import java.sql.ResultSet;
 

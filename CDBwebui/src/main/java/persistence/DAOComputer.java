@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import exception.Loggin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import mapper.ComputerMapper;
 import modele.Company;
 import modele.Computer;
@@ -25,6 +27,8 @@ import service.ServiceCompany;
 public final class DAOComputer {
 
 	private static volatile DAOComputer instance = null;
+	private static Logger logger = LoggerFactory.getLogger(DAOComputer.class);
+
 
 	private Connection conn;
 
@@ -78,7 +82,7 @@ public final class DAOComputer {
             statementPersisteComputer.close();
 
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
+			logger.error(e.getMessage());
 
 		}
 
@@ -100,7 +104,7 @@ public final class DAOComputer {
 			statementDeleteComputer.close();
 			
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -122,7 +126,7 @@ public final class DAOComputer {
 			resDetailcomputer.close();
 
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
+			logger.error(e.getMessage());
 
 		}
 		return computer;
@@ -151,7 +155,7 @@ public final class DAOComputer {
 			statementUpdatecomputer.close();
 
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
+			logger.error(e.getMessage());
 		}
 
 	}
@@ -183,7 +187,7 @@ public final class DAOComputer {
 			resListecomputer.close();
 
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
+			logger.error(e.getMessage());
 		}
 		return computerlist;
 	}
@@ -216,7 +220,7 @@ public final class DAOComputer {
 			resListecomputer.close();
 
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
+			logger.error(e.getMessage());
 		}
 		return Optional.ofNullable(computerlist);
 	}

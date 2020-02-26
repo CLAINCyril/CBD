@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
-import exception.Loggin;
 import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import modele.Company;
@@ -23,7 +25,8 @@ import service.ServiceComputer;
 
 public class ServletAddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private static Logger logger = LoggerFactory.getLogger(ServletAddComputer.class);
+	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceCompany serviceCompany;
 		List<Company> companys = new ArrayList<Company>();
@@ -40,7 +43,7 @@ public class ServletAddComputer extends HttpServlet {
 			request.getRequestDispatcher("views/addComputer.jsp").forward(request, response);
 		
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
+			logger.error(e.getMessage());
 		}
 
 
@@ -73,7 +76,7 @@ public class ServletAddComputer extends HttpServlet {
 			response.sendRedirect("ListComputer");
 
 		} catch (SQLException e) {
-			Loggin.display("in servlet add computer : "+e.getMessage());
+			logger.error(e.getMessage());
 		}
 	}
 }

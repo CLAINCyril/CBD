@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
-import exception.Loggin;
 import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import modele.Company;
@@ -23,10 +25,10 @@ import service.ServiceCompany;
 import service.ServiceComputer;
 
 public class ServletEditComputer extends HttpServlet{
-	private int computerid = 0;
-
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = LoggerFactory.getLogger(ServletEditComputer.class);
 
+	
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		ServiceComputer serviceComputer;
 		ServiceCompany serviceCompany;
@@ -36,7 +38,7 @@ public class ServletEditComputer extends HttpServlet{
 
 		ComputerDTO computerDTO = new ComputerDTO();
 
-		computerid = Integer.parseInt(request.getParameter("computerid"));
+		int computerid = Integer.parseInt(request.getParameter("computerid"));
 		try {
 			serviceCompany = ServiceCompany.getInstance(Connexion.getInstance().getConn());
 			
@@ -46,7 +48,7 @@ public class ServletEditComputer extends HttpServlet{
 							   CompanyMapper.comvertFromCompanyToCompanyDTO(company)));
 			
 		} catch (SQLException e1) {
-			Loggin.display("In get list id company : "+e1.getMessage());
+			logger.error(e1.getMessage());
 		}
 
 		try {
@@ -54,7 +56,7 @@ public class ServletEditComputer extends HttpServlet{
 			computerDTO = ComputerMapper.getInstance()
 					.convertFromComputerToComputerDTO(serviceComputer.getComputer(computerid).get());
 		} catch (SQLException e) {
-			Loggin.display(e.getMessage());
+			logger.error(e.getMessage());
 		}
 		
 		request.setAttribute("companysDTO", companysDTO);
@@ -92,7 +94,7 @@ public class ServletEditComputer extends HttpServlet{
 			serviceComputer.updateComputer(computer);
 
 		} catch (SQLException e) {
-			Loggin.display("in servlet add computer : "+e.getMessage());
+			logger.error(e.getMessage());
 		}
 	}
 
