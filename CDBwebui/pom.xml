@@ -20,48 +20,48 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<slf4j-api-version>1.7.5</slf4j-api-version>
 		<slf4j-version>1.7.5</slf4j-version>
+		<mysql-version>8.0.19</mysql-version>
+		<h2-version>1.4.200</h2-version>
+		<mokito-version>1.9.5</mokito-version>
+		<javax-servlet-api>2.5</javax-servlet-api>
+		<javax-servlet-jstl>1.1.2</javax-servlet-jstl>
+		<org-apache-taglibs>1.2.5</org-apache-taglibs>
+		<junit-version>4.11</junit-version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.19</version>
+			<version>${mysql-version}</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.9.5</version>
+			<version>${mokito-version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<version>${javax-servlet-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.1.2</version>
-		</dependency><!-- change version -->
-
-		<!-- https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-spec -->
+			<version>${javax-servlet-jstl}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.taglibs</groupId>
 			<artifactId>taglibs-standard-spec</artifactId>
-			<version>1.2.5</version>
+			<version>${org-apache-taglibs}</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-impl -->
 		<dependency>
 			<groupId>org.apache.taglibs</groupId>
 			<artifactId>taglibs-standard-impl</artifactId>
-			<version>1.2.5</version>
+			<version>${org-apache-taglibs}</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -73,26 +73,24 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j-version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.200</version>
+			<version>${h2-version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>${junit-version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
 		<finalName>CDBwebui</finalName>
-		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
-				defaults (may be moved to parent pom) -->
+		<pluginManagement>
 			<plugins>
 				<plugin>
 					<artifactId>maven-clean-plugin</artifactId>

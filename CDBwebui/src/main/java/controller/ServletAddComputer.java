@@ -1,17 +1,14 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
@@ -25,29 +22,21 @@ import service.ServiceComputer;
 
 public class ServletAddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = LoggerFactory.getLogger(ServletAddComputer.class);
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceCompany serviceCompany;
-		List<Company> companys = new ArrayList<Company>();
-		List<CompanyDTO>companysDTO = new ArrayList<CompanyDTO>();
 
-		try {
-			serviceCompany = ServiceCompany.getInstance(Connexion.getInstance().getConn());
+		ServiceCompany serviceCompany = ServiceCompany.getInstance(Connexion.getInstance().getConn());
 
-			companys = serviceCompany.getAllCompany();
-			companys.stream().forEach(company->companysDTO.add(
-							   CompanyMapper.comvertFromCompanyToCompanyDTO(company)));
-			
-			request.setAttribute("companysDTO", companysDTO);
-			request.getRequestDispatcher("views/addComputer.jsp").forward(request, response);
+		List<Company> companyList = serviceCompany.getAllCompany();
+		List<CompanyDTO> companysDTO = companyList.stream().map(company -> CompanyMapper.convertFromCompanyToCompanyDTO(company)).collect(Collectors.toList());
+
 		
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+		request.setAttribute("companysDTO", companysDTO);
+		request.getRequestDispatcher("views/addComputer.jsp").forward(request, response);
+		
 		}
 
 
-	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
@@ -70,13 +59,9 @@ public class ServletAddComputer extends HttpServlet {
 		computerDTO.setName(computerName);
 		
 		computer = ComputerMapper.getInstance().fromComputerDTOToComputer(computerDTO);
-		try {
-			serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
-			serviceComputer.persisteComputer(computer);
-			response.sendRedirect("ListComputer");
 
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		}
+		serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+		serviceComputer.persisteComputer(computer);
+		response.sendRedirect("ListComputer");
 	}
 }

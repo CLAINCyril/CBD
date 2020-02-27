@@ -52,7 +52,7 @@ public final class ServiceComputer {
 	}
 
 	public List<Computer> getPageComputer(int offset, int number) {
-		return DAOComputer.getInstance(conn).getPageComputer(offset, number).get();
+		return DAOComputer.getInstance(conn).getPageComputer(offset, number);
 	}
 
 	public void updateComputer(Computer computer) {

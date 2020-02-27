@@ -7,14 +7,12 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import controller.ServletAddComputer;
-
 /**
  * Classe de connection au server MySql à la table "computer-database-db".<br/>
  * 
  * Exemple:<br/>
  * Connection conn = new Connexion();<br/>
- * conn.connect();<br/>
+ * conn.getconn();<br/>
  * // do your things <br/>
  * conn.close();<br/>
  * 
@@ -24,12 +22,10 @@ import controller.ServletAddComputer;
 public final class Connexion {
 
 	private String user = "admincdb";
-	private String mdp = "qwerty1234";
+	private String passwd = "qwerty1234";
 	private String url = "jdbc:mysql://127.0.0.1:3306/computer-database-db";
-	
+
 	private static Logger logger = LoggerFactory.getLogger(Connexion.class);
-
-
 	private static Connection conn;
 
 	private static volatile Connexion instance = null;
@@ -53,15 +49,19 @@ public final class Connexion {
 	 * recupère la connection.
 	 * 
 	 * @return Connection
-	 * @throws SQLException
 	 */
-	public Connection getConn() throws SQLException {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			logger.error(e.getMessage());
-		}
-		return DriverManager.getConnection(url, user, mdp);
-	}
+	public Connection getConn(){
+	       try{
+	        	Class.forName("com.mysql.cj.jdbc.Driver");
+	        	conn = DriverManager.getConnection(url, user, passwd);
 
+	        }catch(SQLException e){
+	            e.getMessage();
+	        } catch (ClassNotFoundException e) {
+				e.getMessage();
+			}
+		return conn;
+
+
+	}
 }

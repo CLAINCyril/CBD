@@ -11,7 +11,6 @@ import java.util.Scanner;
 import modele.Company;
 import modele.Computer;
 import persistence.Connexion;
-import persistence.ConnexionTest;
 import service.ServiceCompany;
 import service.ServiceComputer;
 

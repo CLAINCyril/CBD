@@ -17,6 +17,16 @@ public class ComputerDTO {
 		this.discontinued = discontinued;
 		this.company = company;
 	}
+	
+	public ComputerDTO(int id, String name, String introduced, String discontinued, CompanyDTO company) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.company = company;
+	}
+
 	public int getId() {
 		return id;
 	}

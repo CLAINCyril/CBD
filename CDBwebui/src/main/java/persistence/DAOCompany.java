@@ -34,11 +34,11 @@ public final class DAOCompany {
 	private static final String SELECT_ALL_COMPANY = "SELECT id,name FROM company";
 	private static final String SELECT_COMPANY_PAGE = "SELECT * FROM company LIMIT ?,? ";
 
-	private DAOCompany(Connection conn) throws SQLException {
+	private DAOCompany(Connection conn) {
 		this.conn = conn;
 	}
 
-	public final static DAOCompany getInstance(Connection conn) throws SQLException {
+	public final static DAOCompany getInstance(Connection conn){
 		if (DAOCompany.instance == null) {
 			synchronized (DAOCompany.class) {
 				if (DAOCompany.instance == null) {

@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import mapper.ComputerMapper;
 import modele.Company;
 import modele.Computer;
-import service.ServiceCompany;
 
 /**
  * Classe d'accès aux données de l'objet computer. Permets les verbes CRUD.
@@ -166,9 +165,6 @@ public final class DAOComputer {
 	 * @return List computer
 	 */
 	public List<Computer> getAllComputer() {
-
-//		 this.conn = Connexion.getInstance();
-//	     conn.connect();
 		Company company = new Company();
 
 		List<Computer> computerlist = new ArrayList<Computer>();
@@ -198,7 +194,7 @@ public final class DAOComputer {
 	 * 
 	 * @return List computer
 	 */
-	public Optional<List<Computer>> getPageComputer(int offset, int number) {
+	public List<Computer> getPageComputer(int offset, int number) {
 
 		Company company = new Company();
 
@@ -222,7 +218,7 @@ public final class DAOComputer {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		}
-		return Optional.ofNullable(computerlist);
+		return computerlist;
 	}
 
 }

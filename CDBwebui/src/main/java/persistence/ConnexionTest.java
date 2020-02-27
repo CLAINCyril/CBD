@@ -34,9 +34,17 @@ public class ConnexionTest {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public Connection getConn() throws SQLException, ClassNotFoundException {
-		Class.forName("org.h2.Driver");
-		return DriverManager.getConnection(url, mdp, user);
+	public Connection getConn() {
+		try {
+			Class.forName("org.h2.Driver");
+			conn = DriverManager.getConnection(url, mdp, user);
+
+		} catch (SQLException e) {
+			e.getMessage();
+		} catch (ClassNotFoundException e) {
+			e.getMessage();
+		}
+		return conn;
 	}
 
 }

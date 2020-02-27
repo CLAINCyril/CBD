@@ -21,7 +21,7 @@ import persistence.DAOComputer;
 public class DAOComputerTest {
 
 	@Test
-	public void testGetComputerById() throws ClassNotFoundException, SQLException {
+	public void testGetComputerById() {
 		Connection conn = ConnexionTest.getInstance().getConn();
 		Computer computer1 = new Computer.ComputerBuilder().setId(2).build();
 		Computer computer2 = DAOComputer.getInstance(conn).getComputer(2).get();
@@ -29,7 +29,7 @@ public class DAOComputerTest {
 	}
 
 	@Test
-	public void testAddComputer() throws ClassNotFoundException, SQLException {
+	public void testAddComputer() {
 		Connection conn = ConnexionTest.getInstance().getConn();
 		Computer computer1 = new Computer.ComputerBuilder()
 				.setCompany(new Company.CompanyBuilder().setId(5).build()).setName("toto").setDiscontinued(null)
@@ -52,7 +52,7 @@ public class DAOComputerTest {
 	}
 
 	@Test
-	public void testGetListCompany() throws ClassNotFoundException, SQLException {
+	public void testGetListCompany() {
 		Connection conn = ConnexionTest.getInstance().getConn();
 
 		List<Computer> companyList = new ArrayList<>();
@@ -60,8 +60,4 @@ public class DAOComputerTest {
 		companyList.stream().forEach(companyDetails -> assertTrue(companyDetails instanceof Computer));
 	}
 
-	@After
-	public void tearDown() throws Exception {
-		assertTrue(1 == 1);
-	}
 }

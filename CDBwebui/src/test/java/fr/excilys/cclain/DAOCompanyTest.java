@@ -18,7 +18,7 @@ import persistence.DAOCompany;
 public class DAOCompanyTest {
 
 	@Test
-	public void testGetCompanyById() throws ClassNotFoundException, SQLException {
+	public void testGetCompanyById() {
 		Connection conn = ConnexionTest.getInstance().getConn();
 		Company company1 = new Company.CompanyBuilder().setId(4).setName("Netronics").build();
 		Company company2 = DAOCompany.getInstance(conn).getCompany(4).get();
@@ -26,7 +26,7 @@ public class DAOCompanyTest {
 	}
 
 	@Test
-	public void testGetListCompany() throws ClassNotFoundException, SQLException {
+	public void testGetListCompany() {
 		Connection conn = ConnexionTest.getInstance().getConn();
 		List<Company> companyList = new ArrayList<>();
 		companyList = DAOCompany.getInstance(conn).getAllCompany();
@@ -34,14 +34,14 @@ public class DAOCompanyTest {
 	}
 
 	@Test
-	public void testDeleteCompany() throws ClassNotFoundException, SQLException {
+	public void testDeleteCompany() {
 		Connection conn = ConnexionTest.getInstance().getConn();
 		DAOCompany.getInstance(conn).deleteCompany(1);
 		assertFalse(DAOCompany.getInstance(conn).getCompany(1).isPresent());
 	}
 
 	@Test
-	public void testAddCompany() throws ClassNotFoundException, SQLException {
+	public void testAddCompany() {
 		Connection conn = ConnexionTest.getInstance().getConn();
 		Company company = new Company.CompanyBuilder().setId(3).setName("RCA").build();
 		DAOCompany.getInstance(conn).persisteCompany(company);

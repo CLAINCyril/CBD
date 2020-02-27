@@ -54,7 +54,7 @@ public class ComputerMapper {
 	}
 
 	public static  ComputerDTO convertFromComputerToComputerDTO(Computer computer) {
-		CompanyDTO companyDTO = CompanyMapper.getInstance().comvertFromCompanyToCompanyDTO(computer.getCompany());
+		CompanyDTO companyDTO = CompanyMapper.getInstance().convertFromCompanyToCompanyDTO(computer.getCompany());
 		ComputerDTO compDTO = new ComputerDTO( computer.getName(),
 				computer.getIntroduced()==null?null:computer.getIntroduced().toString(),
 				computer.getDiscontinued()==null?null:computer.getDiscontinued().toString(),companyDTO);

@@ -43,7 +43,7 @@ public class CompanyMapper {
 		return listString;
 	}
 	
-	public static CompanyDTO comvertFromCompanyToCompanyDTO(Company company) {
+	public static CompanyDTO convertFromCompanyToCompanyDTO(Company company) {
 		CompanyDTO companyDTO = new CompanyDTO();
 		companyDTO.setId(company.getId());
 		companyDTO.setName(company.getName());
@@ -53,9 +53,8 @@ public class CompanyMapper {
 	public List<CompanyDTO> convertToCompanyDTO(List<Company> allCompanyid) {
 		List<CompanyDTO> listCompanyDTO = new ArrayList<CompanyDTO>();
 		for (Company company : allCompanyid) {
-			listCompanyDTO.add(comvertFromCompanyToCompanyDTO(company));
+			listCompanyDTO.add(convertFromCompanyToCompanyDTO(company));
 		}
-		System.out.println(listCompanyDTO);
 		return listCompanyDTO;
 	}
 
