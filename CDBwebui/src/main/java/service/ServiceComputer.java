@@ -3,11 +3,7 @@ package service;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
-
-import modele.Company;
 import modele.Computer;
-import persistence.Connexion;
-import persistence.DAOCompany;
 import persistence.DAOComputer;
 
 public final class ServiceComputer {

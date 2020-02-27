@@ -1,6 +1,5 @@
 package controller;
 
-import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
@@ -13,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import service.ServiceCompany;
 
 public class ServletAddComputerTest extends Mockito{
 	private HttpServletRequest request;

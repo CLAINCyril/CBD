@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
+import Validator.ValidatorComputer;
 import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import modele.Company;
@@ -21,7 +22,9 @@ import service.ServiceComputer;
 
 public class ServletEditComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	ValidatorComputer validatorComputer = new ValidatorComputer();
 
+	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		int computerid = Integer.parseInt(request.getParameter("computerid"));
@@ -52,8 +55,14 @@ public class ServletEditComputer extends HttpServlet {
 		CompanyDTO companyDTO = new CompanyDTO(companyId);
 		ComputerDTO computerDTO = new ComputerDTO(computerId, computerName, introduced, discontinued, companyDTO);
 		Computer computer = ComputerMapper.getInstance().fromComputerDTOToComputer(computerDTO);
-		ServiceComputer serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
-		serviceComputer.updateComputer(computer);
+		if(validatorComputer.discontinuedAfterIntroduced(computer.getDiscontinued(), computer.getIntroduced())) {
+
+			ServiceComputer serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+			serviceComputer.updateComputer(computer);
+}
+		else {
+			doGet(request, response);
+		}
 
 	}
 

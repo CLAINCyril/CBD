@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +8,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
@@ -22,7 +24,8 @@ import service.ServiceComputer;
 
 public class ServletAddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+	private static Logger logger = LoggerFactory.getLogger(ServletAddComputer.class);
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ServiceCompany serviceCompany = ServiceCompany.getInstance(Connexion.getInstance().getConn());
@@ -38,30 +41,23 @@ public class ServletAddComputer extends HttpServlet {
 
 
 	
-	public void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		ServiceComputer serviceComputer;
-		Computer computer;
-		ComputerDTO computerDTO = new ComputerDTO();
-		CompanyDTO companyDTO = new CompanyDTO();
-
-		
+	public void doPost(HttpServletRequest request, HttpServletResponse response) {	
 		String computerName = request.getParameter("computerName");
 		String introduced = request.getParameter("introduced");
 		String discontinued  = request.getParameter("discontinued");
 		int companyId = Integer.parseInt(request.getParameter("companyId"));
 		
-		companyDTO.setId(companyId);
+		CompanyDTO companyDTO = new CompanyDTO(companyId);
+		ComputerDTO computerDTO = new ComputerDTO(computerName, introduced, discontinued, companyDTO);
 		
-		computerDTO.setDiscontinued(discontinued);
-		computerDTO.setIntroduced(introduced);
-		computerDTO.setCompany(companyDTO);
-		computerDTO.setName(computerName);
-		
-		computer = ComputerMapper.getInstance().fromComputerDTOToComputer(computerDTO);
+		Computer computer = ComputerMapper.getInstance().fromComputerDTOToComputer(computerDTO);
 
-		serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+		ServiceComputer serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
 		serviceComputer.persisteComputer(computer);
-		response.sendRedirect("ListComputer");
+		try {
+			response.sendRedirect("ListComputer");
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+		}
 	}
 }

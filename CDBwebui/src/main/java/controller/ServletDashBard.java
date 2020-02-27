@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import DTO.ComputerDTO;
+import Validator.ValidatorComputer;
 import mapper.ComputerMapper;
 import modele.Computer;
 import persistence.Connexion;
+import service.Page;
 import service.ServiceComputer;
 
 public class ServletDashBard extends HttpServlet {
@@ -30,13 +32,13 @@ public class ServletDashBard extends HttpServlet {
 		int maxPage = sizeComputer / taillePage;
 		request.setAttribute("maxPage", maxPage);
 		List<Computer> computerList = new ArrayList<Computer>();
-		if (request.getParameter("taillePage") != null) {
+		if (request.getParameter("taillePage") != 	null) {
 			taillePage = Integer.parseInt(request.getParameter("taillePage"));
 		}
 		if (request.getParameter("pageIterator") != null) {
 			pageIterator = Integer.parseInt(request.getParameter("pageIterator"));
 		}
-		computerList = service.getPageComputer(pageIterator * taillePage, taillePage);
+		computerList = new Page().getPage(pageIterator, taillePage);
 
 		List<ComputerDTO> computerDTOList = computerList.stream().map(computer -> ComputerMapper.convertFromComputerToComputerDTO(computer)).collect(Collectors.toList());
 

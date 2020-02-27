@@ -68,7 +68,7 @@ public class CliUI {
 	 * @return
 	 * @throws SQLException 
 	 */
-	public List<Computer> getOnePAgeOfComputer(int offset, int number) throws SQLException {
+	public List<Computer> getOnePAgeOfComputer(int offset, int number){
 		Connection conn = Connexion.getInstance().getConn();
 		return (ServiceComputer.getInstance(conn).getPageComputer(offset, number));
 	}
@@ -81,7 +81,7 @@ public class CliUI {
 	 * @return
 	 * @throws SQLException 
 	 */
-	public List<Company> getOnePAgeOfCompany(int offset, int number) throws SQLException {
+	public List<Company> getOnePAgeOfCompany(int offset, int number){
 		Connection conn = Connexion.getInstance().getConn();
 		return (ServiceCompany.getInstance(conn).getPageCompany(offset, number));
 	}
@@ -92,7 +92,7 @@ public class CliUI {
 	 * @param sc
 	 * @throws SQLException 
 	 */
-	public void createComputer(Scanner sc) throws SQLException {
+	public void createComputer(Scanner sc){
 		
 		Connection conn = Connexion.getInstance().getConn();
 
@@ -109,7 +109,7 @@ public class CliUI {
 
 	}
 
-	public void updateComputer(Scanner sc) throws SQLException {
+	public void updateComputer(Scanner sc) {
 		Connection conn = Connexion.getInstance().getConn();
 
 		System.out.println("Veuillez saisir l'id :\n");
@@ -131,9 +131,8 @@ public class CliUI {
 	 * existe.
 	 * 
 	 * @param sc
-	 * @throws SQLException 
 	 */
-	public void pagineCompute(Scanner sc) throws SQLException {
+	public void pagineCompute(Scanner sc) {
 		List<Computer> computs = new ArrayList();
 		Connection conn = Connexion.getInstance().getConn();
 
@@ -174,7 +173,7 @@ public class CliUI {
 		}
 	}
 
-	public void printComputer(Scanner sc) throws SQLException {
+	public void printComputer(Scanner sc) {
 		Connection conn = Connexion.getInstance().getConn();
 
 		Optional<Computer> computer = ServiceComputer.getInstance(conn).getComputer(sc.nextInt());
@@ -184,7 +183,7 @@ public class CliUI {
 		System.out.println("non présent");
 	}
 
-	public void deleteComputer(Scanner sc) throws SQLException {
+	public void deleteComputer(Scanner sc) {
 		Connection conn = Connexion.getInstance().getConn();
 
 		ServiceComputer.getInstance(conn).deleteComputer(sc.nextInt());
@@ -197,7 +196,7 @@ public class CliUI {
 	 * @param sc
 	 * @throws SQLException 
 	 */
-	public void pagineCompany(Scanner sc) throws SQLException {
+	public void pagineCompany(Scanner sc) {
 		Connection conn = Connexion.getInstance().getConn();
 
 		
@@ -242,7 +241,7 @@ public class CliUI {
 
 	}
 
-	public CliUI() throws SQLException {
+	public CliUI() {
 		this.computer = new Computer();
 		this.company = new Company();
 		this.tache = false;

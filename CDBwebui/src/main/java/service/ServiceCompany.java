@@ -1,7 +1,6 @@
 package service;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public final class ServiceCompany {
         return ServiceCompany.instance;
 	}
 
-	public int getlength() throws SQLException {
+	public int getlength() {
 		return getAllCompany().size();
 	}
 
