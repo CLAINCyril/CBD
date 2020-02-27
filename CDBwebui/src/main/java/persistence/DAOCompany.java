@@ -24,7 +24,6 @@ import modele.Company;
 public final class DAOCompany {
 	Connection conn;
 	private static Logger logger = LoggerFactory.getLogger(DAOCompany.class);
-
 	
 	private static volatile DAOCompany instance = null;
 	private static final String PERSISTE_COMPANY = "INSERT INTO company (name)" + " values( ?)";

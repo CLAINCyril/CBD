@@ -22,6 +22,7 @@
 		<slf4j-version>1.7.5</slf4j-version>
 		<mysql-version>8.0.19</mysql-version>
 		<h2-version>1.4.200</h2-version>
+		<hikari-version>2.6.1</hikari-version>
 		<mokito-version>1.9.5</mokito-version>
 		<javax-servlet-api>2.5</javax-servlet-api>
 		<javax-servlet-jstl>1.1.2</javax-servlet-jstl>
@@ -34,6 +35,17 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>${hikari-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -61,7 +73,7 @@
 			<artifactId>taglibs-standard-impl</artifactId>
 			<version>${org-apache-taglibs}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -73,12 +85,7 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j-version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>${h2-version}</version>
-			<scope>test</scope>
-		</dependency>
+
 
 		<dependency>
 			<groupId>junit</groupId>

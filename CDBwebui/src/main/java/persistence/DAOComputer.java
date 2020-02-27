@@ -24,7 +24,6 @@ import modele.Computer;
  *
  */
 public final class DAOComputer {
-
 	private static volatile DAOComputer instance = null;
 	private static Logger logger = LoggerFactory.getLogger(DAOComputer.class);
 
