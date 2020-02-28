@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import DTO.ComputerDTO;
 import Validator.ValidatorComputer;
 import mapper.ComputerMapper;
@@ -32,7 +31,7 @@ public class ServletDashBard extends HttpServlet {
 		int maxPage = sizeComputer / taillePage;
 		request.setAttribute("maxPage", maxPage);
 		List<Computer> computerList = new ArrayList<Computer>();
-		if (request.getParameter("taillePage") != 	null) {
+		if (request.getParameter("taillePage") != null) {
 			taillePage = Integer.parseInt(request.getParameter("taillePage"));
 		}
 		if (request.getParameter("pageIterator") != null) {
@@ -40,8 +39,9 @@ public class ServletDashBard extends HttpServlet {
 		}
 		computerList = new Page().getPage(pageIterator, taillePage);
 
-		List<ComputerDTO> computerDTOList = computerList.stream().map(computer -> ComputerMapper.convertFromComputerToComputerDTO(computer)).collect(Collectors.toList());
-
+		List<ComputerDTO> computerDTOList = computerList.stream()
+				.map(computer -> ComputerMapper.convertFromComputerToComputerDTO(computer))
+				.collect(Collectors.toList());
 
 		request.setAttribute("sizeComputer", sizeComputer);
 		request.setAttribute("computerList", computerDTOList);
@@ -49,5 +49,14 @@ public class ServletDashBard extends HttpServlet {
 		request.getRequestDispatcher("views/ListComputer.jsp").forward(request, response);
 
 	}
-	
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ServiceComputer service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+		
+		String[] computers = request.getParameter("selection").split(",");
+		for (String s : computers) {
+			service.deleteComputer(Integer.parseInt(s));
+		}
+		doGet(request, response);
+	}
 }
