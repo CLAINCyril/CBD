@@ -23,8 +23,8 @@ public class DAOComputerTest {
 	@Test
 	public void testGetComputerById() {
 		Connection conn = ConnexionTest.getInstance().getConn();
-		Computer computer1 = new Computer.ComputerBuilder().setId(2).build();
-		Computer computer2 = DAOComputer.getInstance(conn).getComputer(2).get();
+		Computer computer1 = new Computer.ComputerBuilder().setId(5).build();
+		Computer computer2 = DAOComputer.getInstance(conn).getComputer(5).get();
 		assertEquals(computer1, computer2);
 	}
 
@@ -44,7 +44,7 @@ public class DAOComputerTest {
 		Connection conn = ConnexionTest.getInstance().getConn();
 		Computer computer1 = DAOComputer.getInstance(conn).getComputer(5).get();
 		Computer computer2 = new Computer.ComputerBuilder().setId(5)
-				.setCompany(new Company.CompanyBuilder().setId(5).build()).setName("toto").setDiscontinued(null)
+				.setCompany(new Company.CompanyBuilder().setId(5).build()).setName("tato").setDiscontinued(null)
 				.setIntroduced(null).build();
 		DAOComputer.getInstance(conn).updateComputer(computer2);
 		computer2 = DAOComputer.getInstance(conn).getComputer(5).get();

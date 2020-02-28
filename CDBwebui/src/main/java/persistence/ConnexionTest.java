@@ -3,17 +3,30 @@ package persistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 public class ConnexionTest {
 
-	private String user = "";
-	private String mdp = "sa";
-	private String url = "jdbc:h2:mem:computer-database-db;INIT=RUNSCRIPT FROM 'src/test/resources/schema-creation.sql'";
-	private static Connection conn;
-
+	private static Logger logger = LoggerFactory.getLogger(ConnexionTest.class);
 	private static volatile ConnexionTest instance = null;
+	
+	static HikariConfig hikariConfig = new HikariConfig();
+	Properties props = new Properties();
+	private static HikariDataSource dataSource;
+	static Connection conn;
+	static {
+		hikariConfig = new HikariConfig("/datasource.properties");
+		dataSource = new HikariDataSource(hikariConfig);
+	}
 
-	public ConnexionTest() {
+	private ConnexionTest() {
+
 	}
 
 	public final static ConnexionTest getInstance() {
@@ -27,24 +40,12 @@ public class ConnexionTest {
 		return ConnexionTest.instance;
 	}
 
-	/**
-	 * recupère la connection.
-	 * 
-	 * @return Connection
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
-	public Connection getConn() {
+	public static Connection getConn() {
 		try {
-			Class.forName("org.h2.Driver");
-			conn = DriverManager.getConnection(url, mdp, user);
-
+			conn = dataSource.getConnection();
 		} catch (SQLException e) {
-			e.getMessage();
-		} catch (ClassNotFoundException e) {
-			e.getMessage();
+			logger.error(e.getMessage());
 		}
 		return conn;
 	}
-
 }

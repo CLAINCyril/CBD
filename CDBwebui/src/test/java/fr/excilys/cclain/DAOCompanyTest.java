@@ -46,6 +46,7 @@ public class DAOCompanyTest {
 		Company company = new Company.CompanyBuilder().setId(3).setName("RCA").build();
 		DAOCompany.getInstance(conn).persisteCompany(company);
 		Company company2 = DAOCompany.getInstance(conn).getCompany(3).get();
+		System.out.println(company+" "+ company2);
 		assertEquals(company, company2);
 	}
 

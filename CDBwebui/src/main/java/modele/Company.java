@@ -86,6 +86,6 @@ public class Company {
 		if (getClass() != obj.getClass())
 			return false;
 		Company other = (Company) obj;
-		return id != other.id;
+		return id == other.id;
 	}
 }

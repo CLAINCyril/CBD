@@ -1,5 +1,8 @@
 package client;
 
+import persistence.ConnectionHikari;
+import persistence.Connexion;
+import persistence.DAOComputer;
 
 /**
  * Hello world!
@@ -7,9 +10,10 @@ package client;
  */
 public class App {
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
 
-		CliUI cli = new CliUI();
-
-}
+//		new CliUI();
+//		ConnectionHikari.getInstance().getConn();
+		System.out.println(DAOComputer.getInstance(Connexion.getInstance().getConn()).getComputer(5).get());
+	}
 }

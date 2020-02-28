@@ -133,7 +133,7 @@ public class Computer {
 		if (getClass() != obj.getClass())
 			return false;
 		Computer other = (Computer) obj;
-		return (id != other.id);
+		return (id == other.id);
 	}
 
 	@Override

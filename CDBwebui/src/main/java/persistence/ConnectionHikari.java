@@ -1,7 +1,6 @@
 package persistence;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -11,23 +10,11 @@ import org.slf4j.LoggerFactory;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-/**
- * Classe de connection au server MySql à la table "computer-database-db".<br/>
- * 
- * Exemple:<br/>
- * Connection conn = new Connexion();<br/>
- * conn.getconn();<br/>
- * // do your things <br/>
- * conn.close();<br/>
- * 
- * @author cyril
- *
- */
-public final class Connexion {
+public class ConnectionHikari {
 
-	private static Logger logger = LoggerFactory.getLogger(Connexion.class);
-	private static volatile Connexion instance = null;
-
+	private static Logger logger = LoggerFactory.getLogger(ConnectionHikari.class);
+	private static volatile ConnectionHikari instance = null;
+	
 	static HikariConfig hikariConfig = new HikariConfig();
 	Properties props = new Properties();
 	private static HikariDataSource dataSource;
@@ -37,19 +24,19 @@ public final class Connexion {
 		dataSource = new HikariDataSource(hikariConfig);
 	}
 
-private Connexion() {
+	private ConnectionHikari() {
 
-}
+	}
 
-	public final static Connexion getInstance() {
-		if (Connexion.instance == null) {
-			synchronized (Connexion.class) {
-				if (Connexion.instance == null) {
-					Connexion.instance = new Connexion();
+	public final static ConnectionHikari getInstance() {
+		if (ConnectionHikari.instance == null) {
+			synchronized (ConnectionHikari.class) {
+				if (ConnectionHikari.instance == null) {
+					ConnectionHikari.instance = new ConnectionHikari();
 				}
 			}
 		}
-		return Connexion.instance;
+		return ConnectionHikari.instance;
 	}
 
 	public static Connection getConn() {
