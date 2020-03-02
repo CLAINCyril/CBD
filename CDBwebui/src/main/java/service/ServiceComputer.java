@@ -54,4 +54,12 @@ public final class ServiceComputer {
 	public void updateComputer(Computer computer) {
 		DAOComputer.getInstance(conn).updateComputer(computer);
 	}
+
+	public List<Computer> getPageComputerByName(String search, int offset, int number) {
+		return DAOComputer.getInstance(conn).getPageComputerByName(search, offset, number);
+	}
+
+	public List<Computer> getPageComputerOrderByName(int offset, int number) {
+		return DAOComputer.getInstance(conn).getPageComputerOrderByName(offset, number);
+	}
 }

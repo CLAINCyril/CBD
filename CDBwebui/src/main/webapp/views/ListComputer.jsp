@@ -67,7 +67,7 @@
                             </span>
                         </th>
                         <th>
-                            Computer name
+                          <a href="ListComputer?order=computer">Computer name</a>
                         </th>
                         <th>
                             Introduced date

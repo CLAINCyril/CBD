@@ -15,11 +15,14 @@
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="css/main.css" rel="stylesheet" media="screen">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.html"> Application -
+			<a class="navbar-brand" href="ListComputer"> Application -
 				Computer Database </a>
 		</div>
 	</header>
@@ -38,18 +41,18 @@
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
-									type="date" name="introduced" class="form-control"
-									id="introduced" placeholder="1970-01-01" min="1970-01-01" max="2030-01-01">
+									type="text" name="introduced" class="form-control"
+									id="introduced">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
-									type="date" name="discontinued" class="form-control"
-									id="discontinued" placeholder="1970-01-01">
+									type="text" name="discontinued" class="form-control"
+									id="discontinued">
 							</div>
 							<div class="form-group">
-								<label for="companyId" >Company</label> <select
+								<label for="companyId">Company</label> <select
 									class="form-control" id="companyId" name="companyId">
-									<c:forEach items="${companysDTO}" var="company" >
+									<c:forEach items="${companysDTO}" var="company">
 										<option value="${company.id}" selected><c:out
 												value="${company.name}"></c:out></option>
 									</c:forEach>
@@ -65,5 +68,9 @@
 			</div>
 		</div>
 	</section>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+	<script src="js/dateValidation.js"></script>
 </body>
 </html>

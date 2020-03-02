@@ -72,7 +72,7 @@ public class ComputerMapper {
 		if (date.isEmpty()) {
 			return null;
 		}
-		
+		System.out.println(date);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		LocalDateTime datetime = LocalDate.parse(date, formatter).atTime(0, 0, 0);
 		return datetime;

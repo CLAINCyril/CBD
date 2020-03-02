@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import DTO.ComputerDTO;
-import Validator.ValidatorComputer;
 import mapper.ComputerMapper;
 import modele.Computer;
 import persistence.Connexion;
@@ -36,13 +35,20 @@ public class ServletDashBard extends HttpServlet {
 		}
 		if (request.getParameter("pageIterator") != null) {
 			pageIterator = Integer.parseInt(request.getParameter("pageIterator"));
-		}
-		computerList = new Page().getPage(pageIterator, taillePage);
+		}		
+		if(request.getParameter("search") != null) {
+			computerList = new Page().getPageByName(request.getParameter("search"), pageIterator, taillePage);
+		}else {computerList = new Page().getPage(pageIterator, taillePage);}
+		
+		if(request.getParameter("order") != null) {
+			computerList = new Page().getPageOrderByName(pageIterator, taillePage);
 
+		}
+		
 		List<ComputerDTO> computerDTOList = computerList.stream()
 				.map(computer -> ComputerMapper.convertFromComputerToComputerDTO(computer))
 				.collect(Collectors.toList());
-
+		
 		request.setAttribute("sizeComputer", sizeComputer);
 		request.setAttribute("computerList", computerDTOList);
 		request.setAttribute("pageIterator", pageIterator);

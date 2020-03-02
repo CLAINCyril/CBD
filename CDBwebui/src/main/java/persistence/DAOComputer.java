@@ -36,6 +36,9 @@ public final class DAOComputer {
 			+ "LEFT JOIN company ON company_id = company.id WHERE computer.id = ?;";
 	private static final String GET_ALL_COMPUTER = "SELECT computer.id, computer.name, introduced , discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id";
 	private static final String GET_PAGE_COMPUTER = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id  LIMIT ?,?;";
+	private static final String GET_PAGE_COMPUTER_ORDER_BY_NAME = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY computer.name LIMIT ?,?;";
+	private static final String GET_PAGE_COMPUTER_NAME = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE ? LIMIT ?,?;";
+
 	private static final String UPDATE_COMPUTER = "UPDATE computer " + "SET  name = ?, Introduced = ?,"
 			+ "Discontinued = ?,company_id = ? WHERE Id = ?";
 
@@ -220,4 +223,57 @@ public final class DAOComputer {
 		return computerlist;
 	}
 
+	public List<Computer> getPageComputerByName(String search,int offset, int number) {
+
+		Company company = new Company();
+
+		List<Computer> computerlist = new ArrayList<Computer>();
+
+		try (
+				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER_NAME);) {
+			
+			statementSelecPage.setString(1, search);
+			statementSelecPage.setInt(2, offset);
+			statementSelecPage.setInt(3, number);
+			ResultSet resListecomputer = statementSelecPage.executeQuery();
+			while (resListecomputer.next()) {
+				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
+				computerlist.add(computer);
+			}
+
+			statementSelecPage.close();
+			resListecomputer.close();
+
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+		}
+		return computerlist;
+	}
+	
+	public List<Computer> getPageComputerOrderByName(int offset, int number) {
+
+		Company company = new Company();
+
+		List<Computer> computerlist = new ArrayList<Computer>();
+
+		try (
+				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER_ORDER_BY_NAME);) {
+
+			statementSelecPage.setInt(1, offset);
+			statementSelecPage.setInt(2, number);
+			ResultSet resListecomputer = statementSelecPage.executeQuery();
+			while (resListecomputer.next()) {
+				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
+
+				computerlist.add(computer);
+			}
+
+			statementSelecPage.close();
+			resListecomputer.close();
+
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+		}
+		return computerlist;
+	}
 }
