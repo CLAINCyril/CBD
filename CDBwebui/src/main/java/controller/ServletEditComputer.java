@@ -24,7 +24,6 @@ public class ServletEditComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	ValidatorComputer validatorComputer = new ValidatorComputer();
 
-	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		int computerid = Integer.parseInt(request.getParameter("computerid"));
@@ -32,8 +31,9 @@ public class ServletEditComputer extends HttpServlet {
 		ServiceCompany serviceCompany = ServiceCompany.getInstance(Connexion.getInstance().getConn());
 
 		List<Company> companyList = serviceCompany.getAllCompany();
-		List<CompanyDTO> companysDTO = companyList.stream().map(company -> CompanyMapper.convertFromCompanyToCompanyDTO(company)).collect(Collectors.toList());
-		
+		List<CompanyDTO> companysDTO = companyList.stream()
+				.map(company -> CompanyMapper.convertFromCompanyToCompanyDTO(company)).collect(Collectors.toList());
+
 		ServiceComputer serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
 		ComputerDTO computerDTO = ComputerMapper.getInstance()
 				.convertFromComputerToComputerDTO(serviceComputer.getComputer(computerid).get());
@@ -55,12 +55,11 @@ public class ServletEditComputer extends HttpServlet {
 		CompanyDTO companyDTO = new CompanyDTO(companyId);
 		ComputerDTO computerDTO = new ComputerDTO(computerId, computerName, introduced, discontinued, companyDTO);
 		Computer computer = ComputerMapper.getInstance().fromComputerDTOToComputer(computerDTO);
-		if(validatorComputer.discontinuedAfterIntroduced(computer.getDiscontinued(), computer.getIntroduced())) {
+		if (validatorComputer.discontinuedAfterIntroduced(computer.getDiscontinued(), computer.getIntroduced())) {
 
 			ServiceComputer serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
 			serviceComputer.updateComputer(computer);
-}
-		else {
+		} else {
 			doGet(request, response);
 		}
 

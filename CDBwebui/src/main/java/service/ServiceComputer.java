@@ -62,4 +62,5 @@ public final class ServiceComputer {
 	public List<Computer> getPageComputerOrderByName(int offset, int number) {
 		return DAOComputer.getInstance(conn).getPageComputerOrderByName(offset, number);
 	}
+
 }

@@ -38,7 +38,7 @@ public final class DAOComputer {
 	private static final String GET_PAGE_COMPUTER = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id  LIMIT ?,?;";
 	private static final String GET_PAGE_COMPUTER_ORDER_BY_NAME = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY computer.name LIMIT ?,?;";
 	private static final String GET_PAGE_COMPUTER_NAME = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE ? LIMIT ?,?;";
-
+	protected static final String DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE = " DELETE FROM computer WHERE company_id = ?;";
 	private static final String UPDATE_COMPUTER = "UPDATE computer " + "SET  name = ?, Introduced = ?,"
 			+ "Discontinued = ?,company_id = ? WHERE Id = ?";
 
@@ -232,7 +232,7 @@ public final class DAOComputer {
 		try (
 				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER_NAME);) {
 			
-			statementSelecPage.setString(1, search);
+			statementSelecPage.setString(1,search + '%');
 			statementSelecPage.setInt(2, offset);
 			statementSelecPage.setInt(3, number);
 			ResultSet resListecomputer = statementSelecPage.executeQuery();
@@ -251,8 +251,6 @@ public final class DAOComputer {
 	}
 	
 	public List<Computer> getPageComputerOrderByName(int offset, int number) {
-
-		Company company = new Company();
 
 		List<Computer> computerlist = new ArrayList<Computer>();
 
@@ -276,4 +274,5 @@ public final class DAOComputer {
 		}
 		return computerlist;
 	}
+
 }

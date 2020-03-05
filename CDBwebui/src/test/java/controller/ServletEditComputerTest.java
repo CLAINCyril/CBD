@@ -11,24 +11,23 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class ServletDashBardTest extends Mockito {
+public class ServletEditComputerTest extends Mockito{
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private RequestDispatcher requestDispatcher;
-	private ServletDashBard servletDashBard;
+	private ServletEditComputer servletEditComputer;
 
 	@Before
 	public void init() {
-		servletDashBard = new ServletDashBard();
+		servletEditComputer = new ServletEditComputer();
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
 		requestDispatcher = mock(RequestDispatcher.class);
 	}
-
+	
 	@Test
-	public void testServletDashBard() throws ServletException, IOException {
-		when(request.getRequestDispatcher(eq("views/ListComputer.jsp"))).thenReturn(requestDispatcher);
-		servletDashBard.doGet(request, response);
+	public void testServletEditComputer()throws ServletException, IOException {
+		when(request.getRequestDispatcher(eq("views/EditComputer.jsp"))).thenReturn(requestDispatcher);
+		servletEditComputer.doGet(request, response);
 	}
-
 }

@@ -2,12 +2,12 @@ package service;
 
 import java.util.List;
 
-
 import modele.Computer;
 import persistence.Connexion;
 
 /**
- * Classe de pagination 
+ * Classe de pagination
+ * 
  * @author cyril
  *
  */
@@ -22,7 +22,7 @@ public class Page {
 		return computerList;
 	}
 
-	public List<Computer> getPageByName(String search,int pageIterator, int taillePage) {
+	public List<Computer> getPageByName(String search, int pageIterator, int taillePage) {
 		ServiceComputer service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
 
 		List<Computer> computerList = service.getPageComputerByName(search, pageIterator * taillePage, taillePage);

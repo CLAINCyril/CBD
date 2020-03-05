@@ -22,7 +22,7 @@ public class Computer {
 	private LocalDateTime discontinued;
 	private Company company;
 
-	public Computer(int id, String name, Company compagny) {
+	public Computer(int id, String name, Company company) {
 		this.id = id;
 		this.name = name;
 		this.company = company;

@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Test;
 
 import modele.Company;
@@ -46,7 +47,6 @@ public class DAOCompanyTest {
 		Company company = new Company.CompanyBuilder().setId(3).setName("RCA").build();
 		DAOCompany.getInstance(conn).persisteCompany(company);
 		Company company2 = DAOCompany.getInstance(conn).getCompany(3).get();
-		System.out.println(company+" "+ company2);
 		assertEquals(company, company2);
 	}
 

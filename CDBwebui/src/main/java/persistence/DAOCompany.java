@@ -75,13 +75,21 @@ public final class DAOCompany {
 	 * @author cyril
 	 * @param Id
 	 */
-	public void deleteCompany(int Id) {
-		try (Connection conn = Connexion.getInstance().getConn();
-				PreparedStatement statementSupresisoncompany = conn.prepareStatement(DELETE_COMPANY);) {
-			statementSupresisoncompany.setInt(1, Id);
-			statementSupresisoncompany.executeUpdate();
-			statementSupresisoncompany.close();
-		} catch (Exception e) {
+	public void deleteCompany(int IdCompany) {
+		try (PreparedStatement statementSuppressioncompany = conn.prepareStatement(DELETE_COMPANY);
+			PreparedStatement statementSuppressionComputer =
+					conn.prepareStatement(DAOComputer.DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE)){
+			conn.setAutoCommit(false);
+			statementSuppressionComputer.setInt(1, IdCompany);
+			statementSuppressioncompany.setInt(1, IdCompany);
+			conn.commit();
+			conn.setAutoCommit(true);
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				logger.error("In connection "+e1.getMessage());
+			}
 			logger.error(e.getMessage());
 		}
 	}

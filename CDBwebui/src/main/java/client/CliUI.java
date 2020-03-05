@@ -1,4 +1,4 @@
-package client;
+	package client;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import service.ServiceCompany;
 import service.ServiceComputer;
 
 enum ACTION {
-	LISTCOMPUTERS, LISTCOMPANIES, SHOWCOMPUTERDETAILS, CREATECOMPUTER, UPDATECOMPUTER, DELETECOMPUTER;
+	LISTCOMPUTERS, LISTCOMPANIES, SHOWCOMPUTERDETAILS, CREATECOMPUTER, UPDATECOMPUTER, DELETECOMPUTER, DELETECOMPANY;
 
 	static String value(int entree) {
 		switch (entree) {
@@ -240,6 +240,14 @@ public class CliUI {
 	public void UpdateComputer(Scanner sc) {
 
 	}
+	private void deleteCompany(Scanner sc) {
+		Connection conn = Connexion.getInstance().getConn();
+		int idCompany = Integer.valueOf(sc.next());
+		Company company = new Company();
+		company.setId(idCompany);
+		ServiceCompany.getInstance(conn).deleteCompany(company);
+
+	}
 
 	public CliUI() {
 		this.computer = new Computer();
@@ -260,6 +268,8 @@ public class CliUI {
 			System.out.println("5 : Update a computer");
 			System.out.println("============================");
 			System.out.println("6 :  Delete a computer");
+			System.out.println("============================");
+			System.out.println("7 :  Delete a Company");
 			System.out.println("============================");
 
 			int cases = sc.nextInt();
@@ -286,6 +296,10 @@ public class CliUI {
 				System.out.println("saisissez l'ID computer");
 				deleteComputer(sc);
 				break;
+			case "DELETECOMPANY":
+				System.out.println("saisissez l'ID company");
+				deleteCompany(sc);
+				break;
 
 			}
 
@@ -293,4 +307,5 @@ public class CliUI {
 		sc.close();
 
 	}
+
 }

@@ -31,25 +31,23 @@ public class ServletAddComputer extends HttpServlet {
 		ServiceCompany serviceCompany = ServiceCompany.getInstance(Connexion.getInstance().getConn());
 
 		List<Company> companyList = serviceCompany.getAllCompany();
-		List<CompanyDTO> companysDTO = companyList.stream().map(company -> CompanyMapper.convertFromCompanyToCompanyDTO(company)).collect(Collectors.toList());
+		List<CompanyDTO> companysDTO = companyList.stream()
+				.map(company -> CompanyMapper.convertFromCompanyToCompanyDTO(company)).collect(Collectors.toList());
 
-		
 		request.setAttribute("companysDTO", companysDTO);
 		request.getRequestDispatcher("views/addComputer.jsp").forward(request, response);
-		
-		}
 
+	}
 
-	
-	public void doPost(HttpServletRequest request, HttpServletResponse response) {	
+	public void doPut(HttpServletRequest request, HttpServletResponse response) {
 		String computerName = request.getParameter("computerName");
 		String introduced = request.getParameter("introduced");
-		String discontinued  = request.getParameter("discontinued");
+		String discontinued = request.getParameter("discontinued");
 		int companyId = Integer.parseInt(request.getParameter("companyId"));
-		
+
 		CompanyDTO companyDTO = new CompanyDTO(companyId);
 		ComputerDTO computerDTO = new ComputerDTO(computerName, introduced, discontinued, companyDTO);
-		
+
 		Computer computer = ComputerMapper.getInstance().fromComputerDTOToComputer(computerDTO);
 
 		ServiceComputer serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());

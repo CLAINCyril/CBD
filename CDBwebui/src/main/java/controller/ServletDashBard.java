@@ -35,20 +35,22 @@ public class ServletDashBard extends HttpServlet {
 		}
 		if (request.getParameter("pageIterator") != null) {
 			pageIterator = Integer.parseInt(request.getParameter("pageIterator"));
-		}		
-		if(request.getParameter("search") != null) {
-			computerList = new Page().getPageByName(request.getParameter("search"), pageIterator, taillePage);
-		}else {computerList = new Page().getPage(pageIterator, taillePage);}
-		
-		if(request.getParameter("order") != null) {
-			computerList = new Page().getPageOrderByName(pageIterator, taillePage);
-
 		}
-		
+		if (request.getParameter("order") != null) {
+			computerList = new Page().getPageOrderByName(pageIterator, taillePage);
+		}
+
+		if (request.getParameter("search") != null) {
+			computerList = new Page().getPageByName(request.getParameter("search"), pageIterator, taillePage);
+			request.setAttribute("search", request.getParameter("search"));
+		} else {
+			computerList = new Page().getPage(pageIterator, taillePage);
+		}
+
 		List<ComputerDTO> computerDTOList = computerList.stream()
 				.map(computer -> ComputerMapper.convertFromComputerToComputerDTO(computer))
 				.collect(Collectors.toList());
-		
+
 		request.setAttribute("sizeComputer", sizeComputer);
 		request.setAttribute("computerList", computerDTOList);
 		request.setAttribute("pageIterator", pageIterator);
@@ -58,7 +60,7 @@ public class ServletDashBard extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceComputer service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
-		
+
 		String[] computers = request.getParameter("selection").split(",");
 		for (String s : computers) {
 			service.deleteComputer(Integer.parseInt(s));

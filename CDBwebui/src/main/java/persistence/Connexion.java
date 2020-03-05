@@ -1,7 +1,6 @@
 package persistence;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -28,7 +27,7 @@ public final class Connexion {
 	private static Logger logger = LoggerFactory.getLogger(Connexion.class);
 	private static volatile Connexion instance = null;
 
-	static HikariConfig hikariConfig = new HikariConfig();
+	static HikariConfig hikariConfig;
 	Properties props = new Properties();
 	private static HikariDataSource dataSource;
 	static Connection conn;
@@ -37,9 +36,9 @@ public final class Connexion {
 		dataSource = new HikariDataSource(hikariConfig);
 	}
 
-private Connexion() {
+	private Connexion() {
 
-}
+	}
 
 	public final static Connexion getInstance() {
 		if (Connexion.instance == null) {

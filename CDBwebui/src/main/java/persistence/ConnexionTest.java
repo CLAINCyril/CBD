@@ -1,7 +1,6 @@
 package persistence;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -21,7 +20,7 @@ public class ConnexionTest {
 	private static HikariDataSource dataSource;
 	static Connection conn;
 	static {
-		hikariConfig = new HikariConfig("/datasource.properties");
+		hikariConfig = new HikariConfig("/datasourceTest.properties");
 		dataSource = new HikariDataSource(hikariConfig);
 	}
 
