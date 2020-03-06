@@ -1,9 +1,12 @@
 package fr.excilys.cclain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -50,12 +53,23 @@ public class DAOComputerTest {
 	}
 
 	@Test
-	public void testGetListCompany() {
+	public void testGetListComputer() {
 		Connection conn = ConnexionTest.getInstance().getConn();
 
 		List<Computer> companyList = new ArrayList<>();
 		companyList = DAOComputer.getInstance(conn).getAllComputer();
 		companyList.stream().forEach(companyDetails -> assertTrue(companyDetails instanceof Computer));
+	}
+	
+	@Test
+	public void testDeleteListComputer() {
+		Connection conn = ConnexionTest.getInstance().getConn();
+		List<String> listIdComputer = new ArrayList<>();
+		listIdComputer.add("400");
+		listIdComputer.add("500");
+
+		DAOComputer.getInstance(conn).deleteComputerListe(listIdComputer);
+		assertFalse(DAOComputer.getInstance(conn).getComputer(400).isPresent());
 	}
 
 }

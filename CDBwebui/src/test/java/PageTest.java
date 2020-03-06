@@ -13,8 +13,7 @@ public class PageTest extends Mockito{
 	public void getPageoffTwentyComputerExpected() {
 		int pageIterator = 0;
 		int taillePage = 20;
-		List<Computer> computers = new Page().getPage(pageIterator,
-				taillePage);
+		List<Computer> computers = new Page(pageIterator, taillePage).getPage();
 		assertEquals(computers.size(), 20);
 		}
 }

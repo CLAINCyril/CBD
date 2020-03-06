@@ -1,5 +1,6 @@
 package persistence;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 import mapper.ComputerMapper;
 import modele.Company;
@@ -27,7 +29,6 @@ public final class DAOComputer {
 	private static volatile DAOComputer instance = null;
 	private static Logger logger = LoggerFactory.getLogger(DAOComputer.class);
 
-
 	private Connection conn;
 
 	private static final String PERSISTE_COMPUTER = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
@@ -37,8 +38,9 @@ public final class DAOComputer {
 	private static final String GET_ALL_COMPUTER = "SELECT computer.id, computer.name, introduced , discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id";
 	private static final String GET_PAGE_COMPUTER = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id  LIMIT ?,?;";
 	private static final String GET_PAGE_COMPUTER_ORDER_BY_NAME = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY computer.name LIMIT ?,?;";
-	private static final String GET_PAGE_COMPUTER_NAME = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE ? LIMIT ?,?;";
+	private static final String GET_PAGE_COMPUTER_NAME = "SELECT computer.id, UPPER(computer.name), computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE ? LIMIT ?,?;";
 	protected static final String DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE = " DELETE FROM computer WHERE company_id = ?;";
+	protected static String DELETE_ALL_COMPUTER_BY_ID = "DELETE FROM computer WHERE id in (?";
 	private static final String UPDATE_COMPUTER = "UPDATE computer " + "SET  name = ?, Introduced = ?,"
 			+ "Discontinued = ?,company_id = ? WHERE Id = ?";
 
@@ -68,19 +70,18 @@ public final class DAOComputer {
 	 */
 	public void persisteComputer(Computer computer) {
 
-		try (
-				PreparedStatement statementPersisteComputer = conn.prepareStatement(PERSISTE_COMPUTER);) {
-			
+		try (PreparedStatement statementPersisteComputer = conn.prepareStatement(PERSISTE_COMPUTER);) {
+
 			LocalDateTime introduced = computer.getIntroduced();
 			LocalDateTime Discontinued = computer.getDiscontinued();
 
 			statementPersisteComputer.setString(1, computer.getName());
-			statementPersisteComputer.setTimestamp(2, introduced!=null?Timestamp.valueOf(computer.getIntroduced()):null);
-			statementPersisteComputer.setTimestamp(3, introduced!=null?Timestamp.valueOf(computer.getDiscontinued()):null);
+			statementPersisteComputer.setTimestamp(2,
+					introduced != null ? Timestamp.valueOf(introduced) : null);
+			statementPersisteComputer.setTimestamp(3,
+					introduced != null ? Timestamp.valueOf(Discontinued) : null);
 			statementPersisteComputer.setInt(4, computer.getCompany().getId());
 			statementPersisteComputer.executeUpdate();
-			
-            statementPersisteComputer.close();
 
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
@@ -98,14 +99,27 @@ public final class DAOComputer {
 	 */
 	public void deleteComputer(int id) {
 
-		try (
-				PreparedStatement statementDeleteComputer = conn.prepareStatement(DELETE_COMPUTER);) {
+		try (PreparedStatement statementDeleteComputer = conn.prepareStatement(DELETE_COMPUTER);) {
 			statementDeleteComputer.setInt(1, id);
 			statementDeleteComputer.executeUpdate();
-			statementDeleteComputer.close();
-			
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+
+		} catch (SQLException sql) {
+			logger.error(sql.getMessage());
+		}
+	}
+	
+	public void deleteComputerListe(List<String> listIdComputer) {
+		for (int i = 0; i < listIdComputer.size(); i++) {
+			DELETE_ALL_COMPUTER_BY_ID += ",?";
+		}
+		DELETE_ALL_COMPUTER_BY_ID += ");";
+		try(PreparedStatement statementDeleteListComputer= conn.prepareStatement(DELETE_ALL_COMPUTER_BY_ID);){
+			for (int i = 0; i < listIdComputer.size(); i++) {
+				statementDeleteListComputer.setString(i+1, listIdComputer.get(i));
+			}
+			statementDeleteListComputer.executeUpdate();
+		} catch (SQLException sql) {
+			System.out.println(sql.getMessage());
 		}
 	}
 
@@ -117,21 +131,24 @@ public final class DAOComputer {
 	 */
 	public Optional<Computer> getComputer(int id) {
 		Optional<Computer> computer = Optional.empty();
-		try (
-				PreparedStatement statementGetcomputer = conn.prepareStatement(GET_COMPUTER);) {
-			statementGetcomputer.setInt(1, id);
-			ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
-			if(resDetailcomputer.next()) {
-			computer = ComputerMapper.getInstance().getComputer(resDetailcomputer);
+		try (PreparedStatement statementGetcomputer = conn.prepareStatement(GET_COMPUTER);
+				ResultSet resDetailcomputer = setIntStatement(id, statementGetcomputer);) {
+			if (resDetailcomputer.next()) {
+				computer = ComputerMapper.getInstance().getComputer(resDetailcomputer);
 			}
-			resDetailcomputer.close();
 
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+		} catch (SQLException sql) {
+			logger.error(sql.getMessage());
 
 		}
 		return computer;
 
+	}
+
+	private ResultSet setIntStatement(int id, PreparedStatement statementGetcomputer) throws SQLException {
+		statementGetcomputer.setInt(1, id);
+		ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
+		return resDetailcomputer;
 	}
 
 	/**
@@ -141,22 +158,19 @@ public final class DAOComputer {
 	 */
 	public void updateComputer(Computer computer) {
 
-		try (
-				PreparedStatement statementUpdatecomputer = conn.prepareStatement(UPDATE_COMPUTER);) {
+		try (PreparedStatement statementUpdatecomputer = conn.prepareStatement(UPDATE_COMPUTER);) {
 			LocalDateTime introduced = computer.getIntroduced();
 			LocalDateTime Discontinued = computer.getDiscontinued();
 
 			statementUpdatecomputer.setString(1, computer.getName());
-			statementUpdatecomputer.setTimestamp(2, introduced!=null?Timestamp.valueOf(computer.getIntroduced()):null);
-			statementUpdatecomputer.setTimestamp(3, introduced!=null?Timestamp.valueOf(computer.getIntroduced()):null);
+			statementUpdatecomputer.setTimestamp(2, introduced != null ? Timestamp.valueOf(introduced) : null);
+			statementUpdatecomputer.setTimestamp(3, Discontinued != null ? Timestamp.valueOf(Discontinued) : null);
 			statementUpdatecomputer.setInt(4, computer.getCompany().getId());
 			statementUpdatecomputer.setInt(5, computer.getId());
 			statementUpdatecomputer.executeUpdate();
 
-			statementUpdatecomputer.close();
-
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+		} catch (SQLException sql) {
+			logger.error(sql.getMessage());
 		}
 
 	}
@@ -171,9 +185,8 @@ public final class DAOComputer {
 
 		List<Computer> computerlist = new ArrayList<Computer>();
 
-		try (
-				PreparedStatement statementSelectall = conn.prepareStatement(GET_ALL_COMPUTER);) {
-			ResultSet resListecomputer = statementSelectall.executeQuery();
+		try (PreparedStatement statementSelectall = conn.prepareStatement(GET_ALL_COMPUTER);
+				ResultSet resListecomputer = statementSelectall.executeQuery();) {
 
 			while (resListecomputer.next()) {
 				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
@@ -181,15 +194,11 @@ public final class DAOComputer {
 
 			}
 
-			statementSelectall.close();
-			resListecomputer.close();
-
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+		} catch (SQLException sql) {
+			logger.error(sql.getMessage());
 		}
 		return computerlist;
 	}
-
 
 	/**
 	 * Interroge la BDD et retourne la liste de tous les computers pagine.
@@ -201,78 +210,70 @@ public final class DAOComputer {
 		Company company = new Company();
 
 		List<Computer> computerlist = new ArrayList<Computer>();
+		try (PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER);
+				ResultSet resListecomputer = getPageResSet(offset, number, statementSelecPage);) {
 
-		try (
-				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER);) {
-
-			statementSelecPage.setInt(1, offset);
-			statementSelecPage.setInt(2, number);
-			ResultSet resListecomputer = statementSelecPage.executeQuery();
 			while (resListecomputer.next()) {
 				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
 
 				computerlist.add(computer);
 			}
 
-			statementSelecPage.close();
-			resListecomputer.close();
-
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+		} catch (SQLException sql) {
+			logger.error(sql.getMessage());
 		}
 		return computerlist;
 	}
 
-	public List<Computer> getPageComputerByName(String search,int offset, int number) {
+	public List<Computer> getPageComputerByName(String search, int offset, int number) {
 
 		Company company = new Company();
 
 		List<Computer> computerlist = new ArrayList<Computer>();
 
-		try (
-				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER_NAME);) {
-			
-			statementSelecPage.setString(1,search + '%');
-			statementSelecPage.setInt(2, offset);
-			statementSelecPage.setInt(3, number);
-			ResultSet resListecomputer = statementSelecPage.executeQuery();
-			while (resListecomputer.next()) {
-				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
-				computerlist.add(computer);
-			}
+		try (PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER_NAME);
+				ResultSet resListecomputer = getStatementSearch(search, offset, number, statementSelecPage);) {
 
-			statementSelecPage.close();
-			resListecomputer.close();
-
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+				while (resListecomputer.next()) {
+					Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
+					computerlist.add(computer);
+				}
+		} catch (SQLException sql) {
+			logger.error(sql.getMessage());
 		}
 		return computerlist;
 	}
-	
+
+	private ResultSet getStatementSearch(String search, int offset, int number, PreparedStatement statementSelecPage)
+			throws SQLException {
+		statementSelecPage.setString(1, search.toUpperCase() + '%');
+		statementSelecPage.setInt(2, offset);
+		statementSelecPage.setInt(3, number);
+		ResultSet resListecomputer = statementSelecPage.executeQuery();
+		return resListecomputer;
+	}
+
 	public List<Computer> getPageComputerOrderByName(int offset, int number) {
 
 		List<Computer> computerlist = new ArrayList<Computer>();
 
-		try (
-				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER_ORDER_BY_NAME);) {
-
-			statementSelecPage.setInt(1, offset);
-			statementSelecPage.setInt(2, number);
-			ResultSet resListecomputer = statementSelecPage.executeQuery();
+		try (PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER_ORDER_BY_NAME);
+				ResultSet resListecomputer = getPageResSet(offset, number, statementSelecPage);) {
 			while (resListecomputer.next()) {
 				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
 
 				computerlist.add(computer);
 			}
-
-			statementSelecPage.close();
-			resListecomputer.close();
-
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+		} catch (SQLException sql) {
+			logger.error(sql.getMessage());
 		}
 		return computerlist;
 	}
 
+	private ResultSet getPageResSet(int offset, int number, PreparedStatement statementSelecPage) throws SQLException {
+		statementSelecPage.setInt(1, offset);
+		statementSelecPage.setInt(2, number);
+		ResultSet resListecomputer = statementSelecPage.executeQuery();
+		return resListecomputer;
+	}
 }

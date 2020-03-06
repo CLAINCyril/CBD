@@ -24,7 +24,7 @@ import modele.Company;
 public final class DAOCompany {
 	Connection conn;
 	private static Logger logger = LoggerFactory.getLogger(DAOCompany.class);
-	
+
 	private static volatile DAOCompany instance = null;
 	private static final String PERSISTE_COMPANY = "INSERT INTO company (name)" + " values( ?)";
 	private static final String DELETE_COMPANY = "DELETE FROM company WHERE id=?";
@@ -37,7 +37,7 @@ public final class DAOCompany {
 		this.conn = conn;
 	}
 
-	public final static DAOCompany getInstance(Connection conn){
+	public final static DAOCompany getInstance(Connection conn) {
 		if (DAOCompany.instance == null) {
 			synchronized (DAOCompany.class) {
 				if (DAOCompany.instance == null) {
@@ -57,14 +57,13 @@ public final class DAOCompany {
 	 * @return
 	 */
 	public void persisteCompany(Company company) {
-		try (
-				PreparedStatement statementPersisteCompany = conn.prepareStatement(PERSISTE_COMPANY);) {
+		try (PreparedStatement statementPersisteCompany = conn.prepareStatement(PERSISTE_COMPANY);) {
 			statementPersisteCompany.setString(1, company.getName());
 			statementPersisteCompany.executeUpdate();
 			statementPersisteCompany.close();
 
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+		} catch (SQLException sql) {
+			logger.error(sql.getMessage());
 
 		}
 	}
@@ -77,23 +76,22 @@ public final class DAOCompany {
 	 */
 	public void deleteCompany(int IdCompany) {
 		try (PreparedStatement statementSuppressioncompany = conn.prepareStatement(DELETE_COMPANY);
-			PreparedStatement statementSuppressionComputer =
-					conn.prepareStatement(DAOComputer.DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE)){
+				PreparedStatement statementSuppressionComputer = conn
+						.prepareStatement(DAOComputer.DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE)) {
 			conn.setAutoCommit(false);
 			statementSuppressionComputer.setInt(1, IdCompany);
 			statementSuppressioncompany.setInt(1, IdCompany);
 			conn.commit();
 			conn.setAutoCommit(true);
-		} catch (SQLException e) {
+		} catch (SQLException sql) {
 			try {
 				conn.rollback();
-			} catch (SQLException e1) {
-				logger.error("In connection "+e1.getMessage());
+			} catch (SQLException SQLrollback) {
+				logger.error("In connection " + SQLrollback.getMessage());
 			}
-			logger.error(e.getMessage());
+			logger.error(sql.getMessage());
 		}
 	}
-
 
 	/**
 	 * Récupère un element de "company" par Id.
@@ -106,23 +104,26 @@ public final class DAOCompany {
 		Optional<Company> company = Optional.empty();
 
 		try (Connection conn = Connexion.getInstance().getConn();
-				PreparedStatement statementGetCompany = conn.prepareStatement(GET_By_ID);) {
-			statementGetCompany.setInt(1, Id);
-			ResultSet resDetailCompany = statementGetCompany.executeQuery();
-			resDetailCompany.next();
-			company = CompanyMapper.getInstance().getCompany(resDetailCompany);
-			statementGetCompany.close();
-			resDetailCompany.close();
+				PreparedStatement statementGetCompany = conn.prepareStatement(GET_By_ID);
+				ResultSet resDetailCompany = setIdCompany(Id, statementGetCompany);) {
+				resDetailCompany.next();
+				company = CompanyMapper.getInstance().getCompany(resDetailCompany);
+				resDetailCompany.close();
 
-
-		} catch (Exception e) {
-			logger.error(e.getMessage());
+		} catch (Exception sql) {
+			logger.error(sql.getMessage());
 
 		}
 		return company;
 
 	}
-	
+
+	private ResultSet setIdCompany(int Id, PreparedStatement statementGetCompany) throws SQLException {
+		statementGetCompany.setInt(1, Id);
+		ResultSet resDetailCompany = statementGetCompany.executeQuery();
+		return resDetailCompany;
+	}
+
 	/**
 	 * Modifie un element la table "company".
 	 * 
@@ -137,8 +138,8 @@ public final class DAOCompany {
 			statementUpdatecompany.executeUpdate();
 			statementUpdatecompany.close();
 
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+		} catch (SQLException sql) {
+			logger.error(sql.getMessage());
 		}
 	}
 
@@ -162,12 +163,13 @@ public final class DAOCompany {
 
 			resListeCompany.close();
 
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+		} catch (SQLException sql) {
+			logger.error(sql.getMessage());
 		}
 		return companylist;
 
 	}
+
 	/**
 	 * Interroge la BDD et retourne la liste de toutes les company pagine.
 	 * 
@@ -191,8 +193,8 @@ public final class DAOCompany {
 
 			statementSelectPage.close();
 
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+		} catch (SQLException sql) {
+			logger.error(sql.getMessage());
 		}
 		return companylist;
 	}

@@ -38,7 +38,10 @@ public final class ServiceComputer {
 	public void deleteComputer(int id) {
 		DAOComputer.getInstance(conn).deleteComputer(id);
 	}
-
+	public void deleteComputerList(List<String> listIdComputer){
+		DAOComputer.getInstance(conn).deleteComputerListe(listIdComputer);
+		}
+	
 	public Optional<Computer> getComputer(int Id) {
 		return DAOComputer.getInstance(conn).getComputer(Id);
 	}

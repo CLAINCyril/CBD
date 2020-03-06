@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.io.IOException;
@@ -23,48 +24,55 @@ public class ServletDashBard extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int pageIterator = 0;
 		int taillePage = 20;
-
-		ServiceComputer service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
-
-		int sizeComputer = service.getAllComputer().size();
-		int maxPage = sizeComputer / taillePage;
-		request.setAttribute("maxPage", maxPage);
 		List<Computer> computerList = new ArrayList<Computer>();
+		
 		if (request.getParameter("taillePage") != null) {
 			taillePage = Integer.parseInt(request.getParameter("taillePage"));
 		}
 		if (request.getParameter("pageIterator") != null) {
 			pageIterator = Integer.parseInt(request.getParameter("pageIterator"));
 		}
-		if (request.getParameter("order") != null) {
-			computerList = new Page().getPageOrderByName(pageIterator, taillePage);
-		}
-
-		if (request.getParameter("search") != null) {
-			computerList = new Page().getPageByName(request.getParameter("search"), pageIterator, taillePage);
-			request.setAttribute("search", request.getParameter("search"));
-		} else {
-			computerList = new Page().getPage(pageIterator, taillePage);
-		}
-
+		Page page = new Page(pageIterator, taillePage);
+		
+		computerList = getPage(request, page);
 		List<ComputerDTO> computerDTOList = computerList.stream()
 				.map(computer -> ComputerMapper.convertFromComputerToComputerDTO(computer))
 				.collect(Collectors.toList());
-
-		request.setAttribute("sizeComputer", sizeComputer);
-		request.setAttribute("computerList", computerDTOList);
-		request.setAttribute("pageIterator", pageIterator);
+		
+		
+		setAttributeRequest(request, pageIterator, page, computerDTOList);
 		request.getRequestDispatcher("views/ListComputer.jsp").forward(request, response);
 
 	}
 
+	private void setAttributeRequest(HttpServletRequest request, int pageIterator, Page page,
+			List<ComputerDTO> computerDTOList) {
+		request.setAttribute("search", request.getParameter("search"));
+		request.setAttribute("sizeComputer", page.getSizeComputer());
+		request.setAttribute("computerList", computerDTOList);
+		request.setAttribute("pageIterator", pageIterator);
+	}
+
+	private List<Computer> getPage(HttpServletRequest request, Page page) {
+		List<Computer> computerList;
+		if (request.getParameter("order") != null) {
+			computerList = page.getPageOrderByName();
+		}
+		if (!("".equals(request.getParameter("search"))) && (request.getParameter("search") != null)) {
+			computerList = page.getPageByName(request.getParameter("search"));
+			
+		} else {
+			computerList = page.getPage();
+		}
+		return computerList;
+	}
+
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceComputer service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+		List<String> computers = Arrays.asList(request.getParameter("selection").split(","));
 
-		String[] computers = request.getParameter("selection").split(",");
-		for (String s : computers) {
-			service.deleteComputer(Integer.parseInt(s));
-		}
+		service.deleteComputerList(computers);
 		doGet(request, response);
 	}
+
 }

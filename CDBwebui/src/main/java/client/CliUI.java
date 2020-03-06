@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import mapper.CompanyMapper;
+import mapper.ComputerMapper;
 import modele.Company;
 import modele.Computer;
 import persistence.Connexion;
@@ -31,6 +33,8 @@ enum ACTION {
 			return ("UPDATECOMPUTER");
 		case 6:
 			return ("DELETECOMPUTER");
+		case 7:
+			return ("DELETECOMPANY");
 
 		}
 		return null;
@@ -44,21 +48,6 @@ public class CliUI {
 	Company company;
 	Boolean tache;
 
-	/**
-	 * Transform un type String en type LocalDatetime.
-	 * 
-	 * @param date
-	 * @return
-	 */
-	private static LocalDateTime ConvertLocalDateTime(String date) {
-		if (date.isEmpty()) {
-			return null;
-		}
-		date = date + " 00:00:00";
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime datetime = LocalDateTime.parse(date, formatter);
-		return datetime;
-	}
 
 	/**
 	 * retourne une page d'ordinateur
@@ -99,9 +88,9 @@ public class CliUI {
 		System.out.println("Veuillez saisir le nom :\n");
 		computer.setName(sc.next());
 		System.out.println("Veuillez saisir la date de sortie :\n");
-		computer.setIntroduced(ConvertLocalDateTime(sc.next()));
+		computer.setIntroduced(ComputerMapper.getInstance().ConvertStringToLocalDateTime(sc.next()));
 		System.out.println("Veuillez saisir la date de fin de serie :\n");
-		computer.setDiscontinued(ConvertLocalDateTime(sc.next()));
+		computer.setDiscontinued(ComputerMapper.getInstance().ConvertStringToLocalDateTime(sc.next()));
 		System.out.println("Veuillez saisir l'id company:\n");
 		company = ServiceCompany.getInstance(conn).getCompany(sc.nextInt());
 		computer.setCompany(company);
@@ -117,9 +106,9 @@ public class CliUI {
 		System.out.println("Veuillez saisir le nom :\n");
 		computer.setName(sc.next());
 		System.out.println("Veuillez saisir la date de sortie :\n");
-		computer.setIntroduced(ConvertLocalDateTime(sc.next()));
+		computer.setIntroduced(ComputerMapper.getInstance().ConvertStringToLocalDateTime(sc.next()));
 		System.out.println("Veuillez saisir la date de fin de serie :\n");
-		computer.setDiscontinued(ConvertLocalDateTime(sc.next()));
+		computer.setDiscontinued(ComputerMapper.getInstance().ConvertStringToLocalDateTime(sc.next()));
 		System.out.println("Veuillez saisir l'id company:\n");
 		company = ServiceCompany.getInstance(conn).getCompany(sc.nextInt());
 		computer.setCompany(company);
@@ -300,9 +289,7 @@ public class CliUI {
 				System.out.println("saisissez l'ID company");
 				deleteCompany(sc);
 				break;
-
 			}
-
 		}
 		sc.close();
 

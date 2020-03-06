@@ -68,7 +68,7 @@ public class ComputerMapper {
 	 * @param date
 	 * @return
 	 */
-	private static LocalDateTime ConvertStringToLocalDateTime(String date) {
+	public static LocalDateTime ConvertStringToLocalDateTime(String date) {
 		if (date.isEmpty()) {
 			return null;
 		}
