@@ -20,7 +20,7 @@ public class Page {
 	public Page(int pageIterator, int taillePage) {
 		this.pageIterator = pageIterator;
 		this.taillePage = taillePage;
-		sizeComputer =  ServiceComputer.getInstance(Connexion.getInstance().getConn()).getAllComputer().size();
+		sizeComputer =  ServiceComputer.getInstance().getAllComputer().size();
 		maxPage = sizeComputer / taillePage;
 	}
 
@@ -38,22 +38,22 @@ public class Page {
 
 	public List<Computer> getPage() {
 
-		ServiceComputer service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+		ServiceComputer service = ServiceComputer.getInstance();
 		List<Computer> computerList = service.getPageComputer(pageIterator * taillePage, taillePage);
 
 		return computerList;
 	}
 
 	public List<Computer> getPageByName(String search) {
-		ServiceComputer service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+		ServiceComputer service = ServiceComputer.getInstance();
 		List<Computer> computerList = service.getPageComputerByName(search, pageIterator * taillePage, taillePage);
 		return computerList;
 	}
 
-	public List<Computer> getPageOrderByName() {
-		ServiceComputer service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+	public List<Computer> getPageOrderBy(String order) {
+		ServiceComputer service = ServiceComputer.getInstance();
 
-		List<Computer> computerList = service.getPageComputerOrderByName(pageIterator * taillePage, taillePage);
+		List<Computer> computerList = service.getPageComputerOrder(pageIterator * taillePage, taillePage, order);
 		return computerList;
 	}
 

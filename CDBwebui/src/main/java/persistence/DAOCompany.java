@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import mapper.CompanyMapper;
 import modele.Company;
@@ -21,8 +22,8 @@ import modele.Company;
  * @author cyril
  *
  */
+@Repository
 public final class DAOCompany {
-	Connection conn;
 	private static Logger logger = LoggerFactory.getLogger(DAOCompany.class);
 
 	private static volatile DAOCompany instance = null;
@@ -33,15 +34,14 @@ public final class DAOCompany {
 	private static final String SELECT_ALL_COMPANY = "SELECT id,name FROM company";
 	private static final String SELECT_COMPANY_PAGE = "SELECT * FROM company LIMIT ?,? ";
 
-	private DAOCompany(Connection conn) {
-		this.conn = conn;
+	private DAOCompany() {
 	}
 
-	public final static DAOCompany getInstance(Connection conn) {
+	public final static DAOCompany getInstance() {
 		if (DAOCompany.instance == null) {
 			synchronized (DAOCompany.class) {
 				if (DAOCompany.instance == null) {
-					DAOCompany.instance = new DAOCompany(conn);
+					DAOCompany.instance = new DAOCompany();
 				}
 			}
 		}
@@ -57,7 +57,8 @@ public final class DAOCompany {
 	 * @return
 	 */
 	public void persisteCompany(Company company) {
-		try (PreparedStatement statementPersisteCompany = conn.prepareStatement(PERSISTE_COMPANY);) {
+		try (	Connection conn = Connexion.getInstance().getConn();
+				PreparedStatement statementPersisteCompany = conn.prepareStatement(PERSISTE_COMPANY);) {
 			statementPersisteCompany.setString(1, company.getName());
 			statementPersisteCompany.executeUpdate();
 			statementPersisteCompany.close();
@@ -75,20 +76,18 @@ public final class DAOCompany {
 	 * @param Id
 	 */
 	public void deleteCompany(int IdCompany) {
-		try (PreparedStatement statementSuppressioncompany = conn.prepareStatement(DELETE_COMPANY);
-				PreparedStatement statementSuppressionComputer = conn
-						.prepareStatement(DAOComputer.DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE)) {
+		try (	Connection conn = Connexion.getInstance().getConn();
+				PreparedStatement statementSuppressioncompany = conn.prepareStatement(DELETE_COMPANY);
+				PreparedStatement statementSuppressionComputer = 
+						conn.prepareStatement(DAOComputer.DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE)) {
 			conn.setAutoCommit(false);
 			statementSuppressionComputer.setInt(1, IdCompany);
 			statementSuppressioncompany.setInt(1, IdCompany);
+			statementSuppressionComputer.executeUpdate();
+			statementSuppressioncompany.executeUpdate();
 			conn.commit();
 			conn.setAutoCommit(true);
 		} catch (SQLException sql) {
-			try {
-				conn.rollback();
-			} catch (SQLException SQLrollback) {
-				logger.error("In connection " + SQLrollback.getMessage());
-			}
 			logger.error(sql.getMessage());
 		}
 	}

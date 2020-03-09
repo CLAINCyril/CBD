@@ -1,18 +1,13 @@
 	package client;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import modele.Company;
 import modele.Computer;
-import persistence.Connexion;
 import service.ServiceCompany;
 import service.ServiceComputer;
 
@@ -58,8 +53,8 @@ public class CliUI {
 	 * @throws SQLException 
 	 */
 	public List<Computer> getOnePAgeOfComputer(int offset, int number){
-		Connection conn = Connexion.getInstance().getConn();
-		return (ServiceComputer.getInstance(conn).getPageComputer(offset, number));
+		
+		return (ServiceComputer.getInstance().getPageComputer(offset, number));
 	}
 
 	/**
@@ -71,8 +66,8 @@ public class CliUI {
 	 * @throws SQLException 
 	 */
 	public List<Company> getOnePAgeOfCompany(int offset, int number){
-		Connection conn = Connexion.getInstance().getConn();
-		return (ServiceCompany.getInstance(conn).getPageCompany(offset, number));
+		
+		return (ServiceCompany.getInstance().getPageCompany(offset, number));
 	}
 
 	/**
@@ -83,7 +78,7 @@ public class CliUI {
 	 */
 	public void createComputer(Scanner sc){
 		
-		Connection conn = Connexion.getInstance().getConn();
+		
 
 		System.out.println("Veuillez saisir le nom :\n");
 		computer.setName(sc.next());
@@ -92,14 +87,14 @@ public class CliUI {
 		System.out.println("Veuillez saisir la date de fin de serie :\n");
 		computer.setDiscontinued(ComputerMapper.getInstance().ConvertStringToLocalDateTime(sc.next()));
 		System.out.println("Veuillez saisir l'id company:\n");
-		company = ServiceCompany.getInstance(conn).getCompany(sc.nextInt());
+		company = ServiceCompany.getInstance().getCompany(sc.nextInt());
 		computer.setCompany(company);
-		ServiceComputer.getInstance(conn).persisteComputer(computer);
+		ServiceComputer.getInstance().persisteComputer(computer);
 
 	}
 
 	public void updateComputer(Scanner sc) {
-		Connection conn = Connexion.getInstance().getConn();
+		
 
 		System.out.println("Veuillez saisir l'id :\n");
 		Computer computer = new Computer.ComputerBuilder().setId(sc.nextInt()).build();
@@ -110,9 +105,9 @@ public class CliUI {
 		System.out.println("Veuillez saisir la date de fin de serie :\n");
 		computer.setDiscontinued(ComputerMapper.getInstance().ConvertStringToLocalDateTime(sc.next()));
 		System.out.println("Veuillez saisir l'id company:\n");
-		company = ServiceCompany.getInstance(conn).getCompany(sc.nextInt());
+		company = ServiceCompany.getInstance().getCompany(sc.nextInt());
 		computer.setCompany(company);
-		ServiceComputer.getInstance(conn).updateComputer(computer);
+		ServiceComputer.getInstance().updateComputer(computer);
 	}
 
 	/**
@@ -123,14 +118,14 @@ public class CliUI {
 	 */
 	public void pagineCompute(Scanner sc) {
 		List<Computer> computs = new ArrayList();
-		Connection conn = Connexion.getInstance().getConn();
+		
 
 		boolean condition = true;
 		String saisie;
 		int offset = 0;
 		int number = 20;
 		
-		int tailleL = ServiceComputer.getInstance(conn).getlength();
+		int tailleL = ServiceComputer.getInstance().getlength();
 
 		computs = getOnePAgeOfComputer(offset, number);
 		System.out.println(computs);
@@ -163,9 +158,9 @@ public class CliUI {
 	}
 
 	public void printComputer(Scanner sc) {
-		Connection conn = Connexion.getInstance().getConn();
+		
 
-		Optional<Computer> computer = ServiceComputer.getInstance(conn).getComputer(sc.nextInt());
+		Optional<Computer> computer = ServiceComputer.getInstance().getComputer(sc.nextInt());
 		if (computer.isPresent()) {
 			System.out.println(computer);
 		}
@@ -173,9 +168,9 @@ public class CliUI {
 	}
 
 	public void deleteComputer(Scanner sc) {
-		Connection conn = Connexion.getInstance().getConn();
+		
 
-		ServiceComputer.getInstance(conn).deleteComputer(sc.nextInt());
+		ServiceComputer.getInstance().deleteComputer(sc.nextInt());
 	}
 
 	/**
@@ -186,7 +181,7 @@ public class CliUI {
 	 * @throws SQLException 
 	 */
 	public void pagineCompany(Scanner sc) {
-		Connection conn = Connexion.getInstance().getConn();
+		
 
 		
 		List<Company> company = new ArrayList();
@@ -194,7 +189,7 @@ public class CliUI {
 		String saisie;
 		int offset = 0;
 		int number = 20;
-		int tailleL = ServiceCompany.getInstance(conn).getlength();
+		int tailleL = ServiceCompany.getInstance().getlength();
 
 		company = getOnePAgeOfCompany(offset, number);
 		System.out.println(company);
@@ -230,11 +225,11 @@ public class CliUI {
 
 	}
 	private void deleteCompany(Scanner sc) {
-		Connection conn = Connexion.getInstance().getConn();
+		
 		int idCompany = Integer.valueOf(sc.next());
 		Company company = new Company();
 		company.setId(idCompany);
-		ServiceCompany.getInstance(conn).deleteCompany(company);
+		ServiceCompany.getInstance().deleteCompany(company);
 
 	}
 

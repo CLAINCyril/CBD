@@ -1,28 +1,28 @@
 package service;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import modele.Company;
 import persistence.DAOCompany;
 
+@Service
 public final class ServiceCompany {
-	Connection conn;
 	DAOCompany daoCompany;
 
 	private static volatile ServiceCompany instance = null;
 		
-	private ServiceCompany(Connection conn) {
-		this.conn = conn;
-		this.daoCompany = DAOCompany.getInstance(conn);		
+	private ServiceCompany() {
+		this.daoCompany = DAOCompany.getInstance();		
 	}
 	
-	public final static ServiceCompany getInstance(Connection conn) {
+	public final static ServiceCompany getInstance() {
         if (ServiceCompany.instance == null) {
            synchronized(ServiceCompany.class) {
              if (ServiceCompany.instance == null) {
-            	 ServiceCompany.instance = new ServiceCompany(conn);
+            	 ServiceCompany.instance = new ServiceCompany();
              }
            }
         }

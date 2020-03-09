@@ -20,33 +20,29 @@ public class DAOCompanyTest {
 
 	@Test
 	public void testGetCompanyById() {
-		Connection conn = ConnexionTest.getInstance().getConn();
 		Company company1 = new Company.CompanyBuilder().setId(4).setName("Netronics").build();
-		Company company2 = DAOCompany.getInstance(conn).getCompany(4).get();
+		Company company2 = DAOCompany.getInstance().getCompany(4).get();
 		assertTrue(company1.equals(company2));
 	}
 
 	@Test
 	public void testGetListCompany() {
-		Connection conn = ConnexionTest.getInstance().getConn();
 		List<Company> companyList = new ArrayList<>();
-		companyList = DAOCompany.getInstance(conn).getAllCompany();
+		companyList = DAOCompany.getInstance().getAllCompany();
 		companyList.stream().forEach(companyDetails -> assertTrue(companyDetails instanceof Company));
 	}
 
 	@Test
 	public void testDeleteCompany() {
-		Connection conn = ConnexionTest.getInstance().getConn();
-		DAOCompany.getInstance(conn).deleteCompany(1);
-		assertFalse(DAOCompany.getInstance(conn).getCompany(1).isPresent());
+		DAOCompany.getInstance().deleteCompany(1);
+		assertFalse(DAOCompany.getInstance().getCompany(1).isPresent());
 	}
 
 	@Test
 	public void testAddCompany() {
-		Connection conn = ConnexionTest.getInstance().getConn();
 		Company company = new Company.CompanyBuilder().setId(3).setName("RCA").build();
-		DAOCompany.getInstance(conn).persisteCompany(company);
-		Company company2 = DAOCompany.getInstance(conn).getCompany(3).get();
+		DAOCompany.getInstance().persisteCompany(company);
+		Company company2 = DAOCompany.getInstance().getCompany(3).get();
 		assertEquals(company, company2);
 	}
 

@@ -1,6 +1,5 @@
 package persistence;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +12,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.stereotype.Repository;
 
 import mapper.ComputerMapper;
 import modele.Company;
@@ -25,11 +24,10 @@ import modele.Computer;
  * @author cyril
  *
  */
+@Repository
 public final class DAOComputer {
 	private static volatile DAOComputer instance = null;
 	private static Logger logger = LoggerFactory.getLogger(DAOComputer.class);
-
-	private Connection conn;
 
 	private static final String PERSISTE_COMPUTER = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
 	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id=?";
@@ -37,23 +35,22 @@ public final class DAOComputer {
 			+ "LEFT JOIN company ON company_id = company.id WHERE computer.id = ?;";
 	private static final String GET_ALL_COMPUTER = "SELECT computer.id, computer.name, introduced , discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id";
 	private static final String GET_PAGE_COMPUTER = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id  LIMIT ?,?;";
-	private static final String GET_PAGE_COMPUTER_ORDER_BY_NAME = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY computer.name LIMIT ?,?;";
-	private static final String GET_PAGE_COMPUTER_NAME = "SELECT computer.id, UPPER(computer.name), computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE ? LIMIT ?,?;";
+	private static String getPageOrderBy = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY ";
+	private static final String GET_PAGE_COMPUTER_NAME = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE ? LIMIT ?,?;";
 	protected static final String DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE = " DELETE FROM computer WHERE company_id = ?;";
 	protected static String DELETE_ALL_COMPUTER_BY_ID = "DELETE FROM computer WHERE id in (?";
 	private static final String UPDATE_COMPUTER = "UPDATE computer " + "SET  name = ?, Introduced = ?,"
 			+ "Discontinued = ?,company_id = ? WHERE Id = ?";
 
-	private DAOComputer(Connection conn) {
-		this.conn = conn;
+	private DAOComputer() {
 	}
 
-	public final static DAOComputer getInstance(Connection conn) {
+	public final static DAOComputer getInstance() {
 
 		if (DAOComputer.instance == null) {
 			synchronized (DAOComputer.class) {
 				if (DAOComputer.instance == null) {
-					DAOComputer.instance = new DAOComputer(conn);
+					DAOComputer.instance = new DAOComputer();
 				}
 			}
 		}
@@ -70,7 +67,9 @@ public final class DAOComputer {
 	 */
 	public void persisteComputer(Computer computer) {
 
-		try (PreparedStatement statementPersisteComputer = conn.prepareStatement(PERSISTE_COMPUTER);) {
+		try (
+				Connection conn = Connexion.getInstance().getConn();
+				PreparedStatement statementPersisteComputer = conn.prepareStatement(PERSISTE_COMPUTER);) {
 
 			LocalDateTime introduced = computer.getIntroduced();
 			LocalDateTime Discontinued = computer.getDiscontinued();
@@ -99,7 +98,8 @@ public final class DAOComputer {
 	 */
 	public void deleteComputer(int id) {
 
-		try (PreparedStatement statementDeleteComputer = conn.prepareStatement(DELETE_COMPUTER);) {
+		try (	Connection conn = Connexion.getInstance().getConn();
+				PreparedStatement statementDeleteComputer = conn.prepareStatement(DELETE_COMPUTER);) {
 			statementDeleteComputer.setInt(1, id);
 			statementDeleteComputer.executeUpdate();
 
@@ -109,11 +109,12 @@ public final class DAOComputer {
 	}
 	
 	public void deleteComputerListe(List<String> listIdComputer) {
-		for (int i = 0; i < listIdComputer.size(); i++) {
+		for (int i = 1; i < listIdComputer.size(); i++) {
 			DELETE_ALL_COMPUTER_BY_ID += ",?";
 		}
 		DELETE_ALL_COMPUTER_BY_ID += ");";
-		try(PreparedStatement statementDeleteListComputer= conn.prepareStatement(DELETE_ALL_COMPUTER_BY_ID);){
+		try(	Connection conn = Connexion.getInstance().getConn();
+				PreparedStatement statementDeleteListComputer= conn.prepareStatement(DELETE_ALL_COMPUTER_BY_ID);){
 			for (int i = 0; i < listIdComputer.size(); i++) {
 				statementDeleteListComputer.setString(i+1, listIdComputer.get(i));
 			}
@@ -131,7 +132,8 @@ public final class DAOComputer {
 	 */
 	public Optional<Computer> getComputer(int id) {
 		Optional<Computer> computer = Optional.empty();
-		try (PreparedStatement statementGetcomputer = conn.prepareStatement(GET_COMPUTER);
+		try (	Connection conn = Connexion.getInstance().getConn();
+				PreparedStatement statementGetcomputer = conn.prepareStatement(GET_COMPUTER);
 				ResultSet resDetailcomputer = setIntStatement(id, statementGetcomputer);) {
 			if (resDetailcomputer.next()) {
 				computer = ComputerMapper.getInstance().getComputer(resDetailcomputer);
@@ -158,7 +160,8 @@ public final class DAOComputer {
 	 */
 	public void updateComputer(Computer computer) {
 
-		try (PreparedStatement statementUpdatecomputer = conn.prepareStatement(UPDATE_COMPUTER);) {
+		try (	Connection conn = Connexion.getInstance().getConn();
+				PreparedStatement statementUpdatecomputer = conn.prepareStatement(UPDATE_COMPUTER);) {
 			LocalDateTime introduced = computer.getIntroduced();
 			LocalDateTime Discontinued = computer.getDiscontinued();
 
@@ -185,7 +188,8 @@ public final class DAOComputer {
 
 		List<Computer> computerlist = new ArrayList<Computer>();
 
-		try (PreparedStatement statementSelectall = conn.prepareStatement(GET_ALL_COMPUTER);
+		try (	Connection conn = Connexion.getInstance().getConn();
+				PreparedStatement statementSelectall = conn.prepareStatement(GET_ALL_COMPUTER);
 				ResultSet resListecomputer = statementSelectall.executeQuery();) {
 
 			while (resListecomputer.next()) {
@@ -210,9 +214,9 @@ public final class DAOComputer {
 		Company company = new Company();
 
 		List<Computer> computerlist = new ArrayList<Computer>();
-		try (PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER);
+		try (	Connection conn = Connexion.getInstance().getConn();
+				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER);
 				ResultSet resListecomputer = getPageResSet(offset, number, statementSelecPage);) {
-
 			while (resListecomputer.next()) {
 				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
 
@@ -231,9 +235,9 @@ public final class DAOComputer {
 
 		List<Computer> computerlist = new ArrayList<Computer>();
 
-		try (PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER_NAME);
+		try (	Connection conn = Connexion.getInstance().getConn();
+				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER_NAME);
 				ResultSet resListecomputer = getStatementSearch(search, offset, number, statementSelecPage);) {
-
 				while (resListecomputer.next()) {
 					Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
 					computerlist.add(computer);
@@ -246,18 +250,20 @@ public final class DAOComputer {
 
 	private ResultSet getStatementSearch(String search, int offset, int number, PreparedStatement statementSelecPage)
 			throws SQLException {
-		statementSelecPage.setString(1, search.toUpperCase() + '%');
+		statementSelecPage.setString(1, search.toUpperCase());
 		statementSelecPage.setInt(2, offset);
 		statementSelecPage.setInt(3, number);
 		ResultSet resListecomputer = statementSelecPage.executeQuery();
 		return resListecomputer;
 	}
 
-	public List<Computer> getPageComputerOrderByName(int offset, int number) {
+	public List<Computer> getPageComputerOrder(int offset, int number, String order) {
 
 		List<Computer> computerlist = new ArrayList<Computer>();
-
-		try (PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER_ORDER_BY_NAME);
+		
+		String newGetPageOrderBy = getPageOrderBy + order+" LIMIT ?,?;";
+		try (	Connection conn = Connexion.getInstance().getConn();
+				PreparedStatement statementSelecPage = conn.prepareStatement(newGetPageOrderBy);
 				ResultSet resListecomputer = getPageResSet(offset, number, statementSelecPage);) {
 			while (resListecomputer.next()) {
 				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();

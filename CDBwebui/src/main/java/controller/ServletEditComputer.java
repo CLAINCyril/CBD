@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Controller;
+
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
 import Validator.ValidatorComputer;
@@ -16,10 +18,10 @@ import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import modele.Company;
 import modele.Computer;
-import persistence.Connexion;
 import service.ServiceCompany;
 import service.ServiceComputer;
 
+@Controller
 public class ServletEditComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	ValidatorComputer validatorComputer = new ValidatorComputer();
@@ -28,13 +30,13 @@ public class ServletEditComputer extends HttpServlet {
 
 		int computerid = Integer.parseInt(request.getParameter("computerid"));
 
-		ServiceCompany serviceCompany = ServiceCompany.getInstance(Connexion.getInstance().getConn());
+		ServiceCompany serviceCompany = ServiceCompany.getInstance();
 
 		List<Company> companyList = serviceCompany.getAllCompany();
 		List<CompanyDTO> companysDTO = companyList.stream()
 				.map(company -> CompanyMapper.convertFromCompanyToCompanyDTO(company)).collect(Collectors.toList());
 
-		ServiceComputer serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+		ServiceComputer serviceComputer = ServiceComputer.getInstance();
 		ComputerDTO computerDTO = ComputerMapper.getInstance()
 				.convertFromComputerToComputerDTO(serviceComputer.getComputer(computerid).get());
 
@@ -57,8 +59,9 @@ public class ServletEditComputer extends HttpServlet {
 		Computer computer = ComputerMapper.getInstance().fromComputerDTOToComputer(computerDTO);
 		if (validatorComputer.discontinuedAfterIntroduced(computer.getDiscontinued(), computer.getIntroduced())) {
 
-			ServiceComputer serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+			ServiceComputer serviceComputer = ServiceComputer.getInstance();
 			serviceComputer.updateComputer(computer);
+			
 		} else {
 			doGet(request, response);
 		}

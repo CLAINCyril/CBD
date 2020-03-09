@@ -5,19 +5,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.io.IOException;
+import java.lang.invoke.SwitchPoint;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Controller;
+
 import DTO.ComputerDTO;
 import mapper.ComputerMapper;
 import modele.Computer;
-import persistence.Connexion;
 import service.Page;
 import service.ServiceComputer;
 
+@Controller
 public class ServletDashBard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -55,20 +58,22 @@ public class ServletDashBard extends HttpServlet {
 
 	private List<Computer> getPage(HttpServletRequest request, Page page) {
 		List<Computer> computerList;
+
 		if (request.getParameter("order") != null) {
-			computerList = page.getPageOrderByName();
+			computerList = page.getPageOrderBy(request.getParameter("order"));
 		}
-		if (!("".equals(request.getParameter("search"))) && (request.getParameter("search") != null)) {
+		else if (!("".equals(request.getParameter("search"))) && (request.getParameter("search") != null)) {
 			computerList = page.getPageByName(request.getParameter("search"));
 			
-		} else {
+		}
+		else {
 			computerList = page.getPage();
 		}
 		return computerList;
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceComputer service = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+		ServiceComputer service = ServiceComputer.getInstance();
 		List<String> computers = Arrays.asList(request.getParameter("selection").split(","));
 
 		service.deleteComputerList(computers);

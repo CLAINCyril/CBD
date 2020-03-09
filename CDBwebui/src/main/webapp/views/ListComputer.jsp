@@ -67,16 +67,16 @@
                             </span>
                         </th>
                         <th>
-                          <a href="ListComputer?order=computer">Computer name</a>
+                          <a href="ListComputer?order=Computer">Computer name</a>
                         </th>
                         <th>
-                            Introduced date
+                            <a href="ListComputer?order=Introduced">Introduced date</a>
                         </th>
                         <th>
-                            Discontinued date
+                          <a href="ListComputer?order=Discontinued">  Discontinued date</a>
                         </th>
                         <th>
-                            Company
+                            <a href="ListComputer?order=Company">Company</a>
                         </th>
 
                     </tr>

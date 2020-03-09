@@ -4,8 +4,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -22,6 +28,8 @@ import com.zaxxer.hikari.HikariDataSource;
  * @author cyril
  *
  */
+@Configuration
+@PropertySource("classpath:/datasource.properties")
 public final class Connexion {
 
 	private static Logger logger = LoggerFactory.getLogger(Connexion.class);
@@ -29,11 +37,13 @@ public final class Connexion {
 
 	static HikariConfig hikariConfig;
 	Properties props = new Properties();
-	private static HikariDataSource dataSource;
 	static Connection conn;
-	static {
+
+	@Bean
+	public static DataSource hikariDataSource() {
 		hikariConfig = new HikariConfig("/datasource.properties");
-		dataSource = new HikariDataSource(hikariConfig);
+		HikariDataSource dataSource = new HikariDataSource(hikariConfig);
+		return dataSource;
 	}
 
 	private Connexion() {
@@ -53,7 +63,7 @@ public final class Connexion {
 
 	public static Connection getConn() {
 		try {
-			conn = dataSource.getConnection();
+			conn = hikariDataSource().getConnection();
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		}

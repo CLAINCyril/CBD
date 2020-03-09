@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
@@ -18,17 +19,17 @@ import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import modele.Company;
 import modele.Computer;
-import persistence.Connexion;
 import service.ServiceCompany;
 import service.ServiceComputer;
 
+@Controller
 public class ServletAddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LoggerFactory.getLogger(ServletAddComputer.class);
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		ServiceCompany serviceCompany = ServiceCompany.getInstance(Connexion.getInstance().getConn());
+		ServiceCompany serviceCompany = ServiceCompany.getInstance();
 
 		List<Company> companyList = serviceCompany.getAllCompany();
 		List<CompanyDTO> companysDTO = companyList.stream()
@@ -39,7 +40,7 @@ public class ServletAddComputer extends HttpServlet {
 
 	}
 
-	public void doPut(HttpServletRequest request, HttpServletResponse response) {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) {
 		String computerName = request.getParameter("computerName");
 		String introduced = request.getParameter("introduced");
 		String discontinued = request.getParameter("discontinued");
@@ -50,7 +51,7 @@ public class ServletAddComputer extends HttpServlet {
 
 		Computer computer = ComputerMapper.getInstance().fromComputerDTOToComputer(computerDTO);
 
-		ServiceComputer serviceComputer = ServiceComputer.getInstance(Connexion.getInstance().getConn());
+		ServiceComputer serviceComputer = ServiceComputer.getInstance();
 		serviceComputer.persisteComputer(computer);
 		try {
 			response.sendRedirect("ListComputer");
