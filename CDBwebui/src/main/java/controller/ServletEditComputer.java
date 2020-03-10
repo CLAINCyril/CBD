@@ -4,12 +4,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
@@ -18,26 +23,39 @@ import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import modele.Company;
 import modele.Computer;
+import persistence.ConnexionTest;
 import service.ServiceCompany;
 import service.ServiceComputer;
 
 @Controller
 public class ServletEditComputer extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	ValidatorComputer validatorComputer = new ValidatorComputer();
+	
+	private static Logger logger = LoggerFactory.getLogger(ServletEditComputer.class);
+	private static ComputerMapper computerMapper = new ComputerMapper();
+	
+	@Autowired
+	ServiceCompany serviceCompany;
+	@Autowired
+	ServiceComputer serviceComputer;
+
+	public void init(ServletConfig config){
+		try {
+			super.init(config);
+		} catch (ServletException servletException) {
+			logger.debug(servletException.getMessage());
+		}
+    	SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		int computerid = Integer.parseInt(request.getParameter("computerid"));
 
-		ServiceCompany serviceCompany = ServiceCompany.getInstance();
-
 		List<Company> companyList = serviceCompany.getAllCompany();
 		List<CompanyDTO> companysDTO = companyList.stream()
 				.map(company -> CompanyMapper.convertFromCompanyToCompanyDTO(company)).collect(Collectors.toList());
 
-		ServiceComputer serviceComputer = ServiceComputer.getInstance();
-		ComputerDTO computerDTO = ComputerMapper.getInstance()
+		ComputerDTO computerDTO = computerMapper
 				.convertFromComputerToComputerDTO(serviceComputer.getComputer(computerid).get());
 
 		request.setAttribute("companysDTO", companysDTO);
@@ -56,10 +74,9 @@ public class ServletEditComputer extends HttpServlet {
 
 		CompanyDTO companyDTO = new CompanyDTO(companyId);
 		ComputerDTO computerDTO = new ComputerDTO(computerId, computerName, introduced, discontinued, companyDTO);
-		Computer computer = ComputerMapper.getInstance().fromComputerDTOToComputer(computerDTO);
-		if (validatorComputer.discontinuedAfterIntroduced(computer.getDiscontinued(), computer.getIntroduced())) {
+		Computer computer = computerMapper.fromComputerDTOToComputer(computerDTO);
+		if (new ValidatorComputer().discontinuedAfterIntroduced(computer.getDiscontinued(), computer.getIntroduced())) {
 
-			ServiceComputer serviceComputer = ServiceComputer.getInstance();
 			serviceComputer.updateComputer(computer);
 			
 		} else {

@@ -17,22 +17,11 @@ import java.sql.ResultSet;
 public class ComputerMapper {
 	Computer computer;
 	Company company;
-	private static volatile ComputerMapper instance = null;
 
-	private ComputerMapper() {
+	public ComputerMapper() {
 
 	}
 
-	public final static ComputerMapper getInstance() {
-		if (ComputerMapper.instance == null) {
-			synchronized (CompanyMapper.class) {
-				if (ComputerMapper.instance == null) {
-					ComputerMapper.instance = new ComputerMapper();
-				}
-			}
-		}
-		return ComputerMapper.instance;
-	}
 
 	public Optional<Computer> getComputer(ResultSet resDetailcomputer) throws SQLException {
 			company = new Company.CompanyBuilder().setName(resDetailcomputer.getString("company.name"))
@@ -54,7 +43,7 @@ public class ComputerMapper {
 	}
 
 	public static  ComputerDTO convertFromComputerToComputerDTO(Computer computer) {
-		CompanyDTO companyDTO = CompanyMapper.getInstance().convertFromCompanyToCompanyDTO(computer.getCompany());
+		CompanyDTO companyDTO = CompanyMapper.convertFromCompanyToCompanyDTO(computer.getCompany());
 		ComputerDTO compDTO = new ComputerDTO( computer.getName(),
 				computer.getIntroduced()==null?null:computer.getIntroduced().toString(),
 				computer.getDiscontinued()==null?null:computer.getDiscontinued().toString(),companyDTO);
@@ -81,7 +70,7 @@ public class ComputerMapper {
 	
 
 	public Computer fromComputerDTOToComputer(ComputerDTO computerDTO) {
-		Company company = CompanyMapper.getInstance().fromCompanyDTOToCompany(computerDTO.getCompany());
+		Company company = new CompanyMapper().fromCompanyDTOToCompany(computerDTO.getCompany());
 		
 		Computer computer = new Computer.ComputerBuilder().setCompany(company)
 				.setId(computerDTO.getId())

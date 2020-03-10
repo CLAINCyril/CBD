@@ -2,6 +2,8 @@ package service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import modele.Computer;
 import persistence.Connexion;
 
@@ -16,11 +18,21 @@ public class Page {
 	int taillePage;
 	int sizeComputer;
 	int maxPage;
+	ServiceComputer serviceComputer;
 
-	public Page(int pageIterator, int taillePage) {
+	
+	@Autowired
+	public Page(ServiceComputer serviceComputer) {
+		this.serviceComputer = serviceComputer;
+	}
+
+
+	
+	public Page(int pageIterator, int taillePage, ServiceComputer serviceComputer) {
+		this(serviceComputer);
 		this.pageIterator = pageIterator;
 		this.taillePage = taillePage;
-		sizeComputer =  ServiceComputer.getInstance().getAllComputer().size();
+		sizeComputer =  serviceComputer.getAllComputer().size();
 		maxPage = sizeComputer / taillePage;
 	}
 
@@ -38,20 +50,20 @@ public class Page {
 
 	public List<Computer> getPage() {
 
-		ServiceComputer service = ServiceComputer.getInstance();
+		ServiceComputer service = serviceComputer;
 		List<Computer> computerList = service.getPageComputer(pageIterator * taillePage, taillePage);
 
 		return computerList;
 	}
 
 	public List<Computer> getPageByName(String search) {
-		ServiceComputer service = ServiceComputer.getInstance();
+		ServiceComputer service = serviceComputer;
 		List<Computer> computerList = service.getPageComputerByName(search, pageIterator * taillePage, taillePage);
 		return computerList;
 	}
 
 	public List<Computer> getPageOrderBy(String order) {
-		ServiceComputer service = ServiceComputer.getInstance();
+		ServiceComputer service = serviceComputer;
 
 		List<Computer> computerList = service.getPageComputerOrder(pageIterator * taillePage, taillePage, order);
 		return computerList;

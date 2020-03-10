@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import mapper.ComputerMapper;
@@ -26,7 +27,6 @@ import modele.Computer;
  */
 @Repository
 public final class DAOComputer {
-	private static volatile DAOComputer instance = null;
 	private static Logger logger = LoggerFactory.getLogger(DAOComputer.class);
 
 	private static final String PERSISTE_COMPUTER = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
@@ -42,20 +42,14 @@ public final class DAOComputer {
 	private static final String UPDATE_COMPUTER = "UPDATE computer " + "SET  name = ?, Introduced = ?,"
 			+ "Discontinued = ?,company_id = ? WHERE Id = ?";
 
-	private DAOComputer() {
+	private static ComputerMapper computerMapper = new ComputerMapper();
+	private Connexion connexion;
+	
+	@Autowired
+	public DAOComputer(Connexion connexion) {
+		this.connexion = connexion;
 	}
 
-	public final static DAOComputer getInstance() {
-
-		if (DAOComputer.instance == null) {
-			synchronized (DAOComputer.class) {
-				if (DAOComputer.instance == null) {
-					DAOComputer.instance = new DAOComputer();
-				}
-			}
-		}
-		return DAOComputer.instance;
-	}
 
 	/**
 	 * Persiste un element de "computer" par Id.
@@ -68,7 +62,7 @@ public final class DAOComputer {
 	public void persisteComputer(Computer computer) {
 
 		try (
-				Connection conn = Connexion.getInstance().getConn();
+				Connection conn = connexion.getConn();
 				PreparedStatement statementPersisteComputer = conn.prepareStatement(PERSISTE_COMPUTER);) {
 
 			LocalDateTime introduced = computer.getIntroduced();
@@ -98,7 +92,7 @@ public final class DAOComputer {
 	 */
 	public void deleteComputer(int id) {
 
-		try (	Connection conn = Connexion.getInstance().getConn();
+		try (	Connection conn = connexion.getConn();
 				PreparedStatement statementDeleteComputer = conn.prepareStatement(DELETE_COMPUTER);) {
 			statementDeleteComputer.setInt(1, id);
 			statementDeleteComputer.executeUpdate();
@@ -113,7 +107,7 @@ public final class DAOComputer {
 			DELETE_ALL_COMPUTER_BY_ID += ",?";
 		}
 		DELETE_ALL_COMPUTER_BY_ID += ");";
-		try(	Connection conn = Connexion.getInstance().getConn();
+		try(	Connection conn = connexion.getConn();
 				PreparedStatement statementDeleteListComputer= conn.prepareStatement(DELETE_ALL_COMPUTER_BY_ID);){
 			for (int i = 0; i < listIdComputer.size(); i++) {
 				statementDeleteListComputer.setString(i+1, listIdComputer.get(i));
@@ -132,11 +126,11 @@ public final class DAOComputer {
 	 */
 	public Optional<Computer> getComputer(int id) {
 		Optional<Computer> computer = Optional.empty();
-		try (	Connection conn = Connexion.getInstance().getConn();
+		try (	Connection conn = connexion.getConn();
 				PreparedStatement statementGetcomputer = conn.prepareStatement(GET_COMPUTER);
 				ResultSet resDetailcomputer = setIntStatement(id, statementGetcomputer);) {
 			if (resDetailcomputer.next()) {
-				computer = ComputerMapper.getInstance().getComputer(resDetailcomputer);
+				computer = computerMapper.getComputer(resDetailcomputer);
 			}
 
 		} catch (SQLException sql) {
@@ -160,7 +154,7 @@ public final class DAOComputer {
 	 */
 	public void updateComputer(Computer computer) {
 
-		try (	Connection conn = Connexion.getInstance().getConn();
+		try (	Connection conn = connexion.getConn();
 				PreparedStatement statementUpdatecomputer = conn.prepareStatement(UPDATE_COMPUTER);) {
 			LocalDateTime introduced = computer.getIntroduced();
 			LocalDateTime Discontinued = computer.getDiscontinued();
@@ -188,12 +182,12 @@ public final class DAOComputer {
 
 		List<Computer> computerlist = new ArrayList<Computer>();
 
-		try (	Connection conn = Connexion.getInstance().getConn();
+		try (	Connection conn = connexion.getConn();
 				PreparedStatement statementSelectall = conn.prepareStatement(GET_ALL_COMPUTER);
 				ResultSet resListecomputer = statementSelectall.executeQuery();) {
 
 			while (resListecomputer.next()) {
-				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
+				Computer computer = computerMapper.getComputer(resListecomputer).get();
 				computerlist.add(computer);
 
 			}
@@ -214,11 +208,11 @@ public final class DAOComputer {
 		Company company = new Company();
 
 		List<Computer> computerlist = new ArrayList<Computer>();
-		try (	Connection conn = Connexion.getInstance().getConn();
+		try (	Connection conn = connexion.getConn();
 				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER);
 				ResultSet resListecomputer = getPageResSet(offset, number, statementSelecPage);) {
 			while (resListecomputer.next()) {
-				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
+				Computer computer = computerMapper.getComputer(resListecomputer).get();
 
 				computerlist.add(computer);
 			}
@@ -235,11 +229,11 @@ public final class DAOComputer {
 
 		List<Computer> computerlist = new ArrayList<Computer>();
 
-		try (	Connection conn = Connexion.getInstance().getConn();
+		try (	Connection conn = connexion.getConn();
 				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER_NAME);
 				ResultSet resListecomputer = getStatementSearch(search, offset, number, statementSelecPage);) {
 				while (resListecomputer.next()) {
-					Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
+					Computer computer = computerMapper.getComputer(resListecomputer).get();
 					computerlist.add(computer);
 				}
 		} catch (SQLException sql) {
@@ -262,11 +256,11 @@ public final class DAOComputer {
 		List<Computer> computerlist = new ArrayList<Computer>();
 		
 		String newGetPageOrderBy = getPageOrderBy + order+" LIMIT ?,?;";
-		try (	Connection conn = Connexion.getInstance().getConn();
+		try (	Connection conn = connexion.getConn();
 				PreparedStatement statementSelecPage = conn.prepareStatement(newGetPageOrderBy);
 				ResultSet resListecomputer = getPageResSet(offset, number, statementSelecPage);) {
 			while (resListecomputer.next()) {
-				Computer computer = ComputerMapper.getInstance().getComputer(resListecomputer).get();
+				Computer computer = computerMapper.getComputer(resListecomputer).get();
 
 				computerlist.add(computer);
 			}

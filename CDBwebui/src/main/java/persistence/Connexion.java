@@ -8,10 +8,9 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -28,12 +27,11 @@ import com.zaxxer.hikari.HikariDataSource;
  * @author cyril
  *
  */
-@Configuration
+@Component
 @PropertySource("classpath:/datasource.properties")
 public final class Connexion {
 
 	private static Logger logger = LoggerFactory.getLogger(Connexion.class);
-	private static volatile Connexion instance = null;
 
 	static HikariConfig hikariConfig;
 	Properties props = new Properties();
@@ -46,19 +44,8 @@ public final class Connexion {
 		return dataSource;
 	}
 
-	private Connexion() {
+	public Connexion() {
 
-	}
-
-	public final static Connexion getInstance() {
-		if (Connexion.instance == null) {
-			synchronized (Connexion.class) {
-				if (Connexion.instance == null) {
-					Connexion.instance = new Connexion();
-				}
-			}
-		}
-		return Connexion.instance;
 	}
 
 	public static Connection getConn() {

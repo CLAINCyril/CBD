@@ -12,22 +12,11 @@ import modele.Company;
 public class CompanyMapper {
 
 	Company company;
-	private static volatile CompanyMapper instance = null;
 
-	private CompanyMapper() {
+	public CompanyMapper() {
 
 	}
 
-	public final static CompanyMapper getInstance() {
-		if (CompanyMapper.instance == null) {
-			synchronized (CompanyMapper.class) {
-				if (CompanyMapper.instance == null) {
-					CompanyMapper.instance = new CompanyMapper();
-				}
-			}
-		}
-		return CompanyMapper.instance;
-	}
 
 	public Optional<Company> getCompany(ResultSet res) throws SQLException {
 		company = new Company.CompanyBuilder().setName(res.getString("company.name"))

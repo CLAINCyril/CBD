@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import mapper.ComputerMapper;
 import modele.Company;
 import modele.Computer;
@@ -42,7 +44,16 @@ public class CliUI {
 	Computer computer;
 	Company company;
 	Boolean tache;
-
+	ComputerMapper computerMapper = new ComputerMapper();
+	
+	ServiceComputer serviceComputer;
+	ServiceCompany serviceCompany;
+	
+	@Autowired
+	public CliUI(ServiceComputer serviceComputer, ServiceCompany serviceCompany) {
+		this.serviceComputer = serviceComputer;
+		this.serviceCompany = serviceCompany;
+	}
 
 	/**
 	 * retourne une page d'ordinateur
@@ -54,7 +65,7 @@ public class CliUI {
 	 */
 	public List<Computer> getOnePAgeOfComputer(int offset, int number){
 		
-		return (ServiceComputer.getInstance().getPageComputer(offset, number));
+		return (serviceComputer.getPageComputer(offset, number));
 	}
 
 	/**
@@ -67,7 +78,7 @@ public class CliUI {
 	 */
 	public List<Company> getOnePAgeOfCompany(int offset, int number){
 		
-		return (ServiceCompany.getInstance().getPageCompany(offset, number));
+		return (serviceCompany.getPageCompany(offset, number));
 	}
 
 	/**
@@ -83,13 +94,13 @@ public class CliUI {
 		System.out.println("Veuillez saisir le nom :\n");
 		computer.setName(sc.next());
 		System.out.println("Veuillez saisir la date de sortie :\n");
-		computer.setIntroduced(ComputerMapper.getInstance().ConvertStringToLocalDateTime(sc.next()));
+		computer.setIntroduced(computerMapper.ConvertStringToLocalDateTime(sc.next()));
 		System.out.println("Veuillez saisir la date de fin de serie :\n");
-		computer.setDiscontinued(ComputerMapper.getInstance().ConvertStringToLocalDateTime(sc.next()));
+		computer.setDiscontinued(computerMapper.ConvertStringToLocalDateTime(sc.next()));
 		System.out.println("Veuillez saisir l'id company:\n");
-		company = ServiceCompany.getInstance().getCompany(sc.nextInt());
+		company = serviceCompany.getCompany(sc.nextInt());
 		computer.setCompany(company);
-		ServiceComputer.getInstance().persisteComputer(computer);
+		serviceComputer.persisteComputer(computer);
 
 	}
 
@@ -101,13 +112,13 @@ public class CliUI {
 		System.out.println("Veuillez saisir le nom :\n");
 		computer.setName(sc.next());
 		System.out.println("Veuillez saisir la date de sortie :\n");
-		computer.setIntroduced(ComputerMapper.getInstance().ConvertStringToLocalDateTime(sc.next()));
+		computer.setIntroduced(computerMapper.ConvertStringToLocalDateTime(sc.next()));
 		System.out.println("Veuillez saisir la date de fin de serie :\n");
-		computer.setDiscontinued(ComputerMapper.getInstance().ConvertStringToLocalDateTime(sc.next()));
+		computer.setDiscontinued(computerMapper.ConvertStringToLocalDateTime(sc.next()));
 		System.out.println("Veuillez saisir l'id company:\n");
-		company = ServiceCompany.getInstance().getCompany(sc.nextInt());
+		company = serviceCompany.getCompany(sc.nextInt());
 		computer.setCompany(company);
-		ServiceComputer.getInstance().updateComputer(computer);
+		serviceComputer.updateComputer(computer);
 	}
 
 	/**
@@ -125,7 +136,7 @@ public class CliUI {
 		int offset = 0;
 		int number = 20;
 		
-		int tailleL = ServiceComputer.getInstance().getlength();
+		int tailleL = serviceComputer.getlength();
 
 		computs = getOnePAgeOfComputer(offset, number);
 		System.out.println(computs);
@@ -160,7 +171,7 @@ public class CliUI {
 	public void printComputer(Scanner sc) {
 		
 
-		Optional<Computer> computer = ServiceComputer.getInstance().getComputer(sc.nextInt());
+		Optional<Computer> computer = serviceComputer.getComputer(sc.nextInt());
 		if (computer.isPresent()) {
 			System.out.println(computer);
 		}
@@ -170,7 +181,7 @@ public class CliUI {
 	public void deleteComputer(Scanner sc) {
 		
 
-		ServiceComputer.getInstance().deleteComputer(sc.nextInt());
+		serviceComputer.deleteComputer(sc.nextInt());
 	}
 
 	/**
@@ -189,7 +200,7 @@ public class CliUI {
 		String saisie;
 		int offset = 0;
 		int number = 20;
-		int tailleL = ServiceCompany.getInstance().getlength();
+		int tailleL = serviceCompany.getlength();
 
 		company = getOnePAgeOfCompany(offset, number);
 		System.out.println(company);
@@ -229,7 +240,7 @@ public class CliUI {
 		int idCompany = Integer.valueOf(sc.next());
 		Company company = new Company();
 		company.setId(idCompany);
-		ServiceCompany.getInstance().deleteCompany(company);
+		serviceCompany.deleteCompany(company);
 
 	}
 

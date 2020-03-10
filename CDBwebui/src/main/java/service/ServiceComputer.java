@@ -3,6 +3,7 @@ package service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import modele.Computer;
@@ -30,25 +31,17 @@ enum EVITEINJECTION {
 @Service
 public final class ServiceComputer {
 
-	private static volatile ServiceComputer instance = null;
+	private DAOComputer daoComputer;
 
-	private ServiceComputer() {
+	@Autowired
+	public ServiceComputer(DAOComputer daoComputer) {
+		this.daoComputer = daoComputer;
 
 	}
 
-	public final static ServiceComputer getInstance() {
-		if (ServiceComputer.instance == null) {
-			synchronized (ServiceComputer.class) {
-				if (ServiceComputer.instance == null) {
-					ServiceComputer.instance = new ServiceComputer();
-				}
-			}
-		}
-		return ServiceComputer.instance;
-	}
 
 	public void persisteComputer(Computer computer) {
-		DAOComputer.getInstance().persisteComputer(computer);
+		daoComputer.persisteComputer(computer);
 	}
 
 	public int getlength() {
@@ -56,36 +49,36 @@ public final class ServiceComputer {
 	}
 
 	public void deleteComputer(int id) {
-		DAOComputer.getInstance().deleteComputer(id);
+		daoComputer.deleteComputer(id);
 	}
 
 	public void deleteComputerList(List<String> listIdComputer) {
-		DAOComputer.getInstance().deleteComputerListe(listIdComputer);
+		daoComputer.deleteComputerListe(listIdComputer);
 	}
 
 	public Optional<Computer> getComputer(int Id) {
-		return DAOComputer.getInstance().getComputer(Id);
+		return daoComputer.getComputer(Id);
 	}
 
 	public List<Computer> getAllComputer() {
-		return DAOComputer.getInstance().getAllComputer();
+		return daoComputer.getAllComputer();
 	}
 
 	public List<Computer> getPageComputer(int offset, int number) {
-		return DAOComputer.getInstance().getPageComputer(offset, number);
+		return daoComputer.getPageComputer(offset, number);
 	}
 
 	public void updateComputer(Computer computer) {
-		DAOComputer.getInstance().updateComputer(computer);
+		daoComputer.updateComputer(computer);
 	}
 
 	public List<Computer> getPageComputerByName(String search, int offset, int number) {
-		return DAOComputer.getInstance().getPageComputerByName(search, offset, number);
+		return daoComputer.getPageComputerByName(search, offset, number);
 	}
 
 	public List<Computer> getPageComputerOrder(int offset, int number, String order) {
 		order = EVITEINJECTION.value(order.toUpperCase());
-		return DAOComputer.getInstance().getPageComputerOrder(offset, number, order);
+		return daoComputer.getPageComputerOrder(offset, number, order);
 	}
 
 }

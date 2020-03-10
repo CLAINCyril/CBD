@@ -28,16 +28,6 @@ public class ConnexionTest {
 
 	}
 
-	public final static ConnexionTest getInstance() {
-		if (ConnexionTest.instance == null) {
-			synchronized (ConnexionTest.class) {
-				if (ConnexionTest.instance == null) {
-					ConnexionTest.instance = new ConnexionTest();
-				}
-			}
-		}
-		return ConnexionTest.instance;
-	}
 
 	public static Connection getConn() {
 		try {

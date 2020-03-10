@@ -3,6 +3,7 @@ package service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import modele.Company;
@@ -12,22 +13,12 @@ import persistence.DAOCompany;
 public final class ServiceCompany {
 	DAOCompany daoCompany;
 
-	private static volatile ServiceCompany instance = null;
-		
-	private ServiceCompany() {
-		this.daoCompany = DAOCompany.getInstance();		
+	
+	@Autowired
+	public ServiceCompany(DAOCompany daoCompany) {
+		this.daoCompany = daoCompany;		
 	}
 	
-	public final static ServiceCompany getInstance() {
-        if (ServiceCompany.instance == null) {
-           synchronized(ServiceCompany.class) {
-             if (ServiceCompany.instance == null) {
-            	 ServiceCompany.instance = new ServiceCompany();
-             }
-           }
-        }
-        return ServiceCompany.instance;
-	}
 
 	public int getlength() {
 		return getAllCompany().size();

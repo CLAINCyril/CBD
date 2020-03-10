@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import mapper.CompanyMapper;
@@ -34,19 +35,14 @@ public final class DAOCompany {
 	private static final String SELECT_ALL_COMPANY = "SELECT id,name FROM company";
 	private static final String SELECT_COMPANY_PAGE = "SELECT * FROM company LIMIT ?,? ";
 
-	private DAOCompany() {
+	private static CompanyMapper companyMapper = new CompanyMapper();
+	private Connexion connexion;
+	
+	@Autowired
+	public DAOCompany(Connexion connexion) {
+		this.connexion = connexion;
 	}
 
-	public final static DAOCompany getInstance() {
-		if (DAOCompany.instance == null) {
-			synchronized (DAOCompany.class) {
-				if (DAOCompany.instance == null) {
-					DAOCompany.instance = new DAOCompany();
-				}
-			}
-		}
-		return DAOCompany.instance;
-	}
 
 	/**
 	 * Persiste un element de "company" par Id.
@@ -57,7 +53,7 @@ public final class DAOCompany {
 	 * @return
 	 */
 	public void persisteCompany(Company company) {
-		try (	Connection conn = Connexion.getInstance().getConn();
+		try (	Connection conn = connexion.getConn();
 				PreparedStatement statementPersisteCompany = conn.prepareStatement(PERSISTE_COMPANY);) {
 			statementPersisteCompany.setString(1, company.getName());
 			statementPersisteCompany.executeUpdate();
@@ -76,7 +72,7 @@ public final class DAOCompany {
 	 * @param Id
 	 */
 	public void deleteCompany(int IdCompany) {
-		try (	Connection conn = Connexion.getInstance().getConn();
+		try (	Connection conn = connexion.getConn();
 				PreparedStatement statementSuppressioncompany = conn.prepareStatement(DELETE_COMPANY);
 				PreparedStatement statementSuppressionComputer = 
 						conn.prepareStatement(DAOComputer.DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE)) {
@@ -102,11 +98,11 @@ public final class DAOCompany {
 
 		Optional<Company> company = Optional.empty();
 
-		try (Connection conn = Connexion.getInstance().getConn();
+		try (Connection conn = connexion.getConn();
 				PreparedStatement statementGetCompany = conn.prepareStatement(GET_By_ID);
 				ResultSet resDetailCompany = setIdCompany(Id, statementGetCompany);) {
 				resDetailCompany.next();
-				company = CompanyMapper.getInstance().getCompany(resDetailCompany);
+				company = companyMapper.getCompany(resDetailCompany);
 				resDetailCompany.close();
 
 		} catch (Exception sql) {
@@ -130,7 +126,7 @@ public final class DAOCompany {
 	 */
 	public void updateCompany(Company company) {
 
-		try (Connection conn = Connexion.getInstance().getConn();
+		try (Connection conn = connexion.getConn();
 				PreparedStatement statementUpdatecompany = conn.prepareStatement(UPDATE_COMPANY);) {
 
 			statementUpdatecompany.setString(1, company.getName());
@@ -151,13 +147,13 @@ public final class DAOCompany {
 
 		List<Company> companylist = new ArrayList<Company>();
 
-		try (Connection conn = Connexion.getInstance().getConn();
+		try (Connection conn = connexion.getConn();
 				Statement statementSelectall = conn.createStatement();) {
 
 			ResultSet resListeCompany = statementSelectall.executeQuery(SELECT_ALL_COMPANY);
 			while (resListeCompany.next()) {
 
-				companylist.add(CompanyMapper.getInstance().getCompany(resListeCompany).get());
+				companylist.add(companyMapper.getCompany(resListeCompany).get());
 			}
 
 			resListeCompany.close();
@@ -180,14 +176,14 @@ public final class DAOCompany {
 
 		List<Company> companylist = new ArrayList<Company>();
 
-		try (Connection conn = Connexion.getInstance().getConn();
+		try (Connection conn = connexion.getConn();
 				PreparedStatement statementSelectPage = conn.prepareStatement(SELECT_COMPANY_PAGE);) {
 			statementSelectPage.setInt(1, offset);
 			statementSelectPage.setInt(2, number);
 			ResultSet resListeCompany = statementSelectPage.executeQuery();
 
 			while (resListeCompany.next()) {
-				companylist.add(CompanyMapper.getInstance().getCompany(resListeCompany).get());
+				companylist.add(companyMapper.getCompany(resListeCompany).get());
 			}
 
 			statementSelectPage.close();
