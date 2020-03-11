@@ -4,34 +4,43 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+@Component
+@PropertySource("classpath:/datasourceTest.properties")
 public class ConnexionTest {
 
 	private static Logger logger = LoggerFactory.getLogger(ConnexionTest.class);
-	private static volatile ConnexionTest instance = null;
 	
-	static HikariConfig hikariConfig = new HikariConfig();
 	Properties props = new Properties();
+	static HikariConfig hikariConfig = new HikariConfig();
 	private static HikariDataSource dataSource;
 	static Connection conn;
-	static {
+	
+	@Bean
+	public static DataSource hikariDataSource() {
 		hikariConfig = new HikariConfig("/datasourceTest.properties");
 		dataSource = new HikariDataSource(hikariConfig);
+		return dataSource;
 	}
-
-	private ConnexionTest() {
+	
+	public ConnexionTest() {
 
 	}
 
 
 	public static Connection getConn() {
 		try {
-			conn = dataSource.getConnection();
+			conn = hikariDataSource().getConnection();
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		}

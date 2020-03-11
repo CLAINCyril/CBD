@@ -19,20 +19,12 @@ public class Page {
 	int sizeComputer;
 	int maxPage;
 	ServiceComputer serviceComputer;
-
 	
-	@Autowired
-	public Page(ServiceComputer serviceComputer) {
-		this.serviceComputer = serviceComputer;
-	}
-
-
-	
-	public Page(int pageIterator, int taillePage, ServiceComputer serviceComputer) {
-		this(serviceComputer);
+	public Page(int pageIterator, int taillePage,ServiceComputer service) {
 		this.pageIterator = pageIterator;
 		this.taillePage = taillePage;
-		sizeComputer =  serviceComputer.getAllComputer().size();
+		sizeComputer =  service.getAllComputer().size();
+		this.serviceComputer = service;
 		maxPage = sizeComputer / taillePage;
 	}
 

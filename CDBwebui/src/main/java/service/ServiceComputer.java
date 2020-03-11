@@ -32,6 +32,7 @@ enum EVITEINJECTION {
 public final class ServiceComputer {
 
 	private DAOComputer daoComputer;
+	private Page page;
 
 	@Autowired
 	public ServiceComputer(DAOComputer daoComputer) {
