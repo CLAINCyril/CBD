@@ -16,7 +16,6 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Component
-@PropertySource("classpath:/datasourceTest.properties")
 public class ConnexionTest {
 
 	private static Logger logger = LoggerFactory.getLogger(ConnexionTest.class);

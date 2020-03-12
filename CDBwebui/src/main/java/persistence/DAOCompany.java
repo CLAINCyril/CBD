@@ -6,13 +6,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import mapper.CompanyMapper;
 import modele.Company;
@@ -23,26 +32,25 @@ import modele.Company;
  * @author cyril
  *
  */
+
 @Repository
 public final class DAOCompany {
 	private static Logger logger = LoggerFactory.getLogger(DAOCompany.class);
 
-	private static volatile DAOCompany instance = null;
-	private static final String PERSISTE_COMPANY = "INSERT INTO company (name)" + " values( ?)";
-	private static final String DELETE_COMPANY = "DELETE FROM company WHERE id=?";
-	private static final String GET_By_ID = " SELECT id,name FROM company WHERE id=?";
-	private static final String UPDATE_COMPANY = "UPDATE company " + "SET name = ? WHERE Id = ?";
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	private static final String PERSISTE_COMPANY = "INSERT INTO company name = :name";
+	private static final String DELETE_COMPANY = "DELETE FROM company WHERE id = :id";
+	private static final String GET_By_ID = " SELECT id,name FROM company WHERE id = :id";
+	private static final String UPDATE_COMPANY = "UPDATE company SET name = :name WHERE Id = :id";
 	private static final String SELECT_ALL_COMPANY = "SELECT id,name FROM company";
-	private static final String SELECT_COMPANY_PAGE = "SELECT * FROM company LIMIT ?,? ";
+	private static final String SELECT_COMPANY_PAGE = "SELECT * FROM company LIMIT :limit,:offset ";
 
-	private static CompanyMapper companyMapper = new CompanyMapper();
-	private Connexion connexion;
-	
-	@Autowired
-	public DAOCompany(Connexion connexion) {
-		this.connexion = connexion;
+	private CompanyMapper companyMapper = new CompanyMapper();
+
+	public DAOCompany(DataSource dataSource) {
+		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
-
 
 	/**
 	 * Persiste un element de "company" par Id.
@@ -53,16 +61,8 @@ public final class DAOCompany {
 	 * @return
 	 */
 	public void persisteCompany(Company company) {
-		try (	Connection conn = connexion.getConn();
-				PreparedStatement statementPersisteCompany = conn.prepareStatement(PERSISTE_COMPANY);) {
-			statementPersisteCompany.setString(1, company.getName());
-			statementPersisteCompany.executeUpdate();
-			statementPersisteCompany.close();
-
-		} catch (SQLException sql) {
-			logger.error(sql.getMessage());
-
-		}
+		Map<String, String> namedParameters = Collections.singletonMap("name", company.getName());
+		this.namedParameterJdbcTemplate.update(PERSISTE_COMPANY, namedParameters);
 	}
 
 	/**
@@ -71,21 +71,12 @@ public final class DAOCompany {
 	 * @author cyril
 	 * @param Id
 	 */
+	
+	@Transactional
 	public void deleteCompany(int IdCompany) {
-		try (	Connection conn = connexion.getConn();
-				PreparedStatement statementSuppressioncompany = conn.prepareStatement(DELETE_COMPANY);
-				PreparedStatement statementSuppressionComputer = 
-						conn.prepareStatement(DAOComputer.DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE)) {
-			conn.setAutoCommit(false);
-			statementSuppressionComputer.setInt(1, IdCompany);
-			statementSuppressioncompany.setInt(1, IdCompany);
-			statementSuppressionComputer.executeUpdate();
-			statementSuppressioncompany.executeUpdate();
-			conn.commit();
-			conn.setAutoCommit(true);
-		} catch (SQLException sql) {
-			logger.error(sql.getMessage());
-		}
+		Map<String, Integer> namedParameters = Collections.singletonMap("id", IdCompany);
+		this.namedParameterJdbcTemplate.update(DAOComputer.DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE,namedParameters);
+		this.namedParameterJdbcTemplate.update(DELETE_COMPANY,namedParameters);
 	}
 
 	/**
@@ -94,48 +85,21 @@ public final class DAOCompany {
 	 * @param Id
 	 * @return Company
 	 */
-	public Optional<Company> getCompany(int Id) {
-
-		Optional<Company> company = Optional.empty();
-
-		try (Connection conn = connexion.getConn();
-				PreparedStatement statementGetCompany = conn.prepareStatement(GET_By_ID);
-				ResultSet resDetailCompany = setIdCompany(Id, statementGetCompany);) {
-				resDetailCompany.next();
-				company = companyMapper.getCompany(resDetailCompany);
-				resDetailCompany.close();
-
-		} catch (Exception sql) {
-			logger.error(sql.getMessage());
-
-		}
-		return company;
+	public Optional<Company> getCompany(int Id) {		
+		Map<String, Integer> idParameters = Collections.singletonMap("id", Id);
+		Company company = this.namedParameterJdbcTemplate.queryForObject(GET_By_ID, idParameters, this.companyMapper);
+		return Optional.of(company);
 
 	}
-
-	private ResultSet setIdCompany(int Id, PreparedStatement statementGetCompany) throws SQLException {
-		statementGetCompany.setInt(1, Id);
-		ResultSet resDetailCompany = statementGetCompany.executeQuery();
-		return resDetailCompany;
-	}
-
+	
 	/**
 	 * Modifie un element la table "company".
 	 * 
 	 * @param company
 	 */
 	public void updateCompany(Company company) {
-
-		try (Connection conn = connexion.getConn();
-				PreparedStatement statementUpdatecompany = conn.prepareStatement(UPDATE_COMPANY);) {
-
-			statementUpdatecompany.setString(1, company.getName());
-			statementUpdatecompany.executeUpdate();
-			statementUpdatecompany.close();
-
-		} catch (SQLException sql) {
-			logger.error(sql.getMessage());
-		}
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("ID",company.getId()).addValue("name", company.getName());
+		this.namedParameterJdbcTemplate.update(UPDATE_COMPANY, namedParameters);
 	}
 
 	/**
@@ -144,24 +108,9 @@ public final class DAOCompany {
 	 * @return List
 	 */
 	public List<Company> getAllCompany() {
-
-		List<Company> companylist = new ArrayList<Company>();
-
-		try (Connection conn = connexion.getConn();
-				Statement statementSelectall = conn.createStatement();) {
-
-			ResultSet resListeCompany = statementSelectall.executeQuery(SELECT_ALL_COMPANY);
-			while (resListeCompany.next()) {
-
-				companylist.add(companyMapper.getCompany(resListeCompany).get());
-			}
-
-			resListeCompany.close();
-
-		} catch (SQLException sql) {
-			logger.error(sql.getMessage());
-		}
-		return companylist;
+		
+		SqlParameterSource namedParameters = new MapSqlParameterSource();
+		return this.namedParameterJdbcTemplate.queryForList(SELECT_ALL_COMPANY, namedParameters, Company.class);
 
 	}
 
@@ -174,24 +123,10 @@ public final class DAOCompany {
 	 */
 	public List<Company> getPageCompany(int offset, int number) {
 
-		List<Company> companylist = new ArrayList<Company>();
 
-		try (Connection conn = connexion.getConn();
-				PreparedStatement statementSelectPage = conn.prepareStatement(SELECT_COMPANY_PAGE);) {
-			statementSelectPage.setInt(1, offset);
-			statementSelectPage.setInt(2, number);
-			ResultSet resListeCompany = statementSelectPage.executeQuery();
-
-			while (resListeCompany.next()) {
-				companylist.add(companyMapper.getCompany(resListeCompany).get());
-			}
-
-			statementSelectPage.close();
-
-		} catch (SQLException sql) {
-			logger.error(sql.getMessage());
-		}
-		return companylist;
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("limit", number).addValue("offset", offset);
+		return this.namedParameterJdbcTemplate.queryForList(SELECT_COMPANY_PAGE, namedParameters, Company.class);
+ 
 	}
 
 }

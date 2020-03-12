@@ -8,12 +8,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+import org.springframework.stereotype.Component;
 
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
 
 import java.sql.ResultSet;
 
+@Component
 public class ComputerMapper {
 	Computer computer;
 	Company company;

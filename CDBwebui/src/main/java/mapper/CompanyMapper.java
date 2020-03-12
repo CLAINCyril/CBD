@@ -6,10 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.jdbc.core.RowMapper;
+import javax.swing.tree.TreePath;
+
+import org.springframework.stereotype.Component;
+
 import DTO.CompanyDTO;
 import modele.Company;
 
-public class CompanyMapper {
+@Component
+public class CompanyMapper implements RowMapper<Company>{
 
 	Company company;
 
@@ -17,7 +23,7 @@ public class CompanyMapper {
 
 	}
 
-
+	
 	public Optional<Company> getCompany(ResultSet res) throws SQLException {
 		company = new Company.CompanyBuilder().setName(res.getString("company.name"))
 				.setId(res.getInt("company.id")).build();
@@ -54,6 +60,12 @@ public class CompanyMapper {
 		
 		return company;
 	}
-	
+
+
+	@Override
+	public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		return getCompany(rs).get();
+	}
 
 }

@@ -10,7 +10,7 @@ import modele.Company;
 import persistence.DAOCompany;
 
 @Service
-public final class ServiceCompany {
+public class ServiceCompany {
 	DAOCompany daoCompany;
 
 	
