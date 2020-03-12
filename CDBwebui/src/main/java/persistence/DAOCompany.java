@@ -48,8 +48,11 @@ public final class DAOCompany {
 
 	private CompanyMapper companyMapper = new CompanyMapper();
 
-	public DAOCompany(DataSource dataSource) {
+	DAOComputer daoComputer;
+	
+	public DAOCompany(DataSource dataSource, DAOComputer daoComputer) {
 		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		this.daoComputer = daoComputer;
 	}
 
 	/**
