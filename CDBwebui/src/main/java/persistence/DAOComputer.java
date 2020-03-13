@@ -1,22 +1,19 @@
 package persistence;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import mapper.ComputerMapper;
-import modele.Company;
 import modele.Computer;
 
 /**
@@ -27,253 +24,97 @@ import modele.Computer;
  */
 @Repository
 public final class DAOComputer {
-	private static Logger logger = LoggerFactory.getLogger(DAOComputer.class);
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	private static final String PERSISTE_COMPUTER = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
-	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id=?";
-	private static final String GET_COMPUTER = "SELECT * FROM computer "
-			+ "LEFT JOIN company ON company_id = company.id WHERE computer.id = ?;";
+	private static final String PERSISTE_COMPUTER = "INSERT INTO computer (name, introduced, discontinued, company_id)"
+			+ " VALUES (:computerName, :introduced, :discontinued, :companyId);";
+	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id=:id";
+	private static final String GET_COMPUTER = "SELECT computer.id, computer.name, introduced , discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.id = :computer.id;";
 	private static final String GET_ALL_COMPUTER = "SELECT computer.id, computer.name, introduced , discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id";
-	private static final String GET_PAGE_COMPUTER = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id  LIMIT ?,?;";
-	private static String getPageOrderBy = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY ";
-	private static final String GET_PAGE_COMPUTER_NAME = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE ? LIMIT ?,?;";
+	private static final String GET_PAGE_COMPUTER = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id  LIMIT :offset,:number;";
+	private static final String GET_PAGE_ORDER_BY = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY ";
+	private static final String GET_PAGE_COMPUTER_NAME = "SELECT computer.id, computer.name, computer.introduced , computer.discontinued , company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE :like LIMIT :offset,:number;";
 	protected static final String DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE = " DELETE FROM computer WHERE company_id = :id;";
-	protected static String DELETE_ALL_COMPUTER_BY_ID = "DELETE FROM computer WHERE id in (?";
-	private static final String UPDATE_COMPUTER = "UPDATE computer " + "SET  name = ?, Introduced = ?,"
-			+ "Discontinued = ?,company_id = ? WHERE Id = ?";
+	protected static final String DELETE_ALL_COMPUTER_BY_ID = "DELETE FROM computer WHERE id IN (:id)";
+	private static final String UPDATE_COMPUTER = "UPDATE computer " + "SET  name = :name, Introduced = :Introduced,"
+			+ "Discontinued = :Discontinued,company_id = :company_id WHERE Id = :Id";
 
-	private static ComputerMapper computerMapper = new ComputerMapper();
-	private Connexion connexion;
-	
-	@Autowired
-	public DAOComputer(Connexion connexion) {
-		this.connexion = connexion;
+	private ComputerMapper computerMapper = new ComputerMapper();
+
+	public DAOComputer(DataSource dataSource) {
+		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 
-
-	/**
-	 * Persiste un element de "computer" par Id.
-	 * 
-	 * @author cyril
-	 * @param id
-	 * @param nom
-	 * @return
-	 */
 	public void persisteComputer(Computer computer) {
-
-		try (
-				Connection conn = connexion.getConn();
-				PreparedStatement statementPersisteComputer = conn.prepareStatement(PERSISTE_COMPUTER);) {
-
-			LocalDateTime introduced = computer.getIntroduced();
-			LocalDateTime Discontinued = computer.getDiscontinued();
-
-			statementPersisteComputer.setString(1, computer.getName());
-			statementPersisteComputer.setTimestamp(2,
-					introduced != null ? Timestamp.valueOf(introduced) : null);
-			statementPersisteComputer.setTimestamp(3,
-					introduced != null ? Timestamp.valueOf(Discontinued) : null);
-			statementPersisteComputer.setInt(4, computer.getCompany().getId());
-			statementPersisteComputer.executeUpdate();
-
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-
-		}
-
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+				.addValue("computerName", computer.getName())
+				.addValue("introduced", computer.getIntroduced())
+				.addValue("discontinued", computer.getDiscontinued())
+				.addValue("companyId", computer.getCompany().getId());
+		this.namedParameterJdbcTemplate.update(PERSISTE_COMPUTER, namedParameters);
 	}
 
-	/**
-	 * Supprime un element de "computer" par Id.
-	 * 
-	 * @author cyril
-	 * @param id
-	 * @return
-	 */
 	public void deleteComputer(int id) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
+		this.namedParameterJdbcTemplate.update(DELETE_COMPUTER, namedParameters);
 
-		try (	Connection conn = connexion.getConn();
-				PreparedStatement statementDeleteComputer = conn.prepareStatement(DELETE_COMPUTER);) {
-			statementDeleteComputer.setInt(1, id);
-			statementDeleteComputer.executeUpdate();
-
-		} catch (SQLException sql) {
-			logger.error(sql.getMessage());
-		}
 	}
-	
+
 	public void deleteComputerListe(List<String> listIdComputer) {
-		for (int i = 1; i < listIdComputer.size(); i++) {
-			DELETE_ALL_COMPUTER_BY_ID += ",?";
-		}
-		DELETE_ALL_COMPUTER_BY_ID += ");";
-		try(	Connection conn = connexion.getConn();
-				PreparedStatement statementDeleteListComputer= conn.prepareStatement(DELETE_ALL_COMPUTER_BY_ID);){
-			for (int i = 0; i < listIdComputer.size(); i++) {
-				statementDeleteListComputer.setString(i+1, listIdComputer.get(i));
-			}
-			statementDeleteListComputer.executeUpdate();
-		} catch (SQLException sql) {
-			System.out.println(sql.getMessage());
-		}
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", listIdComputer);
+		this.namedParameterJdbcTemplate.update(DELETE_ALL_COMPUTER_BY_ID, namedParameters);
+
 	}
 
-	/**
-	 * Récupère un element de "computer" par Id.
-	 * 
-	 * @param id
-	 * @return computer
-	 */
 	public Optional<Computer> getComputer(int id) {
-		Optional<Computer> computer = Optional.empty();
-		try (	Connection conn = connexion.getConn();
-				PreparedStatement statementGetcomputer = conn.prepareStatement(GET_COMPUTER);
-				ResultSet resDetailcomputer = setIntStatement(id, statementGetcomputer);) {
-			if (resDetailcomputer.next()) {
-				computer = computerMapper.getComputer(resDetailcomputer);
-			}
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("computer.id", id);
 
-		} catch (SQLException sql) {
-			logger.error(sql.getMessage());
-
-		}
-		return computer;
+		return Optional.of(this.namedParameterJdbcTemplate
+				.queryForObject(GET_COMPUTER, namedParameters,this.computerMapper));
 
 	}
 
-	private ResultSet setIntStatement(int id, PreparedStatement statementGetcomputer) throws SQLException {
-		statementGetcomputer.setInt(1, id);
-		ResultSet resDetailcomputer = statementGetcomputer.executeQuery();
-		return resDetailcomputer;
-	}
-
-	/**
-	 * Modifie un element la table "computer".
-	 * 
-	 * @param computer
-	 */
 	public void updateComputer(Computer computer) {
 
-		try (	Connection conn = connexion.getConn();
-				PreparedStatement statementUpdatecomputer = conn.prepareStatement(UPDATE_COMPUTER);) {
-			LocalDateTime introduced = computer.getIntroduced();
-			LocalDateTime Discontinued = computer.getDiscontinued();
-
-			statementUpdatecomputer.setString(1, computer.getName());
-			statementUpdatecomputer.setTimestamp(2, introduced != null ? Timestamp.valueOf(introduced) : null);
-			statementUpdatecomputer.setTimestamp(3, Discontinued != null ? Timestamp.valueOf(Discontinued) : null);
-			statementUpdatecomputer.setInt(4, computer.getCompany().getId());
-			statementUpdatecomputer.setInt(5, computer.getId());
-			statementUpdatecomputer.executeUpdate();
-
-		} catch (SQLException sql) {
-			logger.error(sql.getMessage());
-		}
-
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+				.addValue("Id", computer.getId())
+				.addValue("name", computer.getName())
+				.addValue("Introduced", computer.getIntroduced())
+				.addValue("Discontinued", computer.getDiscontinued())
+				.addValue("company_id", computer.getCompany().getId());
+		this.namedParameterJdbcTemplate.update(UPDATE_COMPUTER, namedParameters);
 	}
 
-	/**
-	 * Interroge la BDD et retourne la liste de tous les computers.
-	 * 
-	 * @return List computer
-	 */
 	public List<Computer> getAllComputer() {
-		Company company = new Company();
-
-		List<Computer> computerlist = new ArrayList<Computer>();
-
-		try (	Connection conn = connexion.getConn();
-				PreparedStatement statementSelectall = conn.prepareStatement(GET_ALL_COMPUTER);
-				ResultSet resListecomputer = statementSelectall.executeQuery();) {
-
-			while (resListecomputer.next()) {
-				Computer computer = computerMapper.getComputer(resListecomputer).get();
-				computerlist.add(computer);
-
-			}
-
-		} catch (SQLException sql) {
-			logger.error(sql.getMessage());
-		}
-		return computerlist;
+		return this.namedParameterJdbcTemplate.query(GET_ALL_COMPUTER, this.computerMapper);
 	}
 
-	/**
-	 * Interroge la BDD et retourne la liste de tous les computers pagine.
-	 * 
-	 * @return List computer
-	 */
 	public List<Computer> getPageComputer(int offset, int number) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("offset", offset).addValue("number",
+				number);
+		return this.namedParameterJdbcTemplate.query(GET_PAGE_COMPUTER, namedParameters, this.computerMapper);
 
-		Company company = new Company();
-
-		List<Computer> computerlist = new ArrayList<Computer>();
-		try (	Connection conn = connexion.getConn();
-				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER);
-				ResultSet resListecomputer = getPageResSet(offset, number, statementSelecPage);) {
-			while (resListecomputer.next()) {
-				Computer computer = computerMapper.getComputer(resListecomputer).get();
-
-				computerlist.add(computer);
-			}
-
-		} catch (SQLException sql) {
-			logger.error(sql.getMessage());
-		}
-		return computerlist;
 	}
 
 	public List<Computer> getPageComputerByName(String search, int offset, int number) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("like", search)
+				.addValue("number", number).addValue("offset", offset);
+		return this.namedParameterJdbcTemplate.query(GET_PAGE_COMPUTER_NAME, namedParameters, this.computerMapper);
 
-		Company company = new Company();
-
-		List<Computer> computerlist = new ArrayList<Computer>();
-
-		try (	Connection conn = connexion.getConn();
-				PreparedStatement statementSelecPage = conn.prepareStatement(GET_PAGE_COMPUTER_NAME);
-				ResultSet resListecomputer = getStatementSearch(search, offset, number, statementSelecPage);) {
-				while (resListecomputer.next()) {
-					Computer computer = computerMapper.getComputer(resListecomputer).get();
-					computerlist.add(computer);
-				}
-		} catch (SQLException sql) {
-			logger.error(sql.getMessage());
-		}
-		return computerlist;
-	}
-
-	private ResultSet getStatementSearch(String search, int offset, int number, PreparedStatement statementSelecPage)
-			throws SQLException {
-		statementSelecPage.setString(1, search.toUpperCase());
-		statementSelecPage.setInt(2, offset);
-		statementSelecPage.setInt(3, number);
-		ResultSet resListecomputer = statementSelecPage.executeQuery();
-		return resListecomputer;
 	}
 
 	public List<Computer> getPageComputerOrder(int offset, int number, String order) {
+		String sqlOrder = GET_PAGE_ORDER_BY + order;
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("offset", offset).addValue("number",
+				number);
 
-		List<Computer> computerlist = new ArrayList<Computer>();
-		
-		String newGetPageOrderBy = getPageOrderBy + order+" LIMIT ?,?;";
-		try (	Connection conn = connexion.getConn();
-				PreparedStatement statementSelecPage = conn.prepareStatement(newGetPageOrderBy);
-				ResultSet resListecomputer = getPageResSet(offset, number, statementSelecPage);) {
-			while (resListecomputer.next()) {
-				Computer computer = computerMapper.getComputer(resListecomputer).get();
+		return this.namedParameterJdbcTemplate.query(sqlOrder, namedParameters, this.computerMapper);
 
-				computerlist.add(computer);
-			}
-		} catch (SQLException sql) {
-			logger.error(sql.getMessage());
-		}
-		return computerlist;
 	}
 
-	private ResultSet getPageResSet(int offset, int number, PreparedStatement statementSelecPage) throws SQLException {
-		statementSelecPage.setInt(1, offset);
-		statementSelecPage.setInt(2, number);
-		ResultSet resListecomputer = statementSelecPage.executeQuery();
-		return resListecomputer;
+	@Transactional
+	public void deleteComputerWhereCompany(int IdCompany) {
+		Map<String, Integer> namedParameters = Collections.singletonMap("id", IdCompany);
+		this.namedParameterJdbcTemplate.update(DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE, namedParameters);
 	}
 }

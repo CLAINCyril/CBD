@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import modele.Computer;
-import persistence.Connexion;
 
 /**
  * Classe de pagination

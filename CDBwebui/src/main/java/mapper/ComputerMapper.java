@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import DTO.CompanyDTO;
@@ -16,7 +17,7 @@ import DTO.ComputerDTO;
 import java.sql.ResultSet;
 
 @Component
-public class ComputerMapper {
+public class ComputerMapper implements RowMapper<Computer>{
 	Computer computer;
 	Company company;
 
@@ -81,6 +82,12 @@ public class ComputerMapper {
 				.setName(computerDTO.getName())
 				.build();
 		return computer;
+	}
+
+
+	@Override
+	public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+		return 	getComputer(rs).get();
 	}
 
 

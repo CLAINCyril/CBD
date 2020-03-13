@@ -1,11 +1,5 @@
 package persistence;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +7,6 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -35,7 +25,6 @@ import modele.Company;
 
 @Repository
 public final class DAOCompany {
-	private static Logger logger = LoggerFactory.getLogger(DAOCompany.class);
 
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -43,7 +32,7 @@ public final class DAOCompany {
 	private static final String DELETE_COMPANY = "DELETE FROM company WHERE id = :id";
 	private static final String GET_By_ID = " SELECT id,name FROM company WHERE id = :id";
 	private static final String UPDATE_COMPANY = "UPDATE company SET name = :name WHERE Id = :id";
-	private static final String SELECT_ALL_COMPANY = "SELECT id,name FROM company";
+	private static final String GET_ALL_COMPANY = "SELECT id,name FROM company";
 	private static final String SELECT_COMPANY_PAGE = "SELECT * FROM company LIMIT :limit,:offset ";
 
 	private CompanyMapper companyMapper = new CompanyMapper();
@@ -78,7 +67,7 @@ public final class DAOCompany {
 	@Transactional
 	public void deleteCompany(int IdCompany) {
 		Map<String, Integer> namedParameters = Collections.singletonMap("id", IdCompany);
-		this.namedParameterJdbcTemplate.update(DAOComputer.DELETE_ALL_COMPUTER_WHERE_COMPANY_EGALE,namedParameters);
+		daoComputer.deleteComputerWhereCompany(IdCompany);
 		this.namedParameterJdbcTemplate.update(DELETE_COMPANY,namedParameters);
 	}
 
@@ -111,10 +100,8 @@ public final class DAOCompany {
 	 * @return List
 	 */
 	public List<Company> getAllCompany() {
-		
-		SqlParameterSource namedParameters = new MapSqlParameterSource();
-		return this.namedParameterJdbcTemplate.queryForList(SELECT_ALL_COMPANY, namedParameters, Company.class);
-
+				
+		return this.namedParameterJdbcTemplate.query(GET_ALL_COMPANY,this.companyMapper);
 	}
 
 	/**
@@ -126,9 +113,8 @@ public final class DAOCompany {
 	 */
 	public List<Company> getPageCompany(int offset, int number) {
 
-
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("limit", number).addValue("offset", offset);
-		return this.namedParameterJdbcTemplate.queryForList(SELECT_COMPANY_PAGE, namedParameters, Company.class);
+		return this.namedParameterJdbcTemplate.query(SELECT_COMPANY_PAGE, namedParameters, this.companyMapper);
  
 	}
 
