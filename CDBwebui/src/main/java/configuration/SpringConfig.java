@@ -1,6 +1,9 @@
 package configuration;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.sql.DataSource;
+import javax.servlet.ServletRegistration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,34 +14,26 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.web.context.AbstractContextLoaderInitializer;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-
+import org.springframework.web.servlet.DispatcherServlet;
 
 @Configuration
 @ComponentScan(basePackages = {"service","persistence","controller","client"})
 @PropertySource("classpath:datasource.properties")
-public class SpringConfig extends AbstractContextLoaderInitializer{
+public class SpringConfig implements WebApplicationInitializer{
     private static final Logger LOG = LoggerFactory.getLogger(SpringConfig.class);
     
     @Autowired
     Environment environment;
 
 
-	private final String DRIVER = "dataSource.driverClassName";
-	private final String URL = "dataSource.jdbcUrl";
-	private final String USER = "dataSource.user";
-	private final String PASSWORD = "dataSource.password";
+	private final String DRIVER = "driverClassName";
+	private final String URL = "jdbcUrl";
+	private final String USER = "username2";
+	private final String PASSWORD = "password";
 	
 
-	@Override
-	protected WebApplicationContext createRootApplicationContext() {
-		 AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-       rootContext.register(SpringConfig.class);
-       return rootContext;
-	}
-	
 	@Bean
 	DataSource dataSource() {
 		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
@@ -49,6 +44,19 @@ public class SpringConfig extends AbstractContextLoaderInitializer{
 		driverManagerDataSource.setPassword(environment.getRequiredProperty(PASSWORD));
 		
 		return driverManagerDataSource;
+	}
+	
+	
+	@Override
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		AnnotationConfigWebApplicationContext AppContext = new AnnotationConfigWebApplicationContext();
+		AppContext.register(WebConfig.class);
+		AppContext.refresh();
+        // Create and register the DispatcherServlet
+        DispatcherServlet servlet = new DispatcherServlet(AppContext);
+        ServletRegistration.Dynamic registration = servletContext.addServlet("app", servlet);
+        registration.setLoadOnStartup(1);
+        registration.addMapping("/app/*");
 	}	
     
 }

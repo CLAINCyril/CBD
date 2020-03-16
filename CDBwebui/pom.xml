@@ -24,7 +24,7 @@
 		<h2-version>1.4.200</h2-version>
 		<hikari-version>2.6.1</hikari-version>
 		<mokito-version>1.9.5</mokito-version>
-		<javax-servlet-api>2.5</javax-servlet-api>
+		<javax-servlet-api>3.1.0</javax-servlet-api>
 		<javax-servlet-jstl>1.1.2</javax-servlet-jstl>
 		<org-apache-taglibs>1.2.5</org-apache-taglibs>
 		<junit-version>4.11</junit-version>
@@ -84,9 +84,10 @@
 			<version>${junit-version}</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<artifactId>javax.servlet-api</artifactId>
 			<version>${javax-servlet-api}</version>
 		</dependency>
 		<dependency>
