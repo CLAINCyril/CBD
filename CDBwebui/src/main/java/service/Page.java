@@ -28,7 +28,14 @@ public class Page {
 	}
 
 	
-	
+	public Page(String pageIterator, String taillePage,ServiceComputer service) {
+		this.pageIterator = Integer.parseInt(pageIterator);
+		this.taillePage = Integer.parseInt(taillePage);
+		sizeComputer =  service.getAllComputer().size();
+		this.serviceComputer = service;
+		maxPage = sizeComputer / this.taillePage;
+	}
+
 	public int getSizeComputer() {
 		return sizeComputer;
 	}

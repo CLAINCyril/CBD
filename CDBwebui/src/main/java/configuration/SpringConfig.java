@@ -50,13 +50,13 @@ public class SpringConfig implements WebApplicationInitializer{
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		AnnotationConfigWebApplicationContext AppContext = new AnnotationConfigWebApplicationContext();
-		AppContext.register(WebConfig.class);
-		AppContext.refresh();
+		AppContext.register(WebConfig.class, SpringConfig.class);
+		AppContext.setServletContext(servletContext);
         // Create and register the DispatcherServlet
         DispatcherServlet servlet = new DispatcherServlet(AppContext);
-        ServletRegistration.Dynamic registration = servletContext.addServlet("app", servlet);
+        ServletRegistration.Dynamic registration = servletContext.addServlet("ServletDashBard", servlet);
         registration.setLoadOnStartup(1);
-        registration.addMapping("/app/*");
+        registration.addMapping("/");
 	}	
-    
+ 
 }

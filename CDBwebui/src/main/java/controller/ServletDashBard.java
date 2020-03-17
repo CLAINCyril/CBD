@@ -4,17 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.io.IOException;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import DTO.ComputerDTO;
 import mapper.ComputerMapper;
@@ -23,55 +19,61 @@ import service.Page;
 import service.ServiceComputer;
 
 @Controller
-public class ServletDashBard extends HttpServlet {
-	
-	@Autowired
+public class ServletDashBard{
+
 	public ServiceComputer service;
 
-
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-    	SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+	public ServletDashBard(ServiceComputer service) {
+		this.service = service;
 	}
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int pageIterator = 0;
-		int taillePage = 20;
+	@GetMapping(value = "/ListComputer")
+	public ModelAndView dashboard(@RequestParam(required = false, value = "pageIterator") String pageIterator,
+			@RequestParam(required = false, value = "taillePage") String taillePage,
+			@RequestParam(required = false, value = "search") String search,
+			@RequestParam(required = false, value = "order") String order) {
+
+		ModelAndView modelAndView = new ModelAndView("dashboard");
 		List<Computer> computerList = new ArrayList<Computer>();
 
-		if (request.getParameter("taillePage") != null) {
-			taillePage = Integer.parseInt(request.getParameter("taillePage"));
-		}
-		if (request.getParameter("pageIterator") != null) {
-			pageIterator = Integer.parseInt(request.getParameter("pageIterator"));
-		}
 		Page page = new Page(pageIterator, taillePage, service);
 
-		computerList = getPage(request, page);
+		computerList = getPage(order, search, page);
 		List<ComputerDTO> computerDTOList = computerList.stream()
 				.map(computer -> ComputerMapper.convertFromComputerToComputerDTO(computer))
 				.collect(Collectors.toList());
-
-		setAttributeRequest(request, pageIterator, page, computerDTOList);
-		request.getRequestDispatcher("views/ListComputer.jsp").forward(request, response);
 		
+		setAttributeListComputer(order, search, pageIterator, page, computerDTOList, modelAndView);
+		return modelAndView;
+
 	}
 
-	private void setAttributeRequest(HttpServletRequest request, int pageIterator, Page page,
-			List<ComputerDTO> computerDTOList) {
-		request.setAttribute("search", request.getParameter("search"));
-		request.setAttribute("sizeComputer", page.getSizeComputer());
-		request.setAttribute("computerList", computerDTOList);
-		request.setAttribute("pageIterator", pageIterator);
+	@PostMapping(value="/deleteComputer")
+	public ModelAndView deleteComputer(@RequestParam(value = "selection") String selection) {
+
+		ModelAndView modelAndView = new ModelAndView("redirect:/ListComputer");
+		List<String> computers = Arrays.asList(selection.split(","));
+
+		service.deleteComputerList(computers);
+		return modelAndView;
+	}
+	
+	private void setAttributeListComputer(String order, String search, String pageIterator, Page page,
+			List<ComputerDTO> computerDTOList, ModelAndView modelAndView) {
+		modelAndView.addObject("search", search);
+		modelAndView.addObject("order",order)
+;		modelAndView.addObject("sizeComputer", page.getSizeComputer());
+		modelAndView.addObject("computerList", computerDTOList);
+		modelAndView.addObject("pageIterator", pageIterator);
 	}
 
-	private List<Computer> getPage(HttpServletRequest request, Page page) {
+	private List<Computer> getPage(String order, String search, Page page) {
 		List<Computer> computerList;
 
-		if (request.getParameter("order") != null) {
-			computerList = page.getPageOrderBy(request.getParameter("order"));
-		} else if (!("".equals(request.getParameter("search"))) && (request.getParameter("search") != null)) {
-			computerList = page.getPageByName(request.getParameter("search"));
+		if (order != null) {
+			computerList = page.getPageOrderBy(order);
+		} else if (!("".equals(search)) && (search != null)) {
+			computerList = page.getPageByName(search);
 
 		} else {
 			computerList = page.getPage();
@@ -79,11 +81,6 @@ public class ServletDashBard extends HttpServlet {
 		return computerList;
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<String> computers = Arrays.asList(request.getParameter("selection").split(","));
 
-		service.deleteComputerList(computers);
-		doGet(request, response);
-	}
 
 }

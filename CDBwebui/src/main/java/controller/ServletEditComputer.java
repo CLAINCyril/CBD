@@ -1,20 +1,13 @@
 package controller;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
@@ -27,61 +20,61 @@ import service.ServiceCompany;
 import service.ServiceComputer;
 
 @Controller
-public class ServletEditComputer extends HttpServlet {
+public class ServletEditComputer{
 	
-	private static Logger logger = LoggerFactory.getLogger(ServletEditComputer.class);
-	private static ComputerMapper computerMapper = new ComputerMapper();
-	
-	@Autowired
+	ComputerMapper computerMapper;
 	ServiceCompany serviceCompany;
-	@Autowired
 	ServiceComputer serviceComputer;
+	
 
-	public void init(ServletConfig config){
-		try {
-			super.init(config);
-		} catch (ServletException servletException) {
-			logger.debug(servletException.getMessage());
-		}
-    	SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+	public ServletEditComputer(ComputerMapper computerMapper, ServiceCompany serviceCompany,
+			ServiceComputer serviceComputer) {
+		this.computerMapper = computerMapper;
+		this.serviceCompany = serviceCompany;
+		this.serviceComputer = serviceComputer;
 	}
+	
+	
+	@GetMapping(value = "/editComputer")
+	public ModelAndView showEditComputer(@RequestParam(required = false, value = "computerid") String computerid) {
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		int computerid = Integer.parseInt(request.getParameter("computerid"));
+		ModelAndView modelAndView = new ModelAndView();
+		int computerId = Integer.parseInt(computerid);
 
 		List<Company> companyList = serviceCompany.getAllCompany();
 		List<CompanyDTO> companysDTO = companyList.stream()
 				.map(company -> CompanyMapper.convertFromCompanyToCompanyDTO(company)).collect(Collectors.toList());
 
 		ComputerDTO computerDTO = computerMapper
-				.convertFromComputerToComputerDTO(serviceComputer.getComputer(computerid).get());
+				.convertFromComputerToComputerDTO(serviceComputer.getComputer(computerId).get());
 
-		request.setAttribute("companysDTO", companysDTO);
-		request.setAttribute("computerDTO", computerDTO);
-		request.getRequestDispatcher("views/EditComputer.jsp").forward(request, response);
-
+		modelAndView.addObject("companysDTO", companysDTO);
+		modelAndView.addObject("computerDTO", computerDTO);
+		modelAndView.setViewName("redirect:/dashboard");
+		return modelAndView;
 	}
+	
+	@PostMapping(value = "/editComputer")
+	public ModelAndView editComputer(@RequestParam(value = "computerId") String computerId,
+			@RequestParam(value = "computerName") String computerName,
+			@RequestParam(required = false, value = "introduced") String introduced,
+			@RequestParam(required = false, value = "discontinued") String discontinued,
+			@RequestParam(required = false, value = "companyId") String companyId){
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		int computerId = Integer.parseInt(request.getParameter("computerId"));
-		String computerName = request.getParameter("computerName");
-		String introduced = request.getParameter("introduced");
-		String discontinued = request.getParameter("discontinued");
-		int companyId = Integer.parseInt(request.getParameter("companyId"));
-
-		CompanyDTO companyDTO = new CompanyDTO(companyId);
-		ComputerDTO computerDTO = new ComputerDTO(computerId, computerName, introduced, discontinued, companyDTO);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("computerId", Integer.parseInt(companyId));
+		CompanyDTO companyDTO = new CompanyDTO(Integer.parseInt(companyId));
+		ComputerDTO computerDTO = new ComputerDTO(Integer.parseInt(computerId), computerName, introduced, discontinued, companyDTO);
 		Computer computer = computerMapper.fromComputerDTOToComputer(computerDTO);
 		if (new ValidatorComputer().discontinuedAfterIntroduced(computer.getDiscontinued(), computer.getIntroduced())) {
 
 			serviceComputer.updateComputer(computer);
 			
 		} else {
-			doGet(request, response);
+			showEditComputer(companyId);
 		}
-
-	}
-
+		
+		return modelAndView;
+		}
+	
 }

@@ -1,4 +1,4 @@
-	package client;
+package client;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,6 @@ public class CliUI {
 	ServiceComputer serviceComputer;
 	ServiceCompany serviceCompany;
 	
-	@Autowired
 	public CliUI(ServiceComputer serviceComputer, ServiceCompany serviceCompany) {
 		this.serviceComputer = serviceComputer;
 		this.serviceCompany = serviceCompany;

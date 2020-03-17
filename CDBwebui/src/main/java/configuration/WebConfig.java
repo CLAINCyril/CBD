@@ -25,7 +25,7 @@ public class WebConfig implements WebMvcConfigurer{
 	      InternalResourceViewResolver bean = new InternalResourceViewResolver();
 	 
 	      bean.setViewClass(JstlView.class);
-	      bean.setPrefix("/view/");
+	      bean.setPrefix("/WEB-INF/views/");
 	      bean.setSuffix(".jsp");
 	 
 	      return bean;
