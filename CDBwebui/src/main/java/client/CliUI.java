@@ -44,14 +44,15 @@ public class CliUI {
 	Computer computer;
 	Company company;
 	Boolean tache;
-	ComputerMapper computerMapper = new ComputerMapper();
+	ComputerMapper computerMapper;
 	
 	ServiceComputer serviceComputer;
 	ServiceCompany serviceCompany;
 	
-	public CliUI(ServiceComputer serviceComputer, ServiceCompany serviceCompany) {
+	public CliUI(ServiceComputer serviceComputer, ServiceCompany serviceCompany, ComputerMapper computerMapper) {
 		this.serviceComputer = serviceComputer;
 		this.serviceCompany = serviceCompany;
+		this.computerMapper = computerMapper;
 	}
 
 	/**

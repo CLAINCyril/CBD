@@ -19,28 +19,39 @@ import service.Page;
 import service.ServiceComputer;
 
 @Controller
+//@RequestMapping
 public class ServletDashBard{
 
 	public ServiceComputer service;
+	public ComputerMapper computerMapper;
 
-	public ServletDashBard(ServiceComputer service) {
+	public ServletDashBard(ServiceComputer service, ComputerMapper computer) {
 		this.service = service;
+		this.computerMapper = computer;
 	}
 
 	@GetMapping(value = "/ListComputer")
-	public ModelAndView dashboard(@RequestParam(required = false, value = "pageIterator") String pageIterator,
+	public ModelAndView ListComputer(@RequestParam(required = false, value = "pageIterator") String pageIterator,
 			@RequestParam(required = false, value = "taillePage") String taillePage,
 			@RequestParam(required = false, value = "search") String search,
 			@RequestParam(required = false, value = "order") String order) {
-
-		ModelAndView modelAndView = new ModelAndView("dashboard");
+		
+		ModelAndView modelAndView = new ModelAndView("ListComputer");
 		List<Computer> computerList = new ArrayList<Computer>();
+		Page page;
+		
+		if(("" != taillePage) && (taillePage != null)) {
+			System.out.println(taillePage);
+			page = new Page(pageIterator, taillePage, service);
 
-		Page page = new Page(pageIterator, taillePage, service);
+		}else {
+			page = new Page(0, 20, service);
+		}
+			
 
 		computerList = getPage(order, search, page);
 		List<ComputerDTO> computerDTOList = computerList.stream()
-				.map(computer -> ComputerMapper.convertFromComputerToComputerDTO(computer))
+				.map(computer -> computerMapper.convertFromComputerToComputerDTO(computer))
 				.collect(Collectors.toList());
 		
 		setAttributeListComputer(order, search, pageIterator, page, computerDTOList, modelAndView);
@@ -61,8 +72,8 @@ public class ServletDashBard{
 	private void setAttributeListComputer(String order, String search, String pageIterator, Page page,
 			List<ComputerDTO> computerDTOList, ModelAndView modelAndView) {
 		modelAndView.addObject("search", search);
-		modelAndView.addObject("order",order)
-;		modelAndView.addObject("sizeComputer", page.getSizeComputer());
+		modelAndView.addObject("order",order);
+		modelAndView.addObject("sizeComputer", page.getSizeComputer());
 		modelAndView.addObject("computerList", computerDTOList);
 		modelAndView.addObject("pageIterator", pageIterator);
 	}

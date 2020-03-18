@@ -5,8 +5,6 @@ import javax.servlet.ServletException;
 import javax.sql.DataSource;
 import javax.servlet.ServletRegistration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,13 +17,12 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.DispatcherServlet;
 
 @Configuration
-@ComponentScan(basePackages = {"service","persistence","controller","client"})
+@ComponentScan(basePackages = {"service", "persistence", "controller", "client", "mapper"})
 @PropertySource("classpath:datasource.properties")
 public class SpringConfig implements WebApplicationInitializer{
-    private static final Logger LOG = LoggerFactory.getLogger(SpringConfig.class);
     
-    @Autowired
-    Environment environment;
+	@Autowired
+	Environment environment;
 
 
 	private final String DRIVER = "driverClassName";
@@ -54,9 +51,9 @@ public class SpringConfig implements WebApplicationInitializer{
 		AppContext.setServletContext(servletContext);
         // Create and register the DispatcherServlet
         DispatcherServlet servlet = new DispatcherServlet(AppContext);
-        ServletRegistration.Dynamic registration = servletContext.addServlet("ServletDashBard", servlet);
+        ServletRegistration.Dynamic registration = servletContext.addServlet("dynamicServlet", servlet);
         registration.setLoadOnStartup(1);
         registration.addMapping("/");
-	}	
+	}
  
 }

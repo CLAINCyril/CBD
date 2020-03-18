@@ -18,10 +18,12 @@ import java.sql.ResultSet;
 
 @Component
 public class ComputerMapper implements RowMapper<Computer>{
+	
 	Computer computer;
 	Company company;
-
-	public ComputerMapper() {
+	CompanyMapper companyMapper;
+	public ComputerMapper(CompanyMapper companyMapper) {
+		this.companyMapper = companyMapper;
 
 	}
 
@@ -45,8 +47,8 @@ public class ComputerMapper implements RowMapper<Computer>{
 
 	}
 
-	public static  ComputerDTO convertFromComputerToComputerDTO(Computer computer) {
-		CompanyDTO companyDTO = CompanyMapper.convertFromCompanyToCompanyDTO(computer.getCompany());
+	public  ComputerDTO convertFromComputerToComputerDTO(Computer computer) {
+		CompanyDTO companyDTO = companyMapper.convertFromCompanyToCompanyDTO(computer.getCompany());
 		ComputerDTO compDTO = new ComputerDTO( computer.getName(),
 				computer.getIntroduced()==null?null:computer.getIntroduced().toString(),
 				computer.getDiscontinued()==null?null:computer.getDiscontinued().toString(),companyDTO);

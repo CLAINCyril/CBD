@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.jdbc.core.RowMapper;
-import javax.swing.tree.TreePath;
-
 import org.springframework.stereotype.Component;
 
 import DTO.CompanyDTO;
@@ -18,11 +16,9 @@ import modele.Company;
 public class CompanyMapper implements RowMapper<Company>{
 
 	Company company;
-
 	public CompanyMapper() {
-
+		super();
 	}
-
 	
 	public Optional<Company> getCompany(ResultSet res) throws SQLException {
 		company = new Company.CompanyBuilder().setName(res.getString("company.name"))
@@ -38,7 +34,7 @@ public class CompanyMapper implements RowMapper<Company>{
 		return listString;
 	}
 	
-	public static CompanyDTO convertFromCompanyToCompanyDTO(Company company) {
+	public CompanyDTO convertFromCompanyToCompanyDTO(Company company) {
 		CompanyDTO companyDTO = new CompanyDTO();
 		companyDTO.setId(company.getId());
 		companyDTO.setName(company.getName());
@@ -57,7 +53,6 @@ public class CompanyMapper implements RowMapper<Company>{
 		Company company;
 		company = new Company.CompanyBuilder().setId(company2.getId()).build();
 
-		
 		return company;
 	}
 

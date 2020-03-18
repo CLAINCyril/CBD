@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,41 +21,43 @@ import service.ServiceCompany;
 import service.ServiceComputer;
 
 @Controller
+@RequestMapping(value = "/EditComputer")
 public class ServletEditComputer{
 	
 	ComputerMapper computerMapper;
 	ServiceCompany serviceCompany;
 	ServiceComputer serviceComputer;
+	CompanyMapper companyMapper;
 	
 
-	public ServletEditComputer(ComputerMapper computerMapper, ServiceCompany serviceCompany,
+	public ServletEditComputer(CompanyMapper companyMapper, ComputerMapper computerMapper, ServiceCompany serviceCompany,
 			ServiceComputer serviceComputer) {
 		this.computerMapper = computerMapper;
 		this.serviceCompany = serviceCompany;
 		this.serviceComputer = serviceComputer;
+		this.companyMapper = companyMapper;
 	}
 	
 	
-	@GetMapping(value = "/editComputer")
+	@GetMapping
 	public ModelAndView showEditComputer(@RequestParam(required = false, value = "computerid") String computerid) {
 
-		ModelAndView modelAndView = new ModelAndView();
+		ModelAndView modelAndView = new ModelAndView("EditComputer");
 		int computerId = Integer.parseInt(computerid);
 
 		List<Company> companyList = serviceCompany.getAllCompany();
 		List<CompanyDTO> companysDTO = companyList.stream()
-				.map(company -> CompanyMapper.convertFromCompanyToCompanyDTO(company)).collect(Collectors.toList());
+				.map(company -> companyMapper.convertFromCompanyToCompanyDTO(company)).collect(Collectors.toList());
 
 		ComputerDTO computerDTO = computerMapper
 				.convertFromComputerToComputerDTO(serviceComputer.getComputer(computerId).get());
 
 		modelAndView.addObject("companysDTO", companysDTO);
 		modelAndView.addObject("computerDTO", computerDTO);
-		modelAndView.setViewName("redirect:/dashboard");
 		return modelAndView;
 	}
 	
-	@PostMapping(value = "/editComputer")
+	@PostMapping(value = "/EditComputer")
 	public ModelAndView editComputer(@RequestParam(value = "computerId") String computerId,
 			@RequestParam(value = "computerName") String computerName,
 			@RequestParam(required = false, value = "introduced") String introduced,

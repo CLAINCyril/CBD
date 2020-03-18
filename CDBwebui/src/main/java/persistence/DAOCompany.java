@@ -35,13 +35,13 @@ public final class DAOCompany {
 	private static final String GET_ALL_COMPANY = "SELECT id,name FROM company";
 	private static final String SELECT_COMPANY_PAGE = "SELECT * FROM company LIMIT :limit,:offset ";
 
-	private CompanyMapper companyMapper = new CompanyMapper();
-
+	CompanyMapper companyMapper;
 	DAOComputer daoComputer;
 	
-	public DAOCompany(DataSource dataSource, DAOComputer daoComputer) {
+	public DAOCompany(DataSource dataSource, DAOComputer daoComputer, CompanyMapper companyMapper) {
 		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 		this.daoComputer = daoComputer;
+		this.companyMapper = companyMapper;
 	}
 
 	/**

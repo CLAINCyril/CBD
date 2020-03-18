@@ -39,10 +39,11 @@ public final class DAOComputer {
 	private static final String UPDATE_COMPUTER = "UPDATE computer " + "SET  name = :name, Introduced = :Introduced,"
 			+ "Discontinued = :Discontinued,company_id = :company_id WHERE Id = :Id";
 
-	private ComputerMapper computerMapper = new ComputerMapper();
+	ComputerMapper computerMapper;
 
-	public DAOComputer(DataSource dataSource) {
+	public DAOComputer(DataSource dataSource, ComputerMapper computerMapper) {
 		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		this.computerMapper = computerMapper;
 	}
 
 	public void persisteComputer(Computer computer) {

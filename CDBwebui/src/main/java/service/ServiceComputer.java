@@ -33,7 +33,6 @@ public final class ServiceComputer {
 
 	private DAOComputer daoComputer;
 
-	@Autowired
 	public ServiceComputer(DAOComputer daoComputer) {
 		this.daoComputer = daoComputer;
 
