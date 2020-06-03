@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -24,13 +25,13 @@ public class SpringConfig implements WebApplicationInitializer{
 	@Autowired
 	Environment environment;
 
-
+	private final int initializationPriority = 1;
 	private final String DRIVER = "driverClassName";
 	private final String URL = "jdbcUrl";
 	private final String USER = "username2";
 	private final String PASSWORD = "password";
-	
 
+	
 	@Bean
 	DataSource dataSource() {
 		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
@@ -43,6 +44,10 @@ public class SpringConfig implements WebApplicationInitializer{
 		return driverManagerDataSource;
 	}
 	
+	@Bean
+	public NamedParameterJdbcTemplate jdbcTemplate(DataSource dataSource) {
+		return new NamedParameterJdbcTemplate(dataSource);
+		}
 	
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
@@ -52,7 +57,7 @@ public class SpringConfig implements WebApplicationInitializer{
         // Create and register the DispatcherServlet
         DispatcherServlet servlet = new DispatcherServlet(AppContext);
         ServletRegistration.Dynamic registration = servletContext.addServlet("dynamicServlet", servlet);
-        registration.setLoadOnStartup(1);
+        registration.setLoadOnStartup(initializationPriority);
         registration.addMapping("/");
 	}
  

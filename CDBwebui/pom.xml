@@ -22,12 +22,12 @@
 		<slf4j-version>1.7.5</slf4j-version>
 		<mysql-version>8.0.19</mysql-version>
 		<h2-version>1.4.200</h2-version>
-		<hikari-version>2.6.1</hikari-version>
 		<mokito-version>1.9.5</mokito-version>
 		<javax-servlet-api>3.1.0</javax-servlet-api>
 		<javax-servlet-jstl>1.1.2</javax-servlet-jstl>
 		<org-apache-taglibs>1.2.5</org-apache-taglibs>
-		<junit-version>4.11</junit-version>
+		<org-apache-commons>3.10</org-apache-commons>
+		<junit-version>4.12</junit-version>
 		<version.spring-framework>5.2.4.RELEASE</version.spring-framework>
 		<version.logback>1.2.3</version.logback>
 	</properties>
@@ -67,11 +67,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.zaxxer</groupId>
-			<artifactId>HikariCP</artifactId>
-			<version>${hikari-version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>${mokito-version}</version>
@@ -104,6 +99,11 @@
 			<groupId>org.apache.taglibs</groupId>
 			<artifactId>taglibs-standard-impl</artifactId>
 			<version>${org-apache-taglibs}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${org-apache-commons}</version>
 		</dependency>
 
 		<!-- Logger -->

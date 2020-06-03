@@ -19,7 +19,7 @@ public class CompanyMapper implements RowMapper<Company>{
 	public CompanyMapper() {
 		super();
 	}
-	
+
 	public Optional<Company> getCompany(ResultSet res) throws SQLException {
 		company = new Company.CompanyBuilder().setName(res.getString("company.name"))
 				.setId(res.getInt("company.id")).build();
@@ -58,9 +58,9 @@ public class CompanyMapper implements RowMapper<Company>{
 
 
 	@Override
-	public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Company mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 		
-		return getCompany(rs).get();
+		return getCompany(resultSet).get();
 	}
 
 }

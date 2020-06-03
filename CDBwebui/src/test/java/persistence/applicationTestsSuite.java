@@ -1,4 +1,4 @@
-package fr.excilys.cclain;
+package persistence;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

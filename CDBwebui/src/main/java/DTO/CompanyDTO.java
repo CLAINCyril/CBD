@@ -1,5 +1,7 @@
 package DTO;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 
 public class CompanyDTO {
 	private int id;
@@ -26,11 +28,8 @@ public class CompanyDTO {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
+		return new HashCodeBuilder().append(this.id).toHashCode();
+
 	}
 	@Override
 	public boolean equals(Object obj) {

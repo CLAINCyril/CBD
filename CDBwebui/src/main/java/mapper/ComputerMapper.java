@@ -27,7 +27,6 @@ public class ComputerMapper implements RowMapper<Computer>{
 
 	}
 
-
 	public Optional<Computer> getComputer(ResultSet resDetailcomputer) throws SQLException {
 			company = new Company.CompanyBuilder().setName(resDetailcomputer.getString("company.name"))
 					.setId(resDetailcomputer.getInt("company_id")).build();
@@ -88,8 +87,8 @@ public class ComputerMapper implements RowMapper<Computer>{
 
 
 	@Override
-	public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
-		return 	getComputer(rs).get();
+	public Computer mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+		return 	getComputer(resultSet).get();
 	}
 
 

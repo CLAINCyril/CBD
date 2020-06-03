@@ -2,6 +2,10 @@ package modele;
 
 import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 /**
  * Nom de classe : ComputerModele
  *
@@ -21,12 +25,6 @@ public class Computer {
 	private LocalDateTime introduced;
 	private LocalDateTime discontinued;
 	private Company company;
-
-	public Computer(int id, String name, Company company) {
-		this.id = id;
-		this.name = name;
-		this.company = company;
-	}
 
 	public int getId() {
 		return id;
@@ -118,10 +116,7 @@ public class Computer {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
+		return new HashCodeBuilder().append(this.id).toHashCode();
 	}
 
 	@Override
@@ -138,8 +133,7 @@ public class Computer {
 
 	@Override
 	public String toString() {
-		return "Computer [Id=" + id + ", name=" + name + ", introduced=" + introduced + ", Discontinued=" + discontinued
-				+ ", company=" + company + "]\n";
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
 	}
 
 }

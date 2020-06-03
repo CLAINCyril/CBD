@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -28,18 +29,12 @@ public final class DAOCompany {
 
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	private static final String PERSISTE_COMPANY = "INSERT INTO company name = :name";
-	private static final String DELETE_COMPANY = "DELETE FROM company WHERE id = :id";
-	private static final String GET_By_ID = " SELECT id,name FROM company WHERE id = :id";
-	private static final String UPDATE_COMPANY = "UPDATE company SET name = :name WHERE Id = :id";
-	private static final String GET_ALL_COMPANY = "SELECT id,name FROM company";
-	private static final String SELECT_COMPANY_PAGE = "SELECT * FROM company LIMIT :limit,:offset ";
 
 	CompanyMapper companyMapper;
 	DAOComputer daoComputer;
 	
-	public DAOCompany(DataSource dataSource, DAOComputer daoComputer, CompanyMapper companyMapper) {
-		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+	public DAOCompany(DAOComputer daoComputer, CompanyMapper companyMapper, NamedParameterJdbcTemplate nameParameterJdbcTemplate) {
+		this.namedParameterJdbcTemplate = nameParameterJdbcTemplate;
 		this.daoComputer = daoComputer;
 		this.companyMapper = companyMapper;
 	}
@@ -54,7 +49,7 @@ public final class DAOCompany {
 	 */
 	public void persisteCompany(Company company) {
 		Map<String, String> namedParameters = Collections.singletonMap("name", company.getName());
-		this.namedParameterJdbcTemplate.update(PERSISTE_COMPANY, namedParameters);
+		this.namedParameterJdbcTemplate.update(SQLRequest.PERSISTE_COMPANY.getQuery(), namedParameters);
 	}
 
 	/**
@@ -68,7 +63,7 @@ public final class DAOCompany {
 	public void deleteCompany(int IdCompany) {
 		Map<String, Integer> namedParameters = Collections.singletonMap("id", IdCompany);
 		daoComputer.deleteComputerWhereCompany(IdCompany);
-		this.namedParameterJdbcTemplate.update(DELETE_COMPANY,namedParameters);
+		this.namedParameterJdbcTemplate.update(SQLRequest.DELETE_COMPANY.getQuery(),namedParameters);
 	}
 
 	/**
@@ -79,9 +74,14 @@ public final class DAOCompany {
 	 */
 	public Optional<Company> getCompany(int Id) {		
 		Map<String, Integer> idParameters = Collections.singletonMap("id", Id);
-		Company company = this.namedParameterJdbcTemplate.queryForObject(GET_By_ID, idParameters, this.companyMapper);
-		return Optional.of(company);
-
+		Optional<Company> optionalCompany= Optional.empty();
+		try {
+			Company company = this.namedParameterJdbcTemplate.queryForObject(SQLRequest.GET_By_ID.getQuery(), idParameters, this.companyMapper);
+			return Optional.of(company);
+		}
+		catch (EmptyResultDataAccessException emptyResultCompany) {
+			return optionalCompany;
+		}
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public final class DAOCompany {
 	 */
 	public void updateCompany(Company company) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("ID",company.getId()).addValue("name", company.getName());
-		this.namedParameterJdbcTemplate.update(UPDATE_COMPANY, namedParameters);
+		this.namedParameterJdbcTemplate.update(SQLRequest.UPDATE_COMPANY.getQuery(), namedParameters);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public final class DAOCompany {
 	 */
 	public List<Company> getAllCompany() {
 				
-		return this.namedParameterJdbcTemplate.query(GET_ALL_COMPANY,this.companyMapper);
+		return this.namedParameterJdbcTemplate.query(SQLRequest.GET_ALL_COMPANY.getQuery(),this.companyMapper);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public final class DAOCompany {
 	public List<Company> getPageCompany(int offset, int number) {
 
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("limit", number).addValue("offset", offset);
-		return this.namedParameterJdbcTemplate.query(SELECT_COMPANY_PAGE, namedParameters, this.companyMapper);
+		return this.namedParameterJdbcTemplate.query(SQLRequest.SELECT_COMPANY_PAGE.getQuery(), namedParameters, this.companyMapper);
  
 	}
 

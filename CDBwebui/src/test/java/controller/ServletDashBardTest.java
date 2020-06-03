@@ -1,34 +1,24 @@
 package controller;
 
-import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import configuration.SpringConfig;
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = SpringConfig.class)
 public class ServletDashBardTest extends Mockito {
-	private HttpServletRequest request;
-	private HttpServletResponse response;
-	private RequestDispatcher requestDispatcher;
-	private ServletDashBard servletDashBard;
-
-	@Before
-	public void init() {
-		servletDashBard = new ServletDashBard();
-		request = mock(HttpServletRequest.class);
-		response = mock(HttpServletResponse.class);
-		requestDispatcher = mock(RequestDispatcher.class);
-	}
+	
+	@Autowired
+	ServletDashBard servletDashBard;
 
 	@Test
-	public void testServletDashBard() throws ServletException, IOException {
-		when(request.getRequestDispatcher(eq("views/ListComputer.jsp"))).thenReturn(requestDispatcher);
-		servletDashBard.doGet(request, response);
-	}
+	public void testServletDashBard(){
 
+	}
 }

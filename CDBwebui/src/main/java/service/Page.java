@@ -1,11 +1,10 @@
 package service;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import modele.Computer;
-
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  * Classe de pagination
  * 
@@ -59,7 +58,7 @@ public class Page {
 		List<Computer> computerList = service.getPageComputerByName(search, pageIterator * taillePage, taillePage);
 		return computerList;
 	}
-
+	
 	public List<Computer> getPageOrderBy(String order) {
 		ServiceComputer service = serviceComputer;
 
@@ -69,18 +68,13 @@ public class Page {
 
 	@Override
 	public String toString() {
-		return "Page [pageIterator=" + pageIterator + ", taillePage=" + taillePage + "]";
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
 	}
-
 
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + pageIterator;
-		result = prime * result + taillePage;
-		return result;
+		return new HashCodeBuilder().append(this.pageIterator).append(taillePage).toHashCode();
 	}
 
 	@Override

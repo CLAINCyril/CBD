@@ -1,5 +1,9 @@
 package modele;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 /**
  * Nom de classe : Company Modele
  *
@@ -71,10 +75,8 @@ public class Company {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
+		return new HashCodeBuilder().append(this.id).toHashCode();
+
 	}
 
 	@Override

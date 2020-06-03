@@ -1,5 +1,7 @@
 package DTO;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 public class ComputerDTO {
 
 	public ComputerDTO() {}
@@ -61,10 +63,7 @@ public class ComputerDTO {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
+		return new HashCodeBuilder().append(this.id).toHashCode();
 	}
 	@Override
 	public boolean equals(Object obj) {

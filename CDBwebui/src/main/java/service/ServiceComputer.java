@@ -11,19 +11,19 @@ import persistence.DAOComputer;
 
 enum EVITEINJECTION {
 	COMPUTER, INTRODUCED, DISCONTINUED, COMPANY;
-
+	
 	static String value(String string) {
 		switch (string) {
 		case "COMPUTER":
-			return ("computer.name");
+			return (" computer.name");
 		case "INTRODUCED":
-			return ("computer.introduced");
+			return (" computer.introduced");
 		case "DISCONTINUED":
-			return ("computer.discontinued");
+			return (" computer.discontinued");
 		case "COMPANY":
-			return ("company.name");
+			return (" company.name");
 		default:
-			return ("computer.name");
+			return (" computer.name");
 		}
 	}
 }
@@ -50,7 +50,7 @@ public final class ServiceComputer {
 	public void deleteComputer(int id) {
 		daoComputer.deleteComputer(id);
 	}
-
+	
 	public void deleteComputerList(List<String> listIdComputer) {
 		daoComputer.deleteComputerListe(listIdComputer);
 	}

@@ -19,23 +19,20 @@ import modele.Company;
 import modele.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
+import service.ServiceServletEditComputer;
+import serviceException.DateException;
 
 @Controller
 @RequestMapping(value = "/EditComputer")
 public class ServletEditComputer{
 	
-	ComputerMapper computerMapper;
 	ServiceCompany serviceCompany;
-	ServiceComputer serviceComputer;
-	CompanyMapper companyMapper;
+	ServiceServletEditComputer serviceServletEditComputer;
 	
 
-	public ServletEditComputer(CompanyMapper companyMapper, ComputerMapper computerMapper, ServiceCompany serviceCompany,
-			ServiceComputer serviceComputer) {
-		this.computerMapper = computerMapper;
+	public ServletEditComputer(ComputerMapper computerMapper, ServiceCompany serviceCompany,ServiceServletEditComputer serviceServletEditComputer) {
 		this.serviceCompany = serviceCompany;
-		this.serviceComputer = serviceComputer;
-		this.companyMapper = companyMapper;
+		this.serviceServletEditComputer = serviceServletEditComputer;
 	}
 	
 	
@@ -46,17 +43,16 @@ public class ServletEditComputer{
 		int computerId = Integer.parseInt(computerid);
 
 		List<Company> companyList = serviceCompany.getAllCompany();
-		List<CompanyDTO> companysDTO = companyList.stream()
-				.map(company -> companyMapper.convertFromCompanyToCompanyDTO(company)).collect(Collectors.toList());
+		List<CompanyDTO> companysDTO = serviceServletEditComputer.mapCompanyToDTOList(companyList);
 
-		ComputerDTO computerDTO = computerMapper
-				.convertFromComputerToComputerDTO(serviceComputer.getComputer(computerId).get());
+		ComputerDTO computerDTO = serviceServletEditComputer.mapComputerToDTO(computerId);
 
-		modelAndView.addObject("companysDTO", companysDTO);
-		modelAndView.addObject("computerDTO", computerDTO);
+		serviceServletEditComputer.addItemModel(modelAndView, companysDTO, computerDTO);
+		
 		return modelAndView;
 	}
-	
+
+
 	@PostMapping(value = "/EditComputer")
 	public ModelAndView editComputer(@RequestParam(value = "computerId") String computerId,
 			@RequestParam(value = "computerName") String computerName,
@@ -68,16 +64,16 @@ public class ServletEditComputer{
 		modelAndView.addObject("computerId", Integer.parseInt(companyId));
 		CompanyDTO companyDTO = new CompanyDTO(Integer.parseInt(companyId));
 		ComputerDTO computerDTO = new ComputerDTO(Integer.parseInt(computerId), computerName, introduced, discontinued, companyDTO);
-		Computer computer = computerMapper.fromComputerDTOToComputer(computerDTO);
-		if (new ValidatorComputer().discontinuedAfterIntroduced(computer.getDiscontinued(), computer.getIntroduced())) {
-
-			serviceComputer.updateComputer(computer);
-			
-		} else {
+		
+		Computer computer = serviceServletEditComputer.mapDTOtoComputer(computerDTO);
+		try {
+			serviceServletEditComputer.isValidEdit(companyId, computer);
+		} catch (DateException dateExecption) {
 			showEditComputer(companyId);
 		}
-		
+	
 		return modelAndView;
 		}
+
 	
 }

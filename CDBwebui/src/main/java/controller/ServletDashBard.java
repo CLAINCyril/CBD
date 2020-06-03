@@ -17,17 +17,19 @@ import mapper.ComputerMapper;
 import modele.Computer;
 import service.Page;
 import service.ServiceComputer;
+import service.ServiceServletDashBoard;
 
 @Controller
-//@RequestMapping
 public class ServletDashBard{
 
-	public ServiceComputer service;
-	public ComputerMapper computerMapper;
+	public ServiceComputer serviceComputer;
+	public ServiceServletDashBoard serviceServletDashBoard;
+	private int startItemPage = 0;
+	private int lastItemPage = 20;
 
-	public ServletDashBard(ServiceComputer service, ComputerMapper computer) {
-		this.service = service;
-		this.computerMapper = computer;
+	public ServletDashBard(ServiceComputer serviceComputer, ServiceServletDashBoard serviceServletDashBoard) {
+		this.serviceComputer = serviceComputer;
+		this.serviceServletDashBoard = serviceServletDashBoard;
 	}
 
 	@GetMapping(value = "/ListComputer")
@@ -38,60 +40,31 @@ public class ServletDashBard{
 		
 		ModelAndView modelAndView = new ModelAndView("ListComputer");
 		List<Computer> computerList = new ArrayList<Computer>();
-		Page page;
 		
-		if(("" != taillePage) && (taillePage != null)) {
-			System.out.println(taillePage);
-			page = new Page(pageIterator, taillePage, service);
-
-		}else {
-			page = new Page(0, 20, service);
-		}
+		
+		Page page = serviceServletDashBoard.getFirstPage(pageIterator, taillePage, startItemPage, lastItemPage);
 			
-
-		computerList = getPage(order, search, page);
-		List<ComputerDTO> computerDTOList = computerList.stream()
-				.map(computer -> computerMapper.convertFromComputerToComputerDTO(computer))
-				.collect(Collectors.toList());
+		computerList = serviceServletDashBoard.getPage(order, search, page);
 		
-		setAttributeListComputer(order, search, pageIterator, page, computerDTOList, modelAndView);
+		List<ComputerDTO> computerDTOList = serviceServletDashBoard.mapComputerToDTOList(computerList);
+		
+		serviceServletDashBoard.setAttributeListComputer(order, search, pageIterator, page, computerDTOList, modelAndView);
+		
 		return modelAndView;
 
 	}
+	
 
-	@PostMapping(value="/deleteComputer")
+	@GetMapping(value="/deleteComputer")
 	public ModelAndView deleteComputer(@RequestParam(value = "selection") String selection) {
 
 		ModelAndView modelAndView = new ModelAndView("redirect:/ListComputer");
-		List<String> computers = Arrays.asList(selection.split(","));
+		List<String> computers = serviceServletDashBoard.splitSelection(selection);
 
-		service.deleteComputerList(computers);
+		serviceComputer.deleteComputerList(computers);
+		
 		return modelAndView;
 	}
-	
-	private void setAttributeListComputer(String order, String search, String pageIterator, Page page,
-			List<ComputerDTO> computerDTOList, ModelAndView modelAndView) {
-		modelAndView.addObject("search", search);
-		modelAndView.addObject("order",order);
-		modelAndView.addObject("sizeComputer", page.getSizeComputer());
-		modelAndView.addObject("computerList", computerDTOList);
-		modelAndView.addObject("pageIterator", pageIterator);
-	}
-
-	private List<Computer> getPage(String order, String search, Page page) {
-		List<Computer> computerList;
-
-		if (order != null) {
-			computerList = page.getPageOrderBy(order);
-		} else if (!("".equals(search)) && (search != null)) {
-			computerList = page.getPageByName(search);
-
-		} else {
-			computerList = page.getPage();
-		}
-		return computerList;
-	}
-
 
 
 }
