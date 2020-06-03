@@ -1,6 +1,7 @@
 target/
 .classpath
 .project
+.metadata
 .settings/
 Thumbs.db
 settings.xml
