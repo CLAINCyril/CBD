@@ -131,8 +131,8 @@
             <button type="button" class="btn btn-default"><a href="ListComputer?taillePage=50">50</a></button>
             <button type="button" class="btn btn-default"><a href="ListComputer?taillePage=100">100</a></button>
         </div>
-
     </footer>
+    
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/dashboard.js"></script>
