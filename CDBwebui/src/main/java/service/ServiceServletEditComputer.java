@@ -19,12 +19,18 @@ import serviceException.DateException;
 @Service
 public class ServiceServletEditComputer {
 	
-	@Autowired
 	CompanyMapper companyMapper;
-	@Autowired
 	ComputerMapper computerMapper;
-	@Autowired
 	ServiceComputer serviceComputer;
+
+	
+
+	public ServiceServletEditComputer(CompanyMapper companyMapper, ComputerMapper computerMapper,
+			ServiceComputer serviceComputer) {
+		this.companyMapper = companyMapper;
+		this.computerMapper = computerMapper;
+		this.serviceComputer = serviceComputer;
+	}
 
 
 	public List<CompanyDTO> mapCompanyToDTOList(List<Company> companyList) {
