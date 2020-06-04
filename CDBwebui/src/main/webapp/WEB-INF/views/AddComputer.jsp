@@ -49,15 +49,23 @@
 									type="text" name="discontinued" class="form-control"
 									id="discontinued">
 							</div>
-							<div class="form-group">
-								<label for="companyId">Company</label> <select
-									class="form-control" id="companyId" name="companyId">
-									<c:forEach items="${companysDTO}" var="company">
+						<div class="form-group">
+							<label for="companyId">Company</label> <select
+								class="form-control" name="companyId" id="companyId">
+								<c:forEach items="${companysDTO}" var="company">
+									<c:if test="${ company.id==computerToUpdate.company.id}">
 										<option value="${company.id}" selected><c:out
 												value="${company.name}"></c:out></option>
-									</c:forEach>
-								</select>
-							</div>
+									</c:if>
+									<c:if test="${company.id!=computerToUpdate.company.id}">
+										<option value="${company.id}">
+											<c:out value="${company.name}"></c:out>
+										</option>
+									</c:if>
+								</c:forEach>
+
+							</select>
+						</div>
 						</fieldset>
 						<div class="actions pull-right">
 							<input type="submit" value="Add" class="btn btn-primary">
