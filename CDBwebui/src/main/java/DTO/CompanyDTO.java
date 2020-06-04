@@ -1,6 +1,8 @@
 package DTO;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 
 public class CompanyDTO {
@@ -49,5 +51,8 @@ public class CompanyDTO {
 			return false;
 		return true;
 	}
-	
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
+	}
 }

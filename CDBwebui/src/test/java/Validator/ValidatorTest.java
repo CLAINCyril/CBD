@@ -1,31 +1,49 @@
 package Validator;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-
-import modele.Computer;
+import serviceException.DateException;
 
 public class ValidatorTest extends Mockito{
-	Computer computer;
 	
-	@Before
-	public void init() {
-		
-		computer = mock(Computer.class);
-	}
-
+	
 	@Test
 	public void discontinuedAfterIntroducedExpectedTrue(){
+		
 	ValidatorComputer validatorComputer = new ValidatorComputer();
-	when(computer.getDiscontinued()).thenReturn(LocalDateTime.now().plusDays(1));
-	when(computer.getIntroduced()).thenReturn(LocalDateTime.now());
-
-	assertTrue(validatorComputer.discontinuedAfterIntroduced(computer.getDiscontinued(), computer.getIntroduced()));
+	
+	boolean discontinuedAfterIntroduced;
+	
+	try {
+		validatorComputer.discontinuedAfterIntroduced(LocalDateTime.now().plusDays(1), LocalDateTime.now());
+		discontinuedAfterIntroduced = true;
+	} catch (DateException dateException) {
+		discontinuedAfterIntroduced= false;
 	}
+	assertTrue(discontinuedAfterIntroduced);
+	}
+	
+	@Test
+	public void discontinuedBeforeIntroducedExpectedFalse(){
+		
+	ValidatorComputer validatorComputer = new ValidatorComputer();
+
+	
+	boolean discontinuedAfterIntroduced;
+	
+	try {
+		validatorComputer.discontinuedAfterIntroduced(LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+		discontinuedAfterIntroduced = true;
+	} catch (DateException dateException) {
+		discontinuedAfterIntroduced= false;
+	}
+	assertFalse(discontinuedAfterIntroduced);
+	}
+	
 }

@@ -1,5 +1,9 @@
 package controller;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class ListComputerParameter {
 	private String pageIterator;
 	private String taillePage;
@@ -47,13 +51,12 @@ public class ListComputerParameter {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((order == null) ? 0 : order.hashCode());
-		result = prime * result + ((pageIterator == null) ? 0 : pageIterator.hashCode());
-		result = prime * result + ((search == null) ? 0 : search.hashCode());
-		result = prime * result + ((taillePage == null) ? 0 : taillePage.hashCode());
-		return result;
+		return new HashCodeBuilder()
+				.append(this.order)
+				.append(this.pageIterator)
+				.append(this.search)
+				.append(this.taillePage)
+				.toHashCode();
 	}
 
 	@Override
@@ -87,5 +90,12 @@ public class ListComputerParameter {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
+
+	}
+	
 	
 }

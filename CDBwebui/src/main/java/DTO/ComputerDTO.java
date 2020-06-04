@@ -1,6 +1,8 @@
 package DTO;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class ComputerDTO {
 
@@ -65,6 +67,7 @@ public class ComputerDTO {
 	public int hashCode() {
 		return new HashCodeBuilder().append(this.id).toHashCode();
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -79,5 +82,9 @@ public class ComputerDTO {
 		return true;
 	}
 	
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
+	}
 	
 }

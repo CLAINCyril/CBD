@@ -14,26 +14,12 @@ import org.mockito.Mockito;
 
 
 public class ServletAddComputerTest extends Mockito{
-	private HttpServletRequest request;
-	private HttpServletResponse response;
-	private RequestDispatcher requestDispatcher;
-	private ServletAddComputer servletAddcomputer;
-	
-	
-	@Before
-	public void init() {
-		 servletAddcomputer = new ServletAddComputer();
-		 request = mock(HttpServletRequest.class);
-		 response = mock(HttpServletResponse.class);
-		 requestDispatcher = mock(RequestDispatcher.class);
-	}
-	
 	
 	@Test
 	public void testServletAddComputer() throws ServletException, IOException{
-		when(request.getRequestDispatcher(eq("views/addComputer.jsp"))).
-		thenReturn(requestDispatcher);
-		servletAddcomputer.doGet(request, response);
+
+		ServletAddComputer servletAddComputer;
+		servletAddComputer.
 	}
 
 }

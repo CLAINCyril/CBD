@@ -40,20 +40,21 @@ public class ServletAddComputer {
 
 		List<CompanyDTO> companysDTO = serviceServletAddComputer.mapCompanyToDTOList(companyList);
 
-		modelAndView.addObject("companies", companysDTO);
+		modelAndView.addObject("companysDTO", companysDTO);
+		System.out.println(companysDTO);
 		return modelAndView;
 
 	}
 
 
-	@PostMapping(value = "/AddComputer")
-	public ModelAndView addComputer(AddComputerParameter parameterObject) {
+	@PostMapping
+	public ModelAndView addComputer(AddComputerParameter addComputerParameter) {
 
 		ModelAndView modelAndView = new ModelAndView();
 
-		CompanyDTO companyDTO = new CompanyDTO(Integer.parseInt(parameterObject.getCompanyId()));
+		CompanyDTO companyDTO = new CompanyDTO(Integer.parseInt(addComputerParameter.getCompanyId()));
 
-		ComputerDTO computerDTO = new ComputerDTO(parameterObject.getComputerName(), parameterObject.getIntroduced(), parameterObject.getDiscontinued(), companyDTO);
+		ComputerDTO computerDTO = new ComputerDTO(addComputerParameter.getComputerName(), addComputerParameter.getIntroduced(), addComputerParameter.getDiscontinued(), companyDTO);
 
 		Computer computer = serviceServletAddComputer.mapComputerDTOToComputer(computerDTO);
 

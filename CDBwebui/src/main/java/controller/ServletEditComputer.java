@@ -53,23 +53,19 @@ public class ServletEditComputer{
 	}
 
 
-	@PostMapping(value = "/EditComputer")
-	public ModelAndView editComputer(@RequestParam(value = "computerId") String computerId,
-			@RequestParam(value = "computerName") String computerName,
-			@RequestParam(required = false, value = "introduced") String introduced,
-			@RequestParam(required = false, value = "discontinued") String discontinued,
-			@RequestParam(required = false, value = "companyId") String companyId){
+	@PostMapping
+	public ModelAndView editComputer(EditComputerParameter editComputerParameter){
 
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("computerId", Integer.parseInt(companyId));
-		CompanyDTO companyDTO = new CompanyDTO(Integer.parseInt(companyId));
-		ComputerDTO computerDTO = new ComputerDTO(Integer.parseInt(computerId), computerName, introduced, discontinued, companyDTO);
+		ModelAndView modelAndView = new ModelAndView("redirect:/ListComputer");
+		modelAndView.addObject("computerId", Integer.parseInt(editComputerParameter.getCompanyId()));
+		CompanyDTO companyDTO = new CompanyDTO(Integer.parseInt(editComputerParameter.getCompanyId()));
+		ComputerDTO computerDTO = new ComputerDTO(Integer.parseInt(editComputerParameter.getComputerId()), editComputerParameter.getComputerName(), editComputerParameter.getIntroduced(), editComputerParameter.getDiscontinued(), companyDTO);
 		
 		Computer computer = serviceServletEditComputer.mapDTOtoComputer(computerDTO);
 		try {
-			serviceServletEditComputer.isValidEdit(companyId, computer);
+			serviceServletEditComputer.isValidEdit(editComputerParameter.getCompanyId(), computer);
 		} catch (DateException dateExecption) {
-			showEditComputer(companyId);
+			showEditComputer(editComputerParameter.getCompanyId());
 		}
 	
 		return modelAndView;
