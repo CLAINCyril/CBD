@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import DTO.AddComputerParameter;
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
 import modele.Company;
@@ -41,7 +42,6 @@ public class ServletAddComputer {
 		List<CompanyDTO> companysDTO = serviceServletAddComputer.mapCompanyToDTOList(companyList);
 
 		modelAndView.addObject("companysDTO", companysDTO);
-		System.out.println(companysDTO);
 		return modelAndView;
 
 	}

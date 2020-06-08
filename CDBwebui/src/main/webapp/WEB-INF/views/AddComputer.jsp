@@ -22,10 +22,34 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
+			<br></br>
+		
 			<a class="navbar-brand" href="ListComputer"> Application -
 				Computer Database </a>
 		</div>
+		
+
+	<script type="text/javascript">
+		function googleTranslateElementInit() {
+			new google.translate.TranslateElement({
+				pageLanguage : 'en'
+			}, 'google_translate_element');
+		}
+	</script>
+
+	<script type="text/javascript"
+		src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+
+	<script type="text/javascript"
+		src="https://translate.google.com/translate_a/element.js? 
+        cb=googleTranslateElementInit">
+		
+	</script>
 	</header>
+
+
 
 	<section id="main">
 		<div class="container">

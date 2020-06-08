@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import DTO.ComputerDTO;
+import DTO.ListComputerParameter;
 import modele.Computer;
 import service.Page;
 import service.ServiceComputer;
@@ -46,6 +47,7 @@ public class ServletDashBard{
 		serviceServletDashBoard.setAttributeListComputer(listComputerParameter.getOrder(), listComputerParameter.getSearch(), listComputerParameter.getPageIterator(), page, computerDTOList, modelAndView);
 		
 		return modelAndView;
+		
 
 	}
 	

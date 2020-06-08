@@ -1,7 +1,6 @@
 package controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
-import Validator.ValidatorComputer;
-import mapper.CompanyMapper;
+import DTO.EditComputerParameter;
 import mapper.ComputerMapper;
 import modele.Company;
 import modele.Computer;
 import service.ServiceCompany;
-import service.ServiceComputer;
 import service.ServiceServletEditComputer;
 import serviceException.DateException;
 

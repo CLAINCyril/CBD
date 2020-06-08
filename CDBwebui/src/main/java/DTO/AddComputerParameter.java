@@ -1,29 +1,21 @@
-package controller;
+package DTO;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class EditComputerParameter {
-	private String computerId;
+public class AddComputerParameter {
+
 	private String computerName;
 	private String introduced;
 	private String discontinued;
 	private String companyId;
 
-	public EditComputerParameter(String computerId, String computerName, String introduced, String discontinued,
-			String companyId) {
-		this.computerId = computerId;
+	public AddComputerParameter(String computerName, String introduced, String discontinued, String companyId) {
 		this.computerName = computerName;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 		this.companyId = companyId;
-	}
-
-	public String getComputerId() {
-		return computerId;
-	}
-
-	public void setComputerId(String computerId) {
-		this.computerId = computerId;
 	}
 
 	public String getComputerName() {
@@ -60,13 +52,14 @@ public class EditComputerParameter {
 
 	@Override
 	public int hashCode() {
+		
 		return new HashCodeBuilder()
 				.append(this.companyId)
-				.append(this.computerId)
 				.append(this.computerName)
 				.append(this.discontinued)
 				.append(this.introduced)
 				.toHashCode();
+
 	}
 
 	@Override
@@ -77,16 +70,11 @@ public class EditComputerParameter {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EditComputerParameter other = (EditComputerParameter) obj;
+		AddComputerParameter other = (AddComputerParameter) obj;
 		if (companyId == null) {
 			if (other.companyId != null)
 				return false;
 		} else if (!companyId.equals(other.companyId))
-			return false;
-		if (computerId == null) {
-			if (other.computerId != null)
-				return false;
-		} else if (!computerId.equals(other.computerId))
 			return false;
 		if (computerName == null) {
 			if (other.computerName != null)
@@ -105,6 +93,11 @@ public class EditComputerParameter {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
+
+	}
 	
 }

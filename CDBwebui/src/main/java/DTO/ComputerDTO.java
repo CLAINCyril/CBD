@@ -9,7 +9,7 @@ public class ComputerDTO {
 	public ComputerDTO() {}
 	
 	private int id;
-	public String name;
+	private String name;
 	private String introduced;
 	private String discontinued;
 	private CompanyDTO company;

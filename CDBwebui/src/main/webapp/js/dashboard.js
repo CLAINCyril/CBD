@@ -23,8 +23,6 @@ $(function() {
     });
 
 });
-
-
 // Function setCheckboxValues
 (function ( $ ) {
 
