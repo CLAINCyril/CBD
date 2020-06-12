@@ -26,24 +26,18 @@ import modele.Computer;
  */
 @Repository
 public final class DAOComputer {
-	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
 	@PersistenceContext
 	EntityManager entityManager;
+	
 	ComputerMapper computerMapper;
 
-	public DAOComputer(ComputerMapper computerMapper, NamedParameterJdbcTemplate nameParameterJdbcTemplate) {
-		this.namedParameterJdbcTemplate = nameParameterJdbcTemplate;
+	public DAOComputer(ComputerMapper computerMapper) {
 		this.computerMapper = computerMapper;
 	}
 	
 	public void persisteComputer(Computer computer) {
-		SqlParameterSource namedParameters = new MapSqlParameterSource()
-				.addValue("computerName", computer.getName())
-				.addValue("introduced", computer.getIntroduced())
-				.addValue("discontinued", computer.getDiscontinued())
-				.addValue("companyId", computer.getCompany().getId());
-		this.namedParameterJdbcTemplate.update(SQLRequest.PERSISTE_COMPUTER.getQuery(), namedParameters);
+		entityManager.persist(computer);
 	}
 
 	public void deleteComputer(int id) {
