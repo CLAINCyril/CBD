@@ -2,6 +2,13 @@ package modele;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -18,12 +25,20 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * Copyright : CLAIN Cyril
  */
 
+@Entity
+@Table(name = "computer")
 public class Computer {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@Column(name = "name")
 	private String name;
+	@Column(name = "introduced")
 	private LocalDateTime introduced;
+	@Column(name = "discontinued")
 	private LocalDateTime discontinued;
+	@Column(name = "company_id")
 	private Company company;
 
 	public int getId() {

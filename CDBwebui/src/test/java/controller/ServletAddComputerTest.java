@@ -19,7 +19,6 @@ public class ServletAddComputerTest extends Mockito{
 	public void testServletAddComputer() throws ServletException, IOException{
 
 		ServletAddComputer servletAddComputer;
-		servletAddComputer.
 	}
 
 }

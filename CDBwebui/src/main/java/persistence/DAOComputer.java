@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -25,6 +27,9 @@ import modele.Computer;
 @Repository
 public final class DAOComputer {
 	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
+	@PersistenceContext
+	EntityManager entityManager;
 	ComputerMapper computerMapper;
 
 	public DAOComputer(ComputerMapper computerMapper, NamedParameterJdbcTemplate nameParameterJdbcTemplate) {
@@ -33,6 +38,7 @@ public final class DAOComputer {
 	}
 	
 	public void persisteComputer(Computer computer) {
+		
 		SqlParameterSource namedParameters = new MapSqlParameterSource()
 				.addValue("computerName", computer.getName())
 				.addValue("introduced", computer.getIntroduced())

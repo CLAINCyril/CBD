@@ -1,5 +1,12 @@
 package modele;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -16,8 +23,15 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * Copyright     : CLAIN Cyril
  */
 
+@Entity
+@Table(name = "company")
 public class Company {
-	private int id;
+	
+	@Id
+ 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	int id;
+	
+	@Column
 	private String name;
 	
 
@@ -70,7 +84,7 @@ public class Company {
 	
 	@Override
 	public String toString() {
-		return "CompanyModele num : "+ id + "  name : " + name+"\n";
+ 		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
 	}
 
 	@Override
