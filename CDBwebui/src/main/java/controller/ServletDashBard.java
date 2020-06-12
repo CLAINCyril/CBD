@@ -44,7 +44,7 @@ public class ServletDashBard{
 		
 		List<ComputerDTO> computerDTOList = serviceServletDashBoard.mapComputerToDTOList(computerList);
 		
-		serviceServletDashBoard.setAttributeListComputer(listComputerParameter.getOrder(), listComputerParameter.getSearch(), listComputerParameter.getPageIterator(), page, computerDTOList, modelAndView);
+		setAttributeListComputer(listComputerParameter.getOrder(), listComputerParameter.getSearch(), listComputerParameter.getPageIterator(), page, computerDTOList, modelAndView);
 		
 		return modelAndView;
 		
@@ -62,6 +62,14 @@ public class ServletDashBard{
 		
 		return modelAndView;
 	}
-
+	
+	public void setAttributeListComputer(String order, String search, String pageIterator, Page page,
+			List<ComputerDTO> computerDTOList, ModelAndView modelAndView) {
+		modelAndView.addObject("search", search);
+		modelAndView.addObject("order", order);
+		modelAndView.addObject("sizeComputer", page.getSizeComputer());
+		modelAndView.addObject("computerList", computerDTOList);
+		modelAndView.addObject("pageIterator", pageIterator);
+	}
 
 }

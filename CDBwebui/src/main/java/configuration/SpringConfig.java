@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 import javax.servlet.ServletRegistration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -26,10 +27,15 @@ public class SpringConfig implements WebApplicationInitializer{
 	Environment environment;
 
 	private final int initializationPriority = 1;
-	private final String DRIVER = "driverClassName";
-	private final String URL = "jdbcUrl";
-	private final String USER = "username2";
-	private final String PASSWORD = "password";
+	
+	@Value(value = "driverClassName")
+	private String DRIVER;
+	@Value(value = "jdbcUrl")
+	private String URL;
+	@Value(value = "username2")
+	private String USER;
+	@Value(value = "password")
+	private String PASSWORD;
 
 	
 	@Bean

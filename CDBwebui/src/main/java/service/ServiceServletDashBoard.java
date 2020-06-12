@@ -4,12 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import DTO.ComputerDTO;
-import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import modele.Computer;
 
@@ -42,14 +39,6 @@ public class ServiceServletDashBoard {
 		return computers;
 	}
 
-	public void setAttributeListComputer(String order, String search, String pageIterator, Page page,
-			List<ComputerDTO> computerDTOList, ModelAndView modelAndView) {
-		modelAndView.addObject("search", search);
-		modelAndView.addObject("order", order);
-		modelAndView.addObject("sizeComputer", page.getSizeComputer());
-		modelAndView.addObject("computerList", computerDTOList);
-		modelAndView.addObject("pageIterator", pageIterator);
-	}
 
 	public Page getFirstPage(String pageIterator, String taillePage, int startItemPage, int lastItemPage) {
 		Page page;

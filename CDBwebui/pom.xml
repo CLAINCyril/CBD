@@ -18,110 +18,116 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<slf4j-api-version>1.7.5</slf4j-api-version>
-		<slf4j-version>1.7.5</slf4j-version>
-		<mysql-version>8.0.19</mysql-version>
-		<h2-version>1.4.200</h2-version>
-		<mokito-version>1.9.5</mokito-version>
-		<javax-servlet-api>3.1.0</javax-servlet-api>
-		<javax-servlet-jstl>1.1.2</javax-servlet-jstl>
-		<org-apache-taglibs>1.2.5</org-apache-taglibs>
-		<org-apache-commons>3.10</org-apache-commons>
-		<junit-version>4.12</junit-version>
-		<version.spring-framework>5.2.4.RELEASE</version.spring-framework>
-		<version.logback>1.2.3</version.logback>
+		<slf4jVersion>1.7.5</slf4jVersion>
+		<mysqlVersion>8.0.19</mysqlVersion>
+		<h2Version>1.4.200</h2Version>
+		<mockitoVersion>1.9.5</mockitoVersion>
+		<javaxServletApi>3.1.0</javaxServletApi>
+		<javaxservletJstl>1.1.2</javaxservletJstl>
+		<orgApacheTaglibs>1.2.5</orgApacheTaglibs>
+		<orgApacheCommons>3.10</orgApacheCommons>
+		<junitVersion>4.12</junitVersion>
+		<versionSpringFramework>5.2.4.RELEASE</versionSpringFramework>
+		<versionLogback>1.2.3</versionLogback>
 	</properties>
 
 	<dependencies>
+
 		<!-- Spring Framework -->
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>${version.spring-framework}</version>
+			<version>${versionSpringFramework}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${version.spring-framework}</version>
+			<version>${versionSpringFramework}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>${version.spring-framework}</version>
+			<version>${versionSpringFramework}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>${version.spring-framework}</version>
+			<version>${versionSpringFramework}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- dataBase -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql-version}</version>
+			<version>${mysqlVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>${h2-version}</version>
+			<version>${h2Version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Test -->
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>${mokito-version}</version>
+			<version>${mockitoVersion}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit-version}</version>
+			<version>${junitVersion}</version>
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>${javax-servlet-api}</version>
+			<version>${javaxServletApi}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>${javax-servlet-jstl}</version>
+			<version>${javaxservletJstl}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.taglibs</groupId>
 			<artifactId>taglibs-standard-spec</artifactId>
-			<version>${org-apache-taglibs}</version>
+			<version>${orgApacheTaglibs}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.taglibs</groupId>
 			<artifactId>taglibs-standard-impl</artifactId>
-			<version>${org-apache-taglibs}</version>
+			<version>${orgApacheTaglibs}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>${org-apache-commons}</version>
+			<version>${orgApacheCommons}</version>
 		</dependency>
 
 		<!-- Logger -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>${version.logback}</version>
-		</dependency>		
+			<version>${versionLogback}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j-api-version}</version>
+			<version>${slf4jVersion}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j-version}</version>
+			<version>${slf4jVersion}</version>
 		</dependency>
 	</dependencies>
 

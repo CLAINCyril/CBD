@@ -44,7 +44,7 @@ public class ServletEditComputer{
 
 		ComputerDTO computerDTO = serviceServletEditComputer.mapComputerToDTO(computerId);
 
-		serviceServletEditComputer.addItemModel(modelAndView, companysDTO, computerDTO);
+		addItemModel(modelAndView, companysDTO, computerDTO);
 		
 		return modelAndView;
 	}
@@ -67,6 +67,11 @@ public class ServletEditComputer{
 	
 		return modelAndView;
 		}
-
+	
+	
+	public void addItemModel(ModelAndView modelAndView, List<CompanyDTO> companysDTO, ComputerDTO computerDTO) {
+		modelAndView.addObject("companysDTO", companysDTO);
+		modelAndView.addObject("computerDTO", computerDTO);
+	}
 	
 }

@@ -3,9 +3,7 @@ package service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import DTO.CompanyDTO;
 import DTO.ComputerDTO;
@@ -51,14 +49,6 @@ public class ServiceServletEditComputer {
 		
 		return computerMapper.fromComputerDTOToComputer(computerDTO);
 	}
-
-
-	public void addItemModel(ModelAndView modelAndView, List<CompanyDTO> companysDTO, ComputerDTO computerDTO) {
-		modelAndView.addObject("companysDTO", companysDTO);
-		modelAndView.addObject("computerDTO", computerDTO);
-	}
-
-
 
 
 	public void isValidEdit(String companyId, Computer computer) throws DateException {
