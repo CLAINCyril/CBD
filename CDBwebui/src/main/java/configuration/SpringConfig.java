@@ -22,7 +22,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.DispatcherServlet;
 
 @Configuration
-@ComponentScan(basePackages = {"service", "persistence", "controller", "client", "mapper"})
+@ComponentScan(basePackages = {"model","service", "persistence", "controller", "client", "mapper"})
 @PropertySource("classpath:datasource.properties")
 public class SpringConfig implements WebApplicationInitializer{
     
@@ -63,14 +63,7 @@ public class SpringConfig implements WebApplicationInitializer{
     public PlatformTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
     }
-	
-	@Bean
-	public LocalSessionFactoryBean sessionFactory() {
-		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan("model");
-		return sessionFactory;
-	}
+
 	
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {

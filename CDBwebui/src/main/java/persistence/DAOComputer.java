@@ -38,7 +38,6 @@ public final class DAOComputer {
 	}
 	
 	public void persisteComputer(Computer computer) {
-		
 		SqlParameterSource namedParameters = new MapSqlParameterSource()
 				.addValue("computerName", computer.getName())
 				.addValue("introduced", computer.getIntroduced())
