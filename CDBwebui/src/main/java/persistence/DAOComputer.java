@@ -23,8 +23,9 @@ import modele.QComputer;
  * @author cyril
  *
  */
+
 @Repository
-public final class DAOComputer {
+public class DAOComputer {
 
 	@PersistenceContext
 	EntityManager entityManager;

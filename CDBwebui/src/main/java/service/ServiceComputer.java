@@ -31,7 +31,7 @@ enum EVITEINJECTION {
 }
 
 @Service
-public final class ServiceComputer {
+public class ServiceComputer {
 
 	private DAOComputer daoComputer;
 

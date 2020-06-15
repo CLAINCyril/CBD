@@ -1,5 +1,8 @@
 package configuration;
 
+import java.util.Properties;
+
+import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -12,14 +15,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -27,6 +30,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 @Configuration
 @ComponentScan(basePackages = { "modele", "service", "persistence", "controller", "client", "mapper" })
 @PropertySource("classpath:datasource.properties")
+@EnableTransactionManagement
 public class SpringConfig implements WebApplicationInitializer {
 
 	@Autowired
@@ -56,6 +60,13 @@ public class SpringConfig implements WebApplicationInitializer {
 	}
 
 	@Bean
+	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+	    JpaTransactionManager transactionManager = new JpaTransactionManager();
+	    transactionManager.setEntityManagerFactory(emf);
+	 
+	    return transactionManager;
+	}
+	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		localContainerEntityManagerFactoryBean.setDataSource(dataSource());
@@ -65,6 +76,11 @@ public class SpringConfig implements WebApplicationInitializer {
 		localContainerEntityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
 
 		return localContainerEntityManagerFactoryBean;
+	}
+
+	@Bean
+	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+		return new PersistenceExceptionTranslationPostProcessor();
 	}
 
 	@Override
@@ -78,5 +94,14 @@ public class SpringConfig implements WebApplicationInitializer {
 		registration.setLoadOnStartup(initializationPriority);
 		registration.addMapping("/");
 	}
+	
+	 
+	 Properties additionalProperties() {
+		    Properties properties = new Properties();
+		    properties.setProperty("hibernate.hbm2ddl.auto", "update");
+		    properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+		        
+		    return properties;
+		}
 
 }

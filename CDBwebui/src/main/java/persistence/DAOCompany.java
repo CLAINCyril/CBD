@@ -25,7 +25,7 @@ import modele.QCompany;
  */
 
 @Repository
-public final class DAOCompany {
+public class DAOCompany {
 
 	@PersistenceContext
 	EntityManager entityManager;
