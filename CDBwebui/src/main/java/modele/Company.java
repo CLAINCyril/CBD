@@ -32,7 +32,7 @@ public class Company {
 	int id;
 	
 	@Column
-	private String name;
+	public String name;
 	
 
 	public Company() {

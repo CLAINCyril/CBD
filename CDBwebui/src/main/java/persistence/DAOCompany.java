@@ -1,21 +1,21 @@
 package persistence;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import javax.sql.DataSource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.querydsl.jpa.impl.JPADeleteClause;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAUpdateClause;
+
 import mapper.CompanyMapper;
 import modele.Company;
+import modele.QCompany;
 
 /**
  * Classe d'accès aux données de l'objet Company. Permets les verbes CRUD.
@@ -27,14 +27,13 @@ import modele.Company;
 @Repository
 public final class DAOCompany {
 
-	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
+	@PersistenceContext
+	EntityManager entityManager;
 
 	CompanyMapper companyMapper;
 	DAOComputer daoComputer;
 	
-	public DAOCompany(DAOComputer daoComputer, CompanyMapper companyMapper, NamedParameterJdbcTemplate nameParameterJdbcTemplate) {
-		this.namedParameterJdbcTemplate = nameParameterJdbcTemplate;
+	public DAOCompany(DAOComputer daoComputer, CompanyMapper companyMapper) {
 		this.daoComputer = daoComputer;
 		this.companyMapper = companyMapper;
 	}
@@ -48,8 +47,7 @@ public final class DAOCompany {
 	 * @return
 	 */
 	public void persisteCompany(Company company) {
-		Map<String, String> namedParameters = Collections.singletonMap("name", company.getName());
-		this.namedParameterJdbcTemplate.update(SQLRequest.PERSISTE_COMPANY.getQuery(), namedParameters);
+		entityManager.persist(company);
 	}
 
 	/**
@@ -60,10 +58,11 @@ public final class DAOCompany {
 	 */
 	
 	@Transactional
-	public void deleteCompany(int IdCompany) {
-		Map<String, Integer> namedParameters = Collections.singletonMap("id", IdCompany);
-		daoComputer.deleteComputerWhereCompany(IdCompany);
-		this.namedParameterJdbcTemplate.update(SQLRequest.DELETE_COMPANY.getQuery(),namedParameters);
+	public void deleteCompany(int id) {
+		QCompany company = QCompany.company;
+
+		new JPADeleteClause(entityManager, company).where(company.id.eq(id)).execute();
+
 	}
 
 	/**
@@ -72,16 +71,15 @@ public final class DAOCompany {
 	 * @param Id
 	 * @return Company
 	 */
-	public Optional<Company> getCompany(int Id) {		
-		Map<String, Integer> idParameters = Collections.singletonMap("id", Id);
+	public Optional<Company> getCompany(int id) {		
 		Optional<Company> optionalCompany= Optional.empty();
-		try {
-			Company company = this.namedParameterJdbcTemplate.queryForObject(SQLRequest.GET_By_ID.getQuery(), idParameters, this.companyMapper);
-			return Optional.of(company);
-		}
-		catch (EmptyResultDataAccessException emptyResultCompany) {
-			return optionalCompany;
-		}
+		QCompany company = QCompany.company;
+		JPAQuery<Company> query = new JPAQuery<Company>(entityManager);
+
+		optionalCompany = Optional.of(query.from(company).where(company.id.eq(id)).fetchOne());
+
+		return optionalCompany;
+		
 	}
 	
 	/**
@@ -90,8 +88,11 @@ public final class DAOCompany {
 	 * @param company
 	 */
 	public void updateCompany(Company company) {
-		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("ID",company.getId()).addValue("name", company.getName());
-		this.namedParameterJdbcTemplate.update(SQLRequest.UPDATE_COMPANY.getQuery(), namedParameters);
+		QCompany qCompany = QCompany.company;
+		new JPAUpdateClause(entityManager, qCompany)
+		.set(qCompany.name,company.getName())
+		.set(qCompany.id,company.getId())
+		.execute();
 	}
 
 	/**
@@ -100,8 +101,10 @@ public final class DAOCompany {
 	 * @return List
 	 */
 	public List<Company> getAllCompany() {
-				
-		return this.namedParameterJdbcTemplate.query(SQLRequest.GET_ALL_COMPANY.getQuery(),this.companyMapper);
+		JPAQuery<Company> query = new JPAQuery<Company>(entityManager);
+		QCompany company = QCompany.company;
+		
+		return query.from(company).fetch();
 	}
 
 	/**
@@ -112,10 +115,12 @@ public final class DAOCompany {
 	 * @return List
 	 */
 	public List<Company> getPageCompany(int offset, int number) {
-
-		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("limit", number).addValue("offset", offset);
-		return this.namedParameterJdbcTemplate.query(SQLRequest.SELECT_COMPANY_PAGE.getQuery(), namedParameters, this.companyMapper);
  
+		JPAQuery<Company> query = new JPAQuery<Company>(entityManager);
+		QCompany company = QCompany.company;
+		
+		return query.from(company)
+				.limit(number).offset(offset).fetch();
 	}
 
 }
