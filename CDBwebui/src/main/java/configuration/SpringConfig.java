@@ -16,13 +16,16 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 @Configuration
-@ComponentScan(basePackages = {"model","service", "persistence", "controller", "client", "mapper"})
+@ComponentScan(basePackages = {"modele","service", "persistence", "controller", "client", "mapper"})
 @PropertySource("classpath:datasource.properties")
 public class SpringConfig implements WebApplicationInitializer{
     
@@ -59,6 +62,18 @@ public class SpringConfig implements WebApplicationInitializer{
         return new DataSourceTransactionManager(dataSource());
     }
 
+	 @Bean
+	   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+	      LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean 
+	        = new LocalContainerEntityManagerFactoryBean();
+	      localContainerEntityManagerFactoryBean.setDataSource(dataSource());
+	      localContainerEntityManagerFactoryBean.setPackagesToScan("modele");
+	      
+	      JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+	      localContainerEntityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
+	 
+	      return localContainerEntityManagerFactoryBean;
+	   }
 	
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {

@@ -49,7 +49,11 @@ public class ComputerMapper implements RowMapper<Computer>{
 	}
 
 	public  ComputerDTO convertFromComputerToComputerDTO(Computer computer) {
-		CompanyDTO companyDTO = companyMapper.convertFromCompanyToCompanyDTO(computer.getCompany());
+		CompanyDTO companyDTO = new CompanyDTO();
+		if (computer.getCompany() != null) {
+			companyDTO = companyMapper.convertFromCompanyToCompanyDTO(computer.getCompany());
+
+		}
 		ComputerDTO compDTO = new ComputerDTO( computer.getName(),
 				computer.getIntroduced()==null?null:computer.getIntroduced().toString(),
 				computer.getDiscontinued()==null?null:computer.getDiscontinued().toString(),companyDTO);

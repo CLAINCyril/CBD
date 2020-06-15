@@ -41,7 +41,7 @@ public class ServletDashBard{
 		Page page = serviceServletDashBoard.getFirstPage(listComputerParameter.getPageIterator(), listComputerParameter.getTaillePage(), startItemPage, lastItemPage);
 			
 		computerList = serviceServletDashBoard.getPage(listComputerParameter.getOrder(), listComputerParameter.getSearch(), page);
-		
+		System.out.println(computerList);
 		List<ComputerDTO> computerDTOList = serviceServletDashBoard.mapComputerToDTOList(computerList);
 		
 		setAttributeListComputer(listComputerParameter.getOrder(), listComputerParameter.getSearch(), listComputerParameter.getPageIterator(), page, computerDTOList, modelAndView);

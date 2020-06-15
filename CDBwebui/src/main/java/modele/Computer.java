@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -38,7 +40,8 @@ public class Computer {
 	private LocalDateTime introduced;
 	@Column(name = "discontinued")
 	private LocalDateTime discontinued;
-	@Column(name = "company_id")
+	@OneToOne
+	@JoinColumn(name="company_id")
 	private Company company;
 
 	public int getId() {

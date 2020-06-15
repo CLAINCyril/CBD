@@ -116,7 +116,7 @@ public final class DAOComputer {
 	}
 
 	public long countComputer() {
-		JPAQuery<?> query = new JPAQuery<Void>(entityManager);
+		JPAQuery<Void> query = new JPAQuery<Void>(entityManager);
 		QComputer computer = QComputer.computer;
 		return query.from(computer)
 				.fetchCount();
