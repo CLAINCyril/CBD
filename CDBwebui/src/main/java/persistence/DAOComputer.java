@@ -58,9 +58,8 @@ public class DAOComputer {
 		Optional<Computer> optionalComputer = Optional.empty();
 		QComputer computer = QComputer.computer;
 		JPAQuery<Computer> query = new JPAQuery<Computer>(entityManager);
-
-		optionalComputer = Optional.of(query.from(computer).where(computer.id.eq(id)).fetchOne());
-
+		optionalComputer = Optional.ofNullable(query.from(computer).where(computer.id.eq(id)).fetchOne());
+		
 		return optionalComputer;
 
 	}
