@@ -53,12 +53,7 @@ public class SpringConfig implements WebApplicationInitializer{
 		return driverManagerDataSource;
 	}
 	
-	@Bean
-	public NamedParameterJdbcTemplate jdbcTemplate(DataSource dataSource) {
-		return new NamedParameterJdbcTemplate(dataSource);
-		}
 	
-
     @Bean
     public PlatformTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());

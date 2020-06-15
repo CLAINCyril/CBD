@@ -6,7 +6,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -85,6 +87,12 @@ public class ComputerMapper implements RowMapper<Computer>{
 		return computer;
 	}
 
+	public List<Integer> stringToIntegers(List<String> listIdComputer) {
+		List<Integer> Numbers = listIdComputer.stream()
+				.map(Integer::valueOf)
+				.collect(Collectors.toList());
+		return Numbers;
+	}
 
 	@Override
 	public Computer mapRow(ResultSet resultSet, int rowNum) throws SQLException {

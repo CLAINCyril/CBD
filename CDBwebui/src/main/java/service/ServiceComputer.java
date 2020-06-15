@@ -2,9 +2,11 @@ package service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import modele.Computer;
 import persistence.DAOComputer;
@@ -33,48 +35,53 @@ public final class ServiceComputer {
 
 	private DAOComputer daoComputer;
 
+	
 	public ServiceComputer(DAOComputer daoComputer) {
 		this.daoComputer = daoComputer;
 
 	}
 
-
+	@Transactional
 	public void persisteComputer(Computer computer) {
 		daoComputer.persisteComputer(computer);
 	}
 
 	public int getlength() {
-		return getAllComputer().size();
+		return (int) daoComputer.countComputer();
 	}
 
+
+	@Transactional
 	public void deleteComputer(int id) {
 		daoComputer.deleteComputer(id);
 	}
 	
+	@Transactional
 	public void deleteComputerList(List<String> listIdComputer) {
 		daoComputer.deleteComputerListe(listIdComputer);
 	}
 
+	@Transactional
 	public Optional<Computer> getComputer(int Id) {
 		return daoComputer.getComputer(Id);
 	}
 
-	public List<Computer> getAllComputer() {
-		return daoComputer.getAllComputer();
-	}
-
+	@Transactional
 	public List<Computer> getPageComputer(int offset, int number) {
 		return daoComputer.getPageComputer(offset, number);
 	}
 
+	@Transactional
 	public void updateComputer(Computer computer) {
 		daoComputer.updateComputer(computer);
 	}
 
+	@Transactional
 	public List<Computer> getPageComputerByName(String search, int offset, int number) {
 		return daoComputer.getPageComputerByName(search, offset, number);
 	}
 
+	@Transactional
 	public List<Computer> getPageComputerOrder(int offset, int number, String order) {
 		order = EVITEINJECTION.value(order.toUpperCase());
 		return daoComputer.getPageComputerOrder(offset, number, order);
