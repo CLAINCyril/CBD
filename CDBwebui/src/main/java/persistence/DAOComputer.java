@@ -70,7 +70,8 @@ public final class DAOComputer {
 		new JPAUpdateClause(entityManager, qComputer).where(qComputer.id.eq(computer.getId()))
 				.set(qComputer.name, computer.getName()).set(qComputer.introduced, computer.getIntroduced())
 				.set(qComputer.discontinued, computer.getDiscontinued())
-				.set(qComputer.company.id, computer.getCompany().getId()).execute();
+				.set(qComputer.company.id, computer.getCompany().getId())
+				.execute();
 
 	}
 
