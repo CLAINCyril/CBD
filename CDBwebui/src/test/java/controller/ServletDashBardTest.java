@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import configuration.SpringConfig;
+import fr.excilys.configuration.SpringConfig;
+import fr.excilys.controller.ServletDashBard;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

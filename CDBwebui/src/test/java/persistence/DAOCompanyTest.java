@@ -4,15 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import configuration.SpringConfig;
-import persistence.DAOCompany;
+import fr.excilys.configuration.SpringConfig;
+import fr.excilys.persistence.DAOCompany;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

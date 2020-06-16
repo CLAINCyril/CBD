@@ -7,9 +7,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import modele.Computer;
-import service.Page;
-import service.ServiceComputer;
+import fr.excilys.modele.Computer;
+import fr.excilys.service.Page;
+import fr.excilys.service.ServiceComputer;
 
 public class PageTest extends Mockito{
 	
