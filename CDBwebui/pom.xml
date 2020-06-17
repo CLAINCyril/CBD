@@ -29,12 +29,19 @@
 		<orgApacheCommons>3.10</orgApacheCommons>
 		<junitVersion>4.12</junitVersion>
 		<versionSpringFramework>5.2.7.RELEASE</versionSpringFramework>
+		<versionSpringSecurity>5.3.3.RELEASE</versionSpringSecurity>
+
 		<versionLogback>1.2.3</versionLogback>
 	</properties>
 
 	<dependencies>
 
 		<!-- Spring Framework -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${versionSpringSecurity}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
