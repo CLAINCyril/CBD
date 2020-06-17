@@ -10,7 +10,7 @@
     name                      varchar(255),
     constraint pk_company primary key (id))
   ;
-
+create table user (name varchar(20) not null, password varchar(20) not null, constraint pk_example primary key (name));
   create table computer (
     id                        bigint not null auto_increment,
     name                      varchar(255),
@@ -64,3 +64,16 @@ insert into computer (id,name,introduced,discontinued,company_id) values ( 17,'A
 insert into computer (id,name,introduced,discontinued,company_id) values ( 18,'COSMAC ELF',null,null,3);
 insert into computer (id,name,introduced,discontinued,company_id) values ( 19,'COSMAC VIP','1977-01-01',null,3);
 insert into computer (id,name,introduced,discontinued,company_id) values ( 20,'ELF II','1977-01-01',null,4);
+
+
+INSERT INTO user (`name`,`password`) VALUES ("Reese","AXD32UXL2BW"),("Jerry","FKF60FQK2EZ"),("Colby","DAG70BBA5XF"),("Yardley","ACG31SHF6ZP"),("Ralph","WMV66LLD0HY"),("Travis","YEW02DTM3YV"),("Brady","HNJ11KEX3YF"),("Griffith","OWL53LTK5EY"),("Griffith","GVI84KZP0WH"),("Octavius","UPY69IFI2XO");
+INSERT INTO user (`name`,`password`) VALUES ("Emerson","YZQ07YHA4CJ"),("Aquila","COM39OLE7NB"),("Trevor","BNC34OPH1TX"),("Seth","ZYT58ZES2UE"),("Amal","YTW27NVM2ED"),("Ishmael","YSN58OMH2YC"),("Aladdin","OSP97MRG2ZC"),("Cole","BDP14FXX8YY"),("Macon","HHU70LOP8TL"),("Wyatt","AGJ01CAN4GV");
+INSERT INTO user (`name`,`password`) VALUES ("Chaney","RMD65GDG7IP"),("Blaze","UOX95KVP8TZ"),("Ezekiel","CAC06XKC6YB"),("Damian","AKN30UWI0EN"),("Macaulay","KXA33GEZ5UW"),("Clarke","DLK98RTB9YD"),("Vance","JRF21XGV2PQ"),("Jerry","YXK14LMQ7WW"),("Tanek","JCM01DEX1VD"),("Lev","PUM90LME9TP");
+INSERT INTO user (`name`,`password`) VALUES ("Galvin","VAW32VFG9ZW"),("Jordan","HMA73YRW8VO"),("Ferdinand","FYX59JZY9SN"),("David","QAO63CTX7SS"),("Vance","NSF89BXM9WK"),("Judah","PVO55FHE0GH"),("Abraham","DEL57BSU6QU"),("Tate","QGQ46TMV8GH"),("Griffith","KQF04MZS5VC"),("Rooney","YXX59MZE4BW");
+INSERT INTO user (`name`,`password`) VALUES ("Simon","UUN04EVG5WZ"),("Orson","AMW43NTY1GH"),("Drake","EAP15YTX7BW"),("Amir","MGR13ALS9ZR"),("Burton","PIP86ZTJ4KN"),("Ray","VZJ91ZJC7WX"),("Grady","KBF43MST6CP"),("Mohammad","ZIB72CEN5LK"),("Keefe","XXH48TTY4YF"),("Stuart","UFG59UNU7WX");
+INSERT INTO user (`name`,`password`) VALUES ("Keith","NDS11IPO6FL"),("Byron","GAO02ZHU0HK"),("Kamal","NVF50JST2BB"),("Yoshio","XDV43XJC0TY"),("Lucius","PBN66RVA8AN"),("Upton","QAD19BQJ0HJ"),("Jared","SYK77GKW7JX"),("Lewis","RMM63DTI6YZ"),("Amery","SIN59YSV9TJ"),("Keegan","EQA15TAX3VH");
+INSERT INTO user (`name`,`password`) VALUES ("Elijah","BNN04OHN9BW"),("Marshall","KEN09IBX4NU"),("Hayes","SUH60OLW3EZ"),("Patrick","QDK47LUH4RR"),("Armand","RCJ75BKX6VR"),("Brett","ERV65IIX2LA"),("Paul","HNJ28EJC7XP"),("Abbot","NAP63DUQ4JR"),("Geoffrey","YDT03VVA4RU"),("Vernon","XOE19GQI7SQ");
+INSERT INTO user (`name`,`password`) VALUES ("Drew","AIB53MMO4TA"),("Rudyard","UKU14LOI6XN"),("August","RZJ77FWF8WM"),("Xanthus","EAD05ZLS5FM"),("Rooney","JIE94SDS1NU"),("Yuli","MZB33CYN7OS"),("Andrew","CBT96MBP0XU"),("Oscar","UPR93VCF4AM"),("Dennis","EHH15XKN2TC"),("Norman","OJR07USG3YP");
+INSERT INTO user (`name`,`password`) VALUES ("Joseph","RHR24MPR0KE"),("Dylan","NQT77XUR3MN"),("Hasad","EDU85TAV7QC"),("Brent","FJT12MAJ7AX"),("Mark","BRU42YUD7VS"),("Daquan","SSG42NRG9RK"),("Callum","DAE49FDE5DY"),("Colorado","KCH73BLG0ZG"),("Ethan","VXI07WNR6TG"),("Mark","DLB11ZPT4HK");
+INSERT INTO user (`name`,`password`) VALUES ("Clinton","UXW13VRF7NM"),("Linus","ZHZ89BMT9XD"),("Emery","ATX72IQA5FS"),("Hayden","UAZ07XQO4VP"),("Fletcher","ZHZ25YPV4ZF"),("Warren","LEJ91YZR8ZD"),("Henry","BAK29SFE9TC"),("Kuame","WCW34VVA1ZZ"),("Wang","WTG43CRE5IU"),("Joshua","ABV24JEF3NT");
+
