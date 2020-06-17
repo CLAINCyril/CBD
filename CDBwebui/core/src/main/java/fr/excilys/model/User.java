@@ -17,18 +17,23 @@ public class User {
 
 	String name;
 	String password;
+	String role;
 
 
 	public static class Builder {
 		private String name;
 		private String password;
+		private String role;
 
 
 		public Builder name(String name) {
 			this.name = name;
 			return this;
 		}
-
+		public Builder role(String role) {
+			this.role = role;
+			return this;
+		}
 		public Builder password(String password) {
 			this.password = password;
 			return this;
@@ -39,7 +44,8 @@ public class User {
 		}
 	}
 
-	private User(Builder builder) {
+	public User(Builder builder) {
+		this.role = builder.role;
 		this.name = builder.name;
 		this.password = builder.password;
 	}
@@ -54,6 +60,17 @@ public class User {
 	public String getPassword() {
 		return password;
 	}
+	
+	@Column(name = "role")
+	public String getRole() {
+		return role;
+	}
+
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 
 	public void setName(String name) {
 		this.name = name;

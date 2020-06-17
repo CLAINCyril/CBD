@@ -66,7 +66,7 @@ insert into computer (id,name,introduced,discontinued,company_id) values ( 19,'C
 insert into computer (id,name,introduced,discontinued,company_id) values ( 20,'ELF II','1977-01-01',null,4);
 
 
-INSERT INTO user (`name`,`password`) VALUES ("Reese","AXD32UXL2BW"),("Jerry","FKF60FQK2EZ"),("Colby","DAG70BBA5XF"),("Yardley","ACG31SHF6ZP"),("Ralph","WMV66LLD0HY"),("Travis","YEW02DTM3YV"),("Brady","HNJ11KEX3YF"),("Griffith","OWL53LTK5EY"),("Griffith","GVI84KZP0WH"),("Octavius","UPY69IFI2XO");
+INSERT INTO user (`name`,`password`,`role`) VALUES ("Reese","AXD32UXL2BW","user"),("Jerry","FKF60FQK2EZ"),("Colby","DAG70BBA5XF"),("Yardley","ACG31SHF6ZP"),("Ralph","WMV66LLD0HY"),("Travis","YEW02DTM3YV"),("Brady","HNJ11KEX3YF"),("Griffith","OWL53LTK5EY"),("Griffith","GVI84KZP0WH"),("Octavius","UPY69IFI2XO");
 INSERT INTO user (`name`,`password`) VALUES ("Emerson","YZQ07YHA4CJ"),("Aquila","COM39OLE7NB"),("Trevor","BNC34OPH1TX"),("Seth","ZYT58ZES2UE"),("Amal","YTW27NVM2ED"),("Ishmael","YSN58OMH2YC"),("Aladdin","OSP97MRG2ZC"),("Cole","BDP14FXX8YY"),("Macon","HHU70LOP8TL"),("Wyatt","AGJ01CAN4GV");
 INSERT INTO user (`name`,`password`) VALUES ("Chaney","RMD65GDG7IP"),("Blaze","UOX95KVP8TZ"),("Ezekiel","CAC06XKC6YB"),("Damian","AKN30UWI0EN"),("Macaulay","KXA33GEZ5UW"),("Clarke","DLK98RTB9YD"),("Vance","JRF21XGV2PQ"),("Jerry","YXK14LMQ7WW"),("Tanek","JCM01DEX1VD"),("Lev","PUM90LME9TP");
 INSERT INTO user (`name`,`password`) VALUES ("Galvin","VAW32VFG9ZW"),("Jordan","HMA73YRW8VO"),("Ferdinand","FYX59JZY9SN"),("David","QAO63CTX7SS"),("Vance","NSF89BXM9WK"),("Judah","PVO55FHE0GH"),("Abraham","DEL57BSU6QU"),("Tate","QGQ46TMV8GH"),("Griffith","KQF04MZS5VC"),("Rooney","YXX59MZE4BW");

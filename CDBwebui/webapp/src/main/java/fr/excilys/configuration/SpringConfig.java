@@ -32,7 +32,8 @@ public class SpringConfig implements WebApplicationInitializer {
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		AnnotationConfigWebApplicationContext AppContext = new AnnotationConfigWebApplicationContext();
-		AppContext.register(WebConfig.class, SpringConfig.class, PersistenceConfig.class);
+		AppContext.register(WebConfig.class, SpringConfig.class, PersistenceConfig.class,
+				SecurityConfigInitializer.class,WebSecurityConfig.class);
 		AppContext.setServletContext(servletContext);
 		// Create and register the DispatcherServlet
 		DispatcherServlet servlet = new DispatcherServlet(AppContext);

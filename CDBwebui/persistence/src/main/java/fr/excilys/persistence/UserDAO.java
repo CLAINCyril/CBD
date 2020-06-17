@@ -5,6 +5,8 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.stereotype.Repository;
+
 import com.querydsl.jpa.impl.JPADeleteClause;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAUpdateClause;
@@ -12,6 +14,7 @@ import com.querydsl.jpa.impl.JPAUpdateClause;
 import fr.excilys.model.QUser;
 import fr.excilys.model.User;
 
+@Repository
 public class UserDAO {
 	
 	@PersistenceContext

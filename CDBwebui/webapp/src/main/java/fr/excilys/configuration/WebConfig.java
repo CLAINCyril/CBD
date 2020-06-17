@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -19,6 +20,12 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
+	
+	 @Override
+	   public void addViewControllers(ViewControllerRegistry registry) {
+	      registry.addViewController("/").setViewName("login");
+	   }
+	 
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
@@ -26,13 +33,13 @@ public class WebConfig implements WebMvcConfigurer {
 
 	@Bean
 	public ViewResolver viewResolver() {
-		InternalResourceViewResolver bean = new InternalResourceViewResolver();
-		System.out.println("views resolveur");
-		bean.setViewClass(JstlView.class);
-		bean.setPrefix("/WEB-INF/views/");
-		bean.setSuffix(".jsp");
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 
-		return bean;
+		viewResolver.setViewClass(JstlView.class);
+		viewResolver.setPrefix("/WEB-INF/views/");
+		viewResolver.setSuffix(".jsp");
+
+		return viewResolver;
 	}
 	
 
