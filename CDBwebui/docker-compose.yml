@@ -1,9 +1,0 @@
-version: '2'
-services:
-  web:
-    image: tomcat
-    ports: 
-      - "8081:8080"
-    volumes:
-      - ./target/DockerExample.war:/usr/local/tomcat/webapps/webUI.war
-      - ./target/DockerExample:/usr/local/tomcat/webapps/ROOT
