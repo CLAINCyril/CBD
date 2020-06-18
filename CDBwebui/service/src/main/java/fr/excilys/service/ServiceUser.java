@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import fr.excilys.DTO.UserDTO;
 import fr.excilys.model.UserCbd;
 import fr.excilys.model.UserCbd.Builder;
+import fr.excilys.persistence.DAOComputer;
 import fr.excilys.persistence.UserDAO;
 
 @Service
@@ -55,6 +56,7 @@ public class ServiceUser implements UserDetailsService {
 				.name(newUserDto.getName())
 				.password((newUserDto.getPassword()))
 				.role(newUserDto.getRole()));
+		System.out.println(" juste avant persist  :  "+userCbd);
 		userDAO.persist(userCbd);
 		return userCbd;
 	}

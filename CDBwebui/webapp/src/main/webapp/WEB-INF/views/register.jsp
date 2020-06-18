@@ -34,7 +34,7 @@
 					<form method="post" action="register" class="form">
 			  <div class="form-group">
 			    <label for="username">Name</label>
-			    <input type="text" class="form-control" id="username" name="username" placeholder="name">
+			    <input type="text" class="form-control" id="username" name="name" placeholder="name">
 			  </div>
 			  <div class="form-group">
 			    <label for="password">Password</label>

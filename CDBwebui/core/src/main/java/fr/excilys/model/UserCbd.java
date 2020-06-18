@@ -10,30 +10,45 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "user")
 public class UserCbd {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	int id;
+
+	@Column(name = "name")
 	String name;
+
+	@Column(name = "password")
 	String password;
+
+	@Column(name = "role")
 	String role;
 
-
+	public UserCbd() {
+		
+	}
+	
+	
 	public static class Builder {
 		private String name;
 		private String password;
 		private String role;
 
-
 		public Builder name(String name) {
 			this.name = name;
 			return this;
 		}
+
 		public Builder role(String role) {
 			this.role = role;
 			return this;
 		}
+
 		public Builder password(String password) {
 			this.password = password;
 			return this;
@@ -50,27 +65,29 @@ public class UserCbd {
 		this.password = builder.password;
 	}
 
+	public int getId() {
+		return id;
+	}
 
-	@Id
-	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
-	@Column(name = "password")
+
 	public String getPassword() {
 		return password;
 	}
-	
-	@Column(name = "role")
+
 	public String getRole() {
 		return role;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public void setRole(String role) {
 		this.role = role;
 	}
-
 
 	public void setName(String name) {
 		this.name = name;
@@ -80,11 +97,11 @@ public class UserCbd {
 		this.password = password;
 	}
 
-	
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
 	}
+
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(this.name).toHashCode();

@@ -37,7 +37,7 @@ public class ControllerUser {
 	public String register(@ModelAttribute("newUser") UserDTO newUserDto) {
 		// voir code review bonne pratique 
 		newUserDto.setPassword(passwordEncoder.encode(newUserDto.getPassword()));
-		UserCbd userCreated = serviceUser.registerNewUserAccountUser(newUserDto);
-		return "loginPage";
+		serviceUser.registerNewUserAccountUser(newUserDto);
+		return "login";
 	}
 }
