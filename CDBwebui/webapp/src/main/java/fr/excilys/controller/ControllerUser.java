@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import fr.excilys.DTO.UserDTO;
-import fr.excilys.model.User;
+import fr.excilys.model.UserCbd;
 import fr.excilys.service.ServiceUser;
 
 @Controller
@@ -37,7 +37,7 @@ public class ControllerUser {
 	public String register(@ModelAttribute("newUser") UserDTO newUserDto) {
 		// voir code review bonne pratique 
 		newUserDto.setPassword(passwordEncoder.encode(newUserDto.getPassword()));
-		User userCreated = serviceUser.registerNewUserAccountUser(newUserDto);
+		UserCbd userCreated = serviceUser.registerNewUserAccountUser(newUserDto);
 		return "loginPage";
 	}
 }

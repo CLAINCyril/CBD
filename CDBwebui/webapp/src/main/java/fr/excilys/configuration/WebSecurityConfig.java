@@ -17,23 +17,21 @@ import fr.excilys.service.ServiceUser;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	ServiceUser serviceUser;
-	 
+	private ServiceUser serviceUser;
+	
 	@Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
-//        auth.inMemoryAuthentication().withUser("admin").password("password").roles("ADMIN");
-        // For User in database.
-        auth.userDetailsService(serviceUser);
- 
-    }
-
+	public void configureAuthenticationManagerBuilder(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+		
+		authenticationManagerBuilder.userDetailsService(serviceUser).passwordEncoder(passwordEncoder());
+		authenticationManagerBuilder.inMemoryAuthentication().withUser("user1").password(passwordEncoder().encode("toto")).roles("USER");
+		authenticationManagerBuilder.inMemoryAuthentication().withUser("admin1").password(passwordEncoder().encode("12345")).roles("ADMIN");
+	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 
@@ -43,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		httpSecurity
 		.authorizeRequests()
-		.antMatchers("/", "/login", "/acceuil")
+		.antMatchers("/", "/login", "/acceuil","/registerPage")
 		.permitAll();
 
 		httpSecurity
@@ -53,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		httpSecurity
 		.authorizeRequests()
-		.antMatchers("/ListComputer", "/EditComputer", "/AddComputer")
+		.antMatchers("/EditComputer", "/AddComputer")
 		.access("hasRole('ADMIN')");
 
 		httpSecurity.authorizeRequests().and().formLogin()

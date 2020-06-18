@@ -1,10 +1,10 @@
 package fr.excilys.Validator;
 
-import fr.excilys.model.User;
+import fr.excilys.model.UserCbd;;
 
 public class ValidatorUser {
 
-	public boolean testMdp(User userNotVerif, User userVerif) {
+	public boolean testMdp(UserCbd userNotVerif, UserCbd userVerif) {
 		return((userVerif.getPassword()).equals(userNotVerif.getPassword()));
 		
 	}

@@ -13,7 +13,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class UserCbd {
 
 	String name;
 	String password;
@@ -39,12 +39,12 @@ public class User {
 			return this;
 		}
 
-		public User build() {
-			return new User(this);
+		public UserCbd build() {
+			return new UserCbd(this);
 		}
 	}
 
-	public User(Builder builder) {
+	public UserCbd(Builder builder) {
 		this.role = builder.role;
 		this.name = builder.name;
 		this.password = builder.password;
@@ -98,7 +98,7 @@ public class User {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		UserCbd other = (UserCbd) obj;
 		if (name != other.name)
 			return false;
 		return true;

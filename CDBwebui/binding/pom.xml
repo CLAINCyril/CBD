@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>fr.excilys</groupId>
 		<artifactId>CDBwebui</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>binding</artifactId>
 	  <packaging>jar</packaging>
@@ -14,7 +14,7 @@
 		<dependency>
 			<groupId>fr.excilys</groupId>
 			<artifactId>core</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
