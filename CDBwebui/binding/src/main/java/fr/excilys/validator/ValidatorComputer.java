@@ -1,17 +1,16 @@
-package fr.excilys.Validator;
+package fr.excilys.validator;
 
 import java.time.LocalDateTime;
 
-import fr.excilys.serviceException.DateException;
+import fr.excilys.exception.DateException;
 
 public class ValidatorComputer {
 
-	
-	public void discontinuedAfterIntroduced(LocalDateTime discontinued, LocalDateTime introduced) throws DateException {
-		Boolean dateOk = discontinued.isAfter(introduced);
-			if(dateOk.equals(false)){
-				
-				throw new DateException("discontinued must be after introduced");
-				}
-			}
+	public boolean discontinuedAfterIntroduced(LocalDateTime discontinued, LocalDateTime introduced) throws DateException {
+		if (!discontinued.isAfter(introduced)) {
+
+			throw new DateException("discontinued must be after introduced");
+		}
+		return true;
+	}
 }

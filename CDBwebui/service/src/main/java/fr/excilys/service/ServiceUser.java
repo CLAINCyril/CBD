@@ -15,17 +15,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import fr.excilys.DTO.UserDTO;
-import fr.excilys.model.UserCbd;
-import fr.excilys.model.UserCbd.Builder;
+import fr.excilys.model.UserCdb;
+import fr.excilys.model.UserCdb.Builder;
 import fr.excilys.persistence.DAOComputer;
-import fr.excilys.persistence.UserDAO;
+import fr.excilys.persistence.DAOUser;
 
 @Service
 public class ServiceUser implements UserDetailsService {
 
-	UserDAO userDAO;
+	DAOUser userDAO;
 
-	public ServiceUser(UserDAO userDAO) {
+	public ServiceUser(DAOUser userDAO) {
 		this.userDAO = userDAO;
 
 	}
@@ -34,10 +34,10 @@ public class ServiceUser implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<UserCbd> optionalUser = userDAO.getUser(username);
+		Optional<UserCdb> optionalUser = userDAO.getUser(username);
 		if (optionalUser.isPresent()) {
 			
-			UserCbd userCbd = userDAO.getUser(username).get();
+			UserCdb userCbd = userDAO.getUser(username).get();
 			List<GrantedAuthority> grantList= new ArrayList<GrantedAuthority>();
 			GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userCbd.getRole());
 			grantList.add(authority);
@@ -51,8 +51,8 @@ public class ServiceUser implements UserDetailsService {
 	}
 
 	
-	public UserCbd registerNewUserAccountUser(UserDTO newUserDto) {
-		UserCbd userCbd = new UserCbd(new Builder()
+	public UserCdb registerNewUserAccountUser(UserDTO newUserDto) {
+		UserCdb userCbd = new UserCdb(new Builder()
 				.name(newUserDto.getName())
 				.password((newUserDto.getPassword()))
 				.role(newUserDto.getRole()));

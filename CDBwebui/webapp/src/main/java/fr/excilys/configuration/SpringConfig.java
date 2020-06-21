@@ -24,11 +24,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 public class SpringConfig implements WebApplicationInitializer {
 
 	private final int initializationPriority = 1;
-	@Bean
-	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
-		return new PersistenceExceptionTranslationPostProcessor();
-	}
-
+	
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		AnnotationConfigWebApplicationContext AppContext = new AnnotationConfigWebApplicationContext();

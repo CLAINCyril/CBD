@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 import fr.excilys.DTO.CompanyDTO;
 import fr.excilys.DTO.ComputerDTO;
-import fr.excilys.Validator.ValidatorComputer;
+import fr.excilys.exception.DateException;
 import fr.excilys.mapper.CompanyMapper;
 import fr.excilys.mapper.ComputerMapper;
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
-import fr.excilys.serviceException.DateException;
+import fr.excilys.validator.ValidatorComputer;
 
 @Service
 public class ServiceServletEditComputer {
@@ -51,8 +51,13 @@ public class ServiceServletEditComputer {
 	}
 
 
-	public void isValidEdit(String companyId, Computer computer) throws DateException {
-		new ValidatorComputer().discontinuedAfterIntroduced(computer.getDiscontinued(), computer.getIntroduced());
-		serviceComputer.updateComputer(computer);
+	public void isValidEdit(Computer computer) throws DateException{
+		try {
+			new ValidatorComputer().discontinuedAfterIntroduced(computer.getDiscontinued(), computer.getIntroduced());
+			serviceComputer.updateComputer(computer);
+		} catch (DateException dateException) {
+			dateException.getMessage();
+			throw dateException;
+		}
 	}
 }

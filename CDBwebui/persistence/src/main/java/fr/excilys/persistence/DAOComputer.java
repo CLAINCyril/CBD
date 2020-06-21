@@ -48,10 +48,10 @@ public class DAOComputer {
 	}
 
 	public void deleteComputerListe(List<String> listIdComputer) {
-		List<Integer> Numbers = computerMapper.stringToIntegers(listIdComputer);
+		List<Integer> numbers = computerMapper.stringToIntegers(listIdComputer);
 		QComputer computer = QComputer.computer;
 
-		new JPADeleteClause(entityManager, computer).where(computer.id.in(Numbers)).execute();
+		new JPADeleteClause(entityManager, computer).where(computer.id.in(numbers)).execute();
 	}
 
 	public Optional<Computer> getComputer(int id) {
@@ -64,7 +64,6 @@ public class DAOComputer {
 	}
 
 	public void updateComputer(Computer computer) {
-
 		QComputer qComputer = QComputer.computer;
 		new JPAUpdateClause(entityManager, qComputer).where(qComputer.id.eq(computer.getId()))
 				.set(qComputer.name, computer.getName()).set(qComputer.introduced, computer.getIntroduced())

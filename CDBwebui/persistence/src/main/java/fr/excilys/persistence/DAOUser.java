@@ -12,39 +12,39 @@ import com.querydsl.jpa.impl.JPADeleteClause;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAUpdateClause;
 
-import fr.excilys.model.QUserCbd;
-import fr.excilys.model.UserCbd;
+import fr.excilys.model.QUserCdb;
+import fr.excilys.model.UserCdb;
 
 @Repository
-public class UserDAO {
+public class DAOUser {
 	
 	@PersistenceContext
 	EntityManager entityManager;
 
 	@Transactional
-	public void persist(UserCbd user) {
+	public void persist(UserCdb user) {
 		entityManager.persist(user);
 	}
 	
 	public void deleteUser(String name) {
-		QUserCbd user = QUserCbd.userCbd;
+		QUserCdb user = QUserCdb.userCdb;
 
 		new JPADeleteClause(entityManager, user).where(user.name.eq(name)).execute();
 
 	}
 
-	public Optional<UserCbd> getUser(String name) {
-		Optional<UserCbd> optionalUser = Optional.empty();
-		QUserCbd user = QUserCbd.userCbd;
-		JPAQuery<UserCbd> query = new JPAQuery<UserCbd>(entityManager);
+	public Optional<UserCdb> getUser(String name) {
+		Optional<UserCdb> optionalUser = Optional.empty();
+		QUserCdb user = QUserCdb.userCdb;
+		JPAQuery<UserCdb> query = new JPAQuery<UserCdb>(entityManager);
 		optionalUser = Optional.ofNullable(query.from(user).where(user.name.eq(name)).fetchOne());
 		return optionalUser;
 	}
 	
 
-	public void updateUser(UserCbd user) {
+	public void updateUser(UserCdb user) {
 
-		QUserCbd qUser = QUserCbd.userCbd;
+		QUserCdb qUser = QUserCdb.userCdb;
 		new JPAUpdateClause(entityManager, qUser).where(qUser.name.eq(user.getName()))
 				.set(qUser.name, user.getName()).set(qUser.password, user.getPassword())
 				.execute();

@@ -6,7 +6,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +21,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@ComponentScan(basePackages = { "fr.excilys.model", "fr.excilys.service", "fr.excilys.persistence",
-		"fr.excilys.controller", "fr.excilys.client", "fr.excilys.mapper" })
+@ComponentScan(basePackages = { "fr.excilys.model", "fr.excilys.persistence","fr.excilys.mapper" })
 @PropertySource("classpath:datasource.properties")
 @EnableTransactionManagement
 public class PersistenceConfig {
@@ -31,16 +29,11 @@ public class PersistenceConfig {
 	@Autowired
 	Environment environment;
 
-	@Value(value = "driverClassName")
-	private String DRIVER;
-	@Value(value = "jdbcUrl")
-	private String URL;
-	@Value(value = "username2")
-	private String USER;
-	@Value(value = "password")
-	private String PASSWORD;
-	@Value(value = "hibernate.dialect")
-	private String dialect;
+	private final String DRIVER = "driverClassName";
+	private final String URL = "jdbcUrl";
+	private final String USER = "username2";
+	private final String PASSWORD = "password";
+	private final String dialect = "hibernate.dialect";
 
 	@Bean
 	DataSource dataSource() {

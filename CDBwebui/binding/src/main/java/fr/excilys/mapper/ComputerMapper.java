@@ -57,7 +57,7 @@ public class ComputerMapper implements RowMapper<Computer>{
 		ComputerDTO compDTO = new ComputerDTO( computer.getName(),
 				computer.getIntroduced()==null?null:computer.getIntroduced().toString(),
 				computer.getDiscontinued()==null?null:computer.getDiscontinued().toString(),companyDTO);
-		compDTO.setId(computer.getId());
+		compDTO.setId(Integer.toString(computer.getId()));
 		return compDTO;
 	}
 
@@ -71,7 +71,6 @@ public class ComputerMapper implements RowMapper<Computer>{
 		if (date.isEmpty()) {
 			return null;
 		}
-		System.out.println(date);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		LocalDateTime datetime = LocalDate.parse(date, formatter).atTime(0, 0, 0);
 		return datetime;
@@ -81,9 +80,9 @@ public class ComputerMapper implements RowMapper<Computer>{
 
 	public Computer fromComputerDTOToComputer(ComputerDTO computerDTO) {
 		Company company = new CompanyMapper().fromCompanyDTOToCompany(computerDTO.getCompany());
-		
+
 		Computer computer = new Computer.ComputerBuilder().setCompany(company)
-				.setId(computerDTO.getId())
+				.setId(computerDTO.getId() == null ? 0 : Integer.parseInt(computerDTO.getId()))
 				.setDiscontinued(ConvertStringToLocalDateTime(computerDTO.getDiscontinued()))
 				.setIntroduced(ConvertStringToLocalDateTime(computerDTO.getIntroduced()))
 				.setName(computerDTO.getName())
@@ -92,10 +91,10 @@ public class ComputerMapper implements RowMapper<Computer>{
 	}
 
 	public List<Integer> stringToIntegers(List<String> listIdComputer) {
-		List<Integer> Numbers = listIdComputer.stream()
+		List<Integer> numbers = listIdComputer.stream()
 				.map(Integer::valueOf)
 				.collect(Collectors.toList());
-		return Numbers;
+		return numbers;
 	}
 
 	@Override

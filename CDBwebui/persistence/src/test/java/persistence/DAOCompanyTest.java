@@ -32,12 +32,7 @@ public class DAOCompanyTest {
 	public void testGetById5Empty() {
 		assertFalse(daoCompany.getCompany(5).isEmpty());
 	}
-//	
-//	@Test
-//	public void testGetById50000() {
-//		assertTrue(daoCompany.getCompany(50000).isEmpty());
-//	}
-//	
+
 	@Test
 	public void getAllCompany() {
 		assertEquals(daoCompany.getAllCompany().size(), 20);
