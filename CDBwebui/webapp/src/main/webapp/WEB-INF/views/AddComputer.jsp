@@ -60,7 +60,7 @@
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
-									type="text" name="computerName" class="form-control"
+									type="text" name="name" class="form-control"
 									id="computerName" placeholder="Computer name">
 							</div>
 							<div class="form-group">
@@ -74,10 +74,10 @@
 									id="discontinued">
 							</div>
 						<div class="form-group">
-							<label for="companyId">Company</label> <select
-								class="form-control" name="companyId" id="companyId">
+							<label for="company">Company</label> <select
+								class="form-control" name="company" id="company">
 								<c:forEach items="${companysDTO}" var="company">
-									<c:if test="${ company.id==computerToUpdate.company.id}">
+									<c:if test="${company.id==computerToUpdate.company.id}">
 										<option value="${company.id}" selected><c:out
 												value="${company.name}"></c:out></option>
 									</c:if>
