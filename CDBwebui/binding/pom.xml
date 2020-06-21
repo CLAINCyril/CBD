@@ -5,16 +5,25 @@
 	<parent>
 		<groupId>fr.excilys</groupId>
 		<artifactId>CDBwebui</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>7.0.0</version>
 	</parent>
 	<artifactId>binding</artifactId>
-	  <packaging>jar</packaging>
-	
+	<packaging>jar</packaging>
+
 	<dependencies>
 		<dependency>
 			<groupId>fr.excilys</groupId>
 			<artifactId>core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${pomVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -5,16 +5,67 @@
 	<parent>
 		<groupId>fr.excilys</groupId>
 		<artifactId>CDBwebui</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>7.0.0</version>
 	</parent>
 	<artifactId>persistence</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
+
+		<!-- Module dependencies -->
 		<dependency>
 			<groupId>fr.excilys</groupId>
 			<artifactId>binding</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${pomVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.excilys</groupId>
+			<artifactId>core</artifactId>
+			<version>${pomVersion}</version>
+		</dependency>
+
+		<!-- Spring Framework -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+
+
+		<!-- dataBase -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Query dsl -->
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+		</dependency>
+
+		<!-- hibernate -->
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
 		</dependency>
 	</dependencies>
+
 </project>
