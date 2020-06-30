@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>CDBwebui</artifactId>
 		<groupId>fr.excilys</groupId>
-		<version>7.0.0</version>
+		<version>8.0.0</version>
 	</parent>
 
 	<artifactId>webapp</artifactId>
@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>fr.excilys</groupId>
 			<artifactId>service</artifactId>
-			<version>7.0.0</version>
+			<version>${pomVersion}</version>
 		</dependency>
 			
 			<dependency>

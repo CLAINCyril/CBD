@@ -6,7 +6,7 @@
 
 	<groupId>fr.excilys</groupId>
 	<artifactId>CDBwebui</artifactId>
-	<version>7.0.0</version>
+	<version>8.0.0</version>
 	<packaging>pom</packaging>
 
 	<name>CDBwebui Maven Webapp</name>
@@ -15,7 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<pomVersion>7.0.0</pomVersion>
+		<pomVersion>8.0.0</pomVersion>
 		<slf4jVersion>1.7.5</slf4jVersion>
 		<mysqlVersion>8.0.19</mysqlVersion>
 		<h2Version>1.4.200</h2Version>
