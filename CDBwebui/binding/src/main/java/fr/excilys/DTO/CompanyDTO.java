@@ -6,22 +6,22 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 
 public class CompanyDTO {
-	private int id;
+	private String id;
 	private String name;
 	
-	public CompanyDTO(int id) {
+	public CompanyDTO(String id) {
 		this.id=id;
 	}
 	public CompanyDTO() {
 		super();
 	}
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	public String getName() {
 		return name;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public void setName(String name) {

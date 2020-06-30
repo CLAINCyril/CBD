@@ -6,119 +6,35 @@
 
 	<groupId>fr.excilys</groupId>
 	<artifactId>CDBwebui</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>7.0.0</version>
 	<packaging>pom</packaging>
 
 	<name>CDBwebui Maven Webapp</name>
-	<!-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<pomVersion>7.0.0</pomVersion>
 		<slf4jVersion>1.7.5</slf4jVersion>
 		<mysqlVersion>8.0.19</mysqlVersion>
 		<h2Version>1.4.200</h2Version>
 		<querydslVersion>4.3.1</querydslVersion>
 		<hibernateVersion>5.4.17.Final</hibernateVersion>
+		<JPAVersion>1.3.2</JPAVersion>
 		<mockitoVersion>1.9.5</mockitoVersion>
 		<javaxServletApi>3.1.0</javaxServletApi>
 		<javaxservletJstl>1.1.2</javaxservletJstl>
 		<orgApacheTaglibs>1.2.5</orgApacheTaglibs>
 		<orgApacheCommons>3.10</orgApacheCommons>
 		<junitVersion>4.12</junitVersion>
-		<versionSpringFramework>5.2.7.RELEASE</versionSpringFramework>
-		<versionSpringSecurity>5.3.3.RELEASE</versionSpringSecurity>
-
-		<versionLogback>1.2.3</versionLogback>
+		<springFrameworkVersion>5.2.7.RELEASE</springFrameworkVersion>
+		<springSecurityVersion>5.3.3.RELEASE</springSecurityVersion>
+		<LogbackVersion>1.2.3</LogbackVersion>
 	</properties>
 
+
 	<dependencies>
-
-		<!-- Spring Security -->
-		
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${versionSpringSecurity}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${versionSpringSecurity}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>${versionSpringSecurity}</version>
-		</dependency>
-		<!-- Spring Framework -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${versionSpringFramework}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${versionSpringFramework}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${versionSpringFramework}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${versionSpringFramework}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${versionSpringFramework}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- dataBase -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysqlVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>${h2Version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- Query dsl -->
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-apt</artifactId>
-			<version>${querydslVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-jpa</artifactId>
-			<version>${querydslVersion}</version>
-		</dependency>
-
-		<!-- hibernate -->
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernateVersion}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.annotation</groupId>
-			<artifactId>javax.annotation-api</artifactId>
-			<version>1.3.2</version>
-		</dependency>
-
 		<!-- Test -->
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -133,39 +49,18 @@
 			<version>${junitVersion}</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- Servlet -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${javaxServletApi}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${javaxservletJstl}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.taglibs</groupId>
-			<artifactId>taglibs-standard-spec</artifactId>
-			<version>${orgApacheTaglibs}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.taglibs</groupId>
-			<artifactId>taglibs-standard-impl</artifactId>
-			<version>${orgApacheTaglibs}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>${orgApacheCommons}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${springFrameworkVersion}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Logger -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>${versionLogback}</version>
+			<version>${LogbackVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -180,29 +75,123 @@
 		</dependency>
 	</dependencies>
 
+	<dependencyManagement>
+
+		<dependencies>
+
+			<!-- Spring Security -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${springSecurityVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-web</artifactId>
+				<version>${springSecurityVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>${springSecurityVersion}</version>
+			</dependency>
+			<!-- Spring Framework -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${springFrameworkVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${springFrameworkVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${springFrameworkVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${springFrameworkVersion}</version>
+			</dependency>
+
+
+			<!-- dataBase -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysqlVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${h2Version}</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- Query dsl -->
+			<dependency>
+				<groupId>com.querydsl</groupId>
+				<artifactId>querydsl-apt</artifactId>
+				<version>${querydslVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.querydsl</groupId>
+				<artifactId>querydsl-jpa</artifactId>
+				<version>${querydslVersion}</version>
+			</dependency>
+
+			<!-- hibernate -->
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernateVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.annotation</groupId>
+				<artifactId>javax.annotation-api</artifactId>
+				<version>${JPAVersion}</version>
+			</dependency>
+
+
+			<!-- Servlet -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${javaxServletApi}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>${javaxservletJstl}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.taglibs</groupId>
+				<artifactId>taglibs-standard-spec</artifactId>
+				<version>${orgApacheTaglibs}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.taglibs</groupId>
+				<artifactId>taglibs-standard-impl</artifactId>
+				<version>${orgApacheTaglibs}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${orgApacheCommons}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+
 	<build>
 		<finalName>CDBwebui</finalName>
 		<pluginManagement>
 			<plugins>
-
-
-				<plugin>
-					<groupId>com.mysema.maven</groupId>
-					<artifactId>apt-maven-plugin</artifactId>
-					<version>1.1.3</version>
-					<executions>
-						<execution>
-							<goals>
-								<goal>process</goal>
-							</goals>
-							<configuration>
-								<outputDirectory>target/generated-sources/java</outputDirectory>
-								<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-
 
 				<plugin>
 					<artifactId>maven-clean-plugin</artifactId>
@@ -235,25 +224,6 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>com.mysema.maven</groupId>
-				<artifactId>apt-maven-plugin</artifactId>
-				<version>1.1.3</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>target/generated-sources/java</outputDirectory>
-							<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
 	</build>
 	<modules>
 		<module>core</module>

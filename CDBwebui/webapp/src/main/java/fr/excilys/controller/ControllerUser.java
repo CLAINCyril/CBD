@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import fr.excilys.DTO.UserDTO;
-import fr.excilys.model.UserCbd;
+import fr.excilys.model.UserCdb;
 import fr.excilys.service.ServiceUser;
 
 @Controller

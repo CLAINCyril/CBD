@@ -18,10 +18,10 @@ import fr.excilys.configuration.WebConfig;
 import fr.excilys.configuration.WebSecurityConfig;
 import fr.excilys.controller.ServletAddComputer;
 
+
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {WebConfig.class, SpringConfig.class, PersistenceConfig.class,
 		SecurityConfigInitializer.class,WebSecurityConfig.class})
-@RunWith(SpringJUnit4ClassRunner.class)
-
 public class ServletAddComputerTest extends Mockito{
 	
 	@Test

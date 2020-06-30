@@ -10,11 +10,10 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "user")
-public class UserCbd {
+public class UserCdb {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +28,7 @@ public class UserCbd {
 	@Column(name = "role")
 	String role;
 
-	public UserCbd() {
+	public UserCdb() {
 		
 	}
 	
@@ -54,12 +53,12 @@ public class UserCbd {
 			return this;
 		}
 
-		public UserCbd build() {
-			return new UserCbd(this);
+		public UserCdb build() {
+			return new UserCdb(this);
 		}
 	}
 
-	public UserCbd(Builder builder) {
+	public UserCdb(Builder builder) {
 		this.role = builder.role;
 		this.name = builder.name;
 		this.password = builder.password;
@@ -115,7 +114,7 @@ public class UserCbd {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UserCbd other = (UserCbd) obj;
+		UserCdb other = (UserCdb) obj;
 		if (name != other.name)
 			return false;
 		return true;

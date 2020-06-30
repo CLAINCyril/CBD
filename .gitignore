@@ -47,6 +47,8 @@ proguard/
 *.tar.gz
 *.rar
 *.log
+# META-INF
+META-INF
 
 # Apple Files
 .DS_Store

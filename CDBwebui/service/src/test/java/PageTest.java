@@ -3,35 +3,31 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import fr.excilys.configuration.PersistenceConfig;
 import fr.excilys.model.Computer;
 import fr.excilys.service.Page;
 import fr.excilys.service.ServiceComputer;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {PersistenceConfig.class})
-@Transactional
-public class PageTest extends Mockito{
+public class PageTest{
 	
-	
-	@Autowired
-	ServiceComputer serviceComputer;
+	List<Computer> testComputers = new ArrayList<Computer>();
+	ServiceComputer serviceComputer = Mockito.mock(ServiceComputer.class);;
 
 	@Test
 	public void getPageoffTwentyComputerExpected() {
 		int pageIterator = 0;
 		int taillePage = 20;
+		for (int i = 0; i < 20; i++) {
+			testComputers.add(new Computer());
+			
+		}
+		Mockito.when(serviceComputer.getPageComputer(pageIterator, taillePage))
+		.thenReturn(testComputers);
 
-
+		
 		List<Computer> computers = new Page(pageIterator, taillePage, serviceComputer).getPage();
 		assertEquals(computers.size(), 20);
 		}

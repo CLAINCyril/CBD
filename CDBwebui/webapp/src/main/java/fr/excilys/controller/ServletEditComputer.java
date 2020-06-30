@@ -11,13 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.excilys.DTO.CompanyDTO;
 import fr.excilys.DTO.ComputerDTO;
-import fr.excilys.DTO.EditComputerParameter;
+import fr.excilys.exception.DateException;
 import fr.excilys.mapper.ComputerMapper;
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 import fr.excilys.service.ServiceCompany;
 import fr.excilys.service.ServiceServletEditComputer;
-import fr.excilys.serviceException.DateException;
 
 @Controller
 @RequestMapping(value = "/EditComputer")
@@ -34,7 +33,8 @@ public class ServletEditComputer{
 	
 	
 	@GetMapping
-	public ModelAndView showEditComputer(@RequestParam(required = false, value = "computerid") String computerid) {
+	public ModelAndView showEditComputer(@RequestParam(required = false, value = "computerid") String computerid,
+	@RequestParam(required = false, value = "errorMessage") String errorMessage) {
 
 		ModelAndView modelAndView = new ModelAndView("EditComputer");
 		int computerId = Integer.parseInt(computerid);
@@ -51,20 +51,16 @@ public class ServletEditComputer{
 
 
 	@PostMapping
-	public ModelAndView editComputer(EditComputerParameter editComputerParameter){
+	public ModelAndView editComputer(ComputerDTO computerDTO){
 
 		ModelAndView modelAndView = new ModelAndView("redirect:/ListComputer");
-		modelAndView.addObject("computerId", Integer.parseInt(editComputerParameter.getCompanyId()));
-		CompanyDTO companyDTO = new CompanyDTO(Integer.parseInt(editComputerParameter.getCompanyId()));
-		ComputerDTO computerDTO = new ComputerDTO(Integer.parseInt(editComputerParameter.getComputerId()), editComputerParameter.getComputerName(), editComputerParameter.getIntroduced(), editComputerParameter.getDiscontinued(), companyDTO);
-		
 		Computer computer = serviceServletEditComputer.mapDTOtoComputer(computerDTO);
+		
 		try {
-			serviceServletEditComputer.isValidEdit(editComputerParameter.getCompanyId(), computer);
+			serviceServletEditComputer.isValidEdit(computer);
 		} catch (DateException dateExecption) {
-			showEditComputer(editComputerParameter.getCompanyId());
+			showEditComputer(computerDTO.getId(), "Date discontinued must be AFTER introduced");
 		}
-	
 		return modelAndView;
 		}
 	

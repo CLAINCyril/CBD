@@ -31,9 +31,5 @@ public class DAOComputerTest {
 		assertFalse(daoComputer.getComputer(5).isEmpty());
 	}
 
-//	@Test
-//	public void testGetById50000() {
-//		assertTrue(daoComputer.getComputer(50000).isEmpty());
-//	}
 
 }

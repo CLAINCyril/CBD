@@ -1,4 +1,4 @@
-package fr.excilys.serviceException;
+package fr.excilys.exception;
 
 public class DateException extends Exception{
 	  public DateException(String message)

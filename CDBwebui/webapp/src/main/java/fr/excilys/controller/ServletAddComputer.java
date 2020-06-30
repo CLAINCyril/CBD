@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.excilys.DTO.AddComputerParameter;
 import fr.excilys.DTO.CompanyDTO;
 import fr.excilys.DTO.ComputerDTO;
 import fr.excilys.model.Company;
@@ -48,13 +47,9 @@ public class ServletAddComputer {
 
 
 	@PostMapping
-	public ModelAndView addComputer(AddComputerParameter addComputerParameter) {
+	public ModelAndView addComputer(ComputerDTO computerDTO) {
 
 		ModelAndView modelAndView = new ModelAndView();
-
-		CompanyDTO companyDTO = new CompanyDTO(Integer.parseInt(addComputerParameter.getCompanyId()));
-
-		ComputerDTO computerDTO = new ComputerDTO(addComputerParameter.getComputerName(), addComputerParameter.getIntroduced(), addComputerParameter.getDiscontinued(), companyDTO);
 
 		Computer computer = serviceServletAddComputer.mapComputerDTOToComputer(computerDTO);
 

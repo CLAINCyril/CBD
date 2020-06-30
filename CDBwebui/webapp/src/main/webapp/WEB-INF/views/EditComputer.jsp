@@ -65,13 +65,13 @@
 				<h1>Edit Computer</h1>
 
 				<form action="EditComputer" method="POST">
-					<input type="hidden" value="${computerDTO.id}" name="computerId"
+					<input type="hidden" value="${computerDTO.id}" name="id"
 						id="computerId" />
 					<!-- TODO: Change this value with the computer id -->
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName">Computer name</label> <input
-								type="text" class="form-control" name="computerName"
+								type="text" class="form-control" name="name"
 								id="computerName" placeholder="${computerDTO.name}" required
 								maxlength="255">
 						</div>
@@ -88,7 +88,7 @@
 						</div>
 						<div class="form-group">
 							<label for="companyId">Company</label> <select
-								class="form-control" name="companyId" id="companyId">
+								class="form-control" name="company" id="companyId">
 								<c:forEach items="${companysDTO}" var="company">
 									<c:if test="${ company.id==computerToUpdate.company.id}">
 										<option value="${company.id}" selected><c:out

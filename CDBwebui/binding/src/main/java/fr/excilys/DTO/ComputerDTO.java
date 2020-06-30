@@ -8,7 +8,7 @@ public class ComputerDTO {
 
 	public ComputerDTO() {}
 	
-	private int id;
+	private String id;
 	private String name;
 	private String introduced;
 	private String discontinued;
@@ -22,7 +22,7 @@ public class ComputerDTO {
 		this.company = company;
 	}
 	
-	public ComputerDTO(int id, String name, String introduced, String discontinued, CompanyDTO company) {
+	public ComputerDTO(String id, String name, String introduced, String discontinued, CompanyDTO company) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -31,7 +31,7 @@ public class ComputerDTO {
 		this.company = company;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	public String getName() {
@@ -46,7 +46,7 @@ public class ComputerDTO {
 	public CompanyDTO getCompany() {
 		return company;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public void setName(String name) {
