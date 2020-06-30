@@ -21,7 +21,7 @@ import fr.excilys.service.ServiceComputer;
 
 
 @RestController
-@RequestMapping(value = "/companys")
+@RequestMapping(value = "api/v1/companys")
 public class ControllerCompany {
 	
 	

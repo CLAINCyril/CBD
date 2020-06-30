@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.jpa.impl.JPADeleteClause;
@@ -107,17 +108,18 @@ public class DAOComputer {
 				.limit(number).offset(offset).fetch();
 
 	}
-
+	
 	public void deleteComputerWhereCompany(int idCompany) {
 		QComputer computer = QComputer.computer;
 
 		new JPADeleteClause(entityManager, computer).where(computer.company.id.eq(idCompany)).execute();
 	}
 
-	public long countComputer() {
+	public long countComputer(){
 		JPAQuery<Void> query = new JPAQuery<Void>(entityManager);
 		QComputer computer = QComputer.computer;
 		return query.from(computer)
 				.fetchCount();
-	}
+
+		}
 }

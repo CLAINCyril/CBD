@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,8 +50,12 @@ public class ServiceComputer {
 		daoComputer.persisteComputer(computer);
 	}
 
-	public int getlength() {
-		return (int) daoComputer.countComputer();
+	public int getlength() throws JDBCConnectionException {
+		try {
+			return (int) daoComputer.countComputer();
+		} catch (JDBCConnectionException jdbcConnectionException) {
+			throw jdbcConnectionException;
+		}
 	}
 
 

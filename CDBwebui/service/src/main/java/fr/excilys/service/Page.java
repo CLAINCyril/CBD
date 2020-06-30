@@ -14,10 +14,10 @@ import fr.excilys.model.Computer;
  *
  */
 public class Page {
-	int pageIterator;
-	int taillePage;
-	int sizeComputer;
-	int maxPage;
+	private int pageIterator;
+	private int taillePage;
+	private int sizeComputer;
+	private int maxPage;
 	ServiceComputer serviceComputer;
 	
 	public Page(int pageIterator, int taillePage,ServiceComputer service) {

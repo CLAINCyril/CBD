@@ -15,16 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.excilys.DTO.CompanyDTO;
 import fr.excilys.DTO.ComputerDTO;
 import fr.excilys.DTO.ListComputerParameter;
-import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 import fr.excilys.service.Page;
 import fr.excilys.service.ServiceComputer;
 
 @RestController
-@RequestMapping("/computers")
+@RequestMapping("api/v1/computers")
 public class ControllerComputer {
 
 	
@@ -57,33 +55,39 @@ public class ControllerComputer {
 	
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ComputerDTO> getComputer(@PathVariable String id) {
+	public ResponseEntity getComputer(@PathVariable String id) {
 		
-		Optional<Computer> Optionalcomputer = Optional.empty();		
-		Computer computer = serviceComputer.getComputer(Integer.valueOf(id)).get();
-		ComputerDTO computerDTO = serviceComputer.mapFromComputerToDTO(computer);
+		Optional<Computer> Optionalcomputer = serviceComputer.getComputer(Integer.valueOf(id));		
+		Optional<ComputerDTO> computerDTO = Optionalcomputer.map(computer ->  serviceComputer.mapFromComputerToDTO(computer));
+		if( computerDTO.isPresent()) {
 		
 		ResponseEntity<ComputerDTO> responseEntitycomputerDTOList = 
-				new ResponseEntity<ComputerDTO>(computerDTO,HttpStatus.OK);
-
-
-
+				new ResponseEntity<ComputerDTO>(computerDTO.get(),HttpStatus.OK);
+		
 		return responseEntitycomputerDTOList;
+
+		}
+		
+		return new ResponseEntity(HttpStatus.NOT_FOUND);
+
 
 	}
 	
 	
 	@PostMapping
-	public void createComputer(@RequestBody ComputerDTO computerDTO ){
+	public ResponseEntity createComputer(@RequestBody ComputerDTO computerDTO ){
 		Computer computer  = serviceComputer.mapComputerDTOToComputer(computerDTO);
 		serviceComputer.persisteComputer(computer);
-
+		return new ResponseEntity(HttpStatus.CREATED);
+		
 	}	
 	
 	@PutMapping("/{id}")
-	public void updateComputer(@RequestBody ComputerDTO computerDTO ){
+	public ResponseEntity updateComputer(@RequestBody ComputerDTO computerDTO ){
 		Computer computer  = serviceComputer.mapComputerDTOToComputer(computerDTO);
 		serviceComputer.updateComputer(computer);
+		return new ResponseEntity(HttpStatus.ACCEPTED);
+
 
 	}
 	
@@ -91,7 +95,7 @@ public class ControllerComputer {
 	public ResponseEntity deleteComputer(@PathVariable("id") String id){
 		serviceComputer.deleteComputer(Integer.valueOf(id));
 
-		return ResponseEntity.ok(null);
+		return new ResponseEntity(HttpStatus.ACCEPTED);
 
 	}
 	
