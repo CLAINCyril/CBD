@@ -1,13 +1,15 @@
 package fr.excilys.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fr.excilys.DTO.ComputerDTO;
+import fr.excilys.mapper.ComputerMapper;
 import fr.excilys.model.Computer;
 import fr.excilys.persistence.DAOComputer;
 
@@ -34,10 +36,11 @@ enum EVITEINJECTION {
 public class ServiceComputer {
 
 	private DAOComputer daoComputer;
-
+	private ComputerMapper computerMapper;
 	
-	public ServiceComputer(DAOComputer daoComputer) {
+	public ServiceComputer(DAOComputer daoComputer, ComputerMapper computerMapper) {
 		this.daoComputer = daoComputer;
+		this.computerMapper = computerMapper;
 
 	}
 
@@ -86,5 +89,57 @@ public class ServiceComputer {
 		order = EVITEINJECTION.value(order.toUpperCase());
 		return daoComputer.getPageComputerOrder(offset, number, order);
 	}
+	
+	public List<Computer> getPage(String order, String search, Page page) {
+		List<Computer> computerList;
+		if (order != null) {
+			computerList = page.getPageOrderBy(order);
+		} else if (!("".equals(search)) && (search != null)) {
+			computerList = page.getPageByName(search);
 
+		} else {
+			computerList = page.getPage();
+		}
+		return computerList;
+	}
+
+	public List<String> splitSelection(String selection) {
+		List<String> computers = Arrays.asList(selection.split(","));
+		return computers;
+	}
+
+
+	public Page getFirstPage(String pageIterator, String taillePage, int startItemPage, int lastItemPage) {
+		Page page;
+
+		if (("" != taillePage) && (taillePage != null)) {
+			page = new Page(pageIterator, taillePage, this);
+
+		} else {
+			if ((pageIterator != null) && !(taillePage != null)) {
+				page = new Page(pageIterator, "20", this);
+
+			} else {
+				page = new Page(startItemPage, lastItemPage, this);
+			}
+		}
+		return page;
+	}
+
+	public List<ComputerDTO> mapComputerToDTOList(List<Computer> computerList) {
+		List<ComputerDTO> computerDTOList = computerList.stream()
+				.map(computer -> computerMapper.convertFromComputerToComputerDTO(computer))
+				.collect(Collectors.toList());
+		return computerDTOList;
+	}
+
+	public ComputerDTO mapFromComputerToDTO(Computer computer) {
+		
+		return computerMapper.convertFromComputerToComputerDTO(computer);
+	}
+
+	public Computer mapComputerDTOToComputer(ComputerDTO computerDTO) {
+
+		return (computerMapper.fromComputerDTOToComputer(computerDTO));
+	}
 }

@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.excilys.configuration.PersistenceConfig;
+import fr.excilys.model.Company;
 import fr.excilys.persistence.DAOCompany;
 
 
@@ -37,5 +38,19 @@ public class DAOCompanyTest {
 	public void getAllCompany() {
 		assertEquals(daoCompany.getAllCompany().size(), 20);
 	}
+
+	@Test
+	public void persistCompany() {
+		Company company = new Company();
+		company.setName("toto");
+		daoCompany.persisteCompany(company);
+	}
 	
+	@Test
+	public void updateCompany() {
+		Company company = new Company();
+		company.setName("toto");
+		company.setId(1);
+		daoCompany.updateCompany(company);
+	}
 }

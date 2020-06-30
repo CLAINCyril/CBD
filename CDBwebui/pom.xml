@@ -31,6 +31,10 @@
 		<springFrameworkVersion>5.2.7.RELEASE</springFrameworkVersion>
 		<springSecurityVersion>5.3.3.RELEASE</springSecurityVersion>
 		<LogbackVersion>1.2.3</LogbackVersion>
+		<springJWT>1.1.0.RELEASE</springJWT>
+		<jacksonVersion>2.10.1</jacksonVersion>
+		<swaggerVersion>2.9.2</swaggerVersion>
+		<javaxWSVersion>2.1.1</javaxWSVersion>
 	</properties>
 
 
@@ -78,7 +82,30 @@
 	<dependencyManagement>
 
 		<dependencies>
-
+			
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>javax.ws.rs-api</artifactId>
+				<version>${javaxWSVersion}</version>
+			</dependency>
+	
+	
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jacksonVersion}</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jacksonVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${swaggerVersion}</version>
+			</dependency>
 			<!-- Spring Security -->
 			<dependency>
 				<groupId>org.springframework.security</groupId>

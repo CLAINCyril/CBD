@@ -49,9 +49,11 @@ public class CompanyMapper implements RowMapper<Company> {
 		return listCompanyDTO;
 	}
 
-	public Company fromCompanyDTOToCompany(CompanyDTO company) {
+	public Company fromCompanyDTOToCompany(CompanyDTO companyDTO) {
 		return new Company.CompanyBuilder()
-				.setId(Integer.valueOf(company.getId())).build();
+				.setId(companyDTO.getId() == null ? 0 : Integer.valueOf(companyDTO.getId()))
+				.setName(companyDTO.getName().toString())
+				.build();
 
 		
 	}

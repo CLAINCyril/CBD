@@ -68,12 +68,13 @@ public class ComputerMapper implements RowMapper<Computer>{
 	 * @return
 	 */
 	public static LocalDateTime ConvertStringToLocalDateTime(String date) {
-		if (date.isEmpty()) {
+		if ((date != null) && !date.isEmpty()) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+			LocalDateTime dateTime = LocalDate.parse(date, formatter).atTime(0,0,0);
+			return dateTime;
+		} else {
 			return null;
 		}
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-		LocalDateTime datetime = LocalDate.parse(date, formatter).atTime(0, 0, 0);
-		return datetime;
 	}
 	
 	
@@ -83,8 +84,10 @@ public class ComputerMapper implements RowMapper<Computer>{
 
 		Computer computer = new Computer.ComputerBuilder().setCompany(company)
 				.setId(computerDTO.getId() == null ? 0 : Integer.parseInt(computerDTO.getId()))
-				.setDiscontinued(ConvertStringToLocalDateTime(computerDTO.getDiscontinued()))
-				.setIntroduced(ConvertStringToLocalDateTime(computerDTO.getIntroduced()))
+				.setDiscontinued(computerDTO.getDiscontinued() == null?
+						null : ConvertStringToLocalDateTime(computerDTO.getDiscontinued()))
+				.setIntroduced(computerDTO.getIntroduced() == null ?
+						null : ConvertStringToLocalDateTime(computerDTO.getIntroduced()))
 				.setName(computerDTO.getName())
 				.build();
 		return computer;

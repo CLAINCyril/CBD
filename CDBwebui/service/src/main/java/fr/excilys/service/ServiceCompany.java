@@ -2,22 +2,28 @@ package fr.excilys.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fr.excilys.DTO.CompanyDTO;
+import fr.excilys.DTO.ComputerDTO;
+import fr.excilys.mapper.CompanyMapper;
 import fr.excilys.model.Company;
+import fr.excilys.model.Computer;
 import fr.excilys.persistence.DAOCompany;
 
 @Service
 public class ServiceCompany {
 	DAOCompany daoCompany;
-
+	CompanyMapper companyMapper;
 	
 	@Autowired
-	public ServiceCompany(DAOCompany daoCompany) {
-		this.daoCompany = daoCompany;		
+	public ServiceCompany(DAOCompany daoCompany, CompanyMapper companyMapper) {
+		this.daoCompany = daoCompany;
+		this.companyMapper = companyMapper;
 	}
 	
 
@@ -61,4 +67,26 @@ public class ServiceCompany {
 		return listId;
 		
 	}
+
+
+	public Company mapCompanyDTOTOCompany(CompanyDTO companyDTO) {
+		
+		return companyMapper.fromCompanyDTOToCompany(companyDTO);
+	}
+
+	@Transactional
+	public void updateCompany(Company company) {
+		daoCompany.updateCompany(company);
+	}
+
+
+	public List<CompanyDTO> fromCompanyListToDTOList(List<Company> companys) {
+		List<CompanyDTO> CompanyDTOList = companys.stream()
+				.map(company -> companyMapper.convertFromCompanyToCompanyDTO(company))
+				.collect(Collectors.toList());
+		return CompanyDTOList;
+	}
+
+	
+		
 }

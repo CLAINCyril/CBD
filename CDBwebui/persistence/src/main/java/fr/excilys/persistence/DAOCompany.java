@@ -15,7 +15,9 @@ import com.querydsl.jpa.impl.JPAUpdateClause;
 
 import fr.excilys.mapper.CompanyMapper;
 import fr.excilys.model.Company;
+import fr.excilys.model.Computer;
 import fr.excilys.model.QCompany;
+import fr.excilys.model.QComputer;
 
 /**
  * Classe d'accès aux données de l'objet Company. Permets les verbes CRUD.
@@ -89,12 +91,14 @@ public class DAOCompany {
 	 */
 	public void updateCompany(Company company) {
 		QCompany qCompany = QCompany.company;
-		new JPAUpdateClause(entityManager, qCompany)
+		
+		new JPAUpdateClause(entityManager, qCompany).where(qCompany.id.eq(company.getId()))
 		.set(qCompany.name,company.getName())
 		.set(qCompany.id,company.getId())
 		.execute();
 	}
 
+	
 	/**
 	 * Interroge la BDD et retourne la liste de toutes les company.
 	 * 
