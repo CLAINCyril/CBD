@@ -92,9 +92,9 @@ public class CliUI {
 		System.out.println("Veuillez saisir le nom :\n");
 		computer.setName(sc.next());
 		System.out.println("Veuillez saisir la date de sortie :\n");
-		computer.setIntroduced(computerMapper.ConvertStringToLocalDateTime(sc.next()));
+		computer.setIntroduced(computerMapper.ConvertStringToLocalDate(sc.next()));
 		System.out.println("Veuillez saisir la date de fin de serie :\n");
-		computer.setDiscontinued(computerMapper.ConvertStringToLocalDateTime(sc.next()));
+		computer.setDiscontinued(computerMapper.ConvertStringToLocalDate(sc.next()));
 		System.out.println("Veuillez saisir l'id company:\n");
 		company = serviceCompany.getCompany(sc.nextInt());
 		computer.setCompany(company);
@@ -110,9 +110,9 @@ public class CliUI {
 		System.out.println("Veuillez saisir le nom :\n");
 		computer.setName(sc.next());
 		System.out.println("Veuillez saisir la date de sortie :\n");
-		computer.setIntroduced(computerMapper.ConvertStringToLocalDateTime(sc.next()));
+		computer.setIntroduced(computerMapper.ConvertStringToLocalDate(sc.next()));
 		System.out.println("Veuillez saisir la date de fin de serie :\n");
-		computer.setDiscontinued(computerMapper.ConvertStringToLocalDateTime(sc.next()));
+		computer.setDiscontinued(computerMapper.ConvertStringToLocalDate(sc.next()));
 		System.out.println("Veuillez saisir l'id company:\n");
 		company = serviceCompany.getCompany(sc.nextInt());
 		computer.setCompany(company);

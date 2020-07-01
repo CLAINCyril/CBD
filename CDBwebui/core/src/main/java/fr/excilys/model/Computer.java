@@ -1,6 +1,6 @@
 package fr.excilys.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,9 +37,9 @@ public class Computer {
 	@Column(name = "name")
 	private String name;
 	@Column(name = "introduced")
-	private LocalDateTime introduced;
+	private LocalDate introduced;
 	@Column(name = "discontinued")
-	private LocalDateTime discontinued;
+	private LocalDate discontinued;
 	@OneToOne
 	@JoinColumn(name="company_id")
 	private Company company;
@@ -60,19 +60,19 @@ public class Computer {
 		this.name = name;
 	}
 
-	public LocalDateTime getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(LocalDateTime introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
 
-	public LocalDateTime getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDiscontinued(LocalDateTime dicontinued) {
+	public void setDiscontinued(LocalDate dicontinued) {
 		discontinued = dicontinued;
 	}
 
@@ -87,8 +87,8 @@ public class Computer {
 	public static class ComputerBuilder {
 		private int id;
 		private String name;
-		private LocalDateTime introduced;
-		private LocalDateTime discontinued;
+		private LocalDate introduced;
+		private LocalDate discontinued;
 		private Company company;
 
 		public ComputerBuilder setId(int id) {
@@ -101,12 +101,12 @@ public class Computer {
 			return this;
 		}
 
-		public ComputerBuilder setIntroduced(LocalDateTime introduced) {
+		public ComputerBuilder setIntroduced(LocalDate introduced) {
 			this.introduced = introduced;
 			return this;
 		}
 
-		public ComputerBuilder setDiscontinued(LocalDateTime dicontinued) {
+		public ComputerBuilder setDiscontinued(LocalDate dicontinued) {
 			this.discontinued = dicontinued;
 			return this;
 		}

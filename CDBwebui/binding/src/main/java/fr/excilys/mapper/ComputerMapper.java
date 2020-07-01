@@ -36,10 +36,10 @@ public class ComputerMapper implements RowMapper<Computer>{
 					.setId(resDetailcomputer.getInt("computer.id"))
 					.setName(resDetailcomputer.getString("computer.name"))
 					.setIntroduced(resDetailcomputer.getTimestamp("computer.introduced") != null
-							? resDetailcomputer.getTimestamp("computer.introduced").toLocalDateTime()
+							? resDetailcomputer.getTimestamp("computer.introduced").toLocalDateTime().toLocalDate()
 							: null)
 					.setDiscontinued(resDetailcomputer.getTimestamp("discontinued") != null
-							? resDetailcomputer.getTimestamp("computer.discontinued").toLocalDateTime()
+							? resDetailcomputer.getTimestamp("computer.discontinued").toLocalDateTime().toLocalDate()
 							: null)
 					.build();
 
@@ -67,10 +67,10 @@ public class ComputerMapper implements RowMapper<Computer>{
 	 * @param date
 	 * @return
 	 */
-	public static LocalDateTime ConvertStringToLocalDateTime(String date) {
+	public static LocalDate ConvertStringToLocalDate(String date) {
 		if ((date != null) && !date.isEmpty()) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-			LocalDateTime dateTime = LocalDate.parse(date, formatter).atTime(0,0,0);
+			LocalDate dateTime = LocalDate.parse(date, formatter);
 			return dateTime;
 		} else {
 			return null;
@@ -85,9 +85,9 @@ public class ComputerMapper implements RowMapper<Computer>{
 		Computer computer = new Computer.ComputerBuilder().setCompany(company)
 				.setId(computerDTO.getId() == null ? 0 : Integer.parseInt(computerDTO.getId()))
 				.setDiscontinued(computerDTO.getDiscontinued() == null?
-						null : ConvertStringToLocalDateTime(computerDTO.getDiscontinued()))
+						null : ConvertStringToLocalDate(computerDTO.getDiscontinued()))
 				.setIntroduced(computerDTO.getIntroduced() == null ?
-						null : ConvertStringToLocalDateTime(computerDTO.getIntroduced()))
+						null : ConvertStringToLocalDate(computerDTO.getIntroduced()))
 				.setName(computerDTO.getName())
 				.build();
 		return computer;
