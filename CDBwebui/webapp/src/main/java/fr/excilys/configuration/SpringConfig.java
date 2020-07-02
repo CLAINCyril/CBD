@@ -19,7 +19,8 @@ import org.springframework.web.servlet.DispatcherServlet;
 		"fr.excilys.persistence",
 		"fr.excilys.controller",
 		"fr.excilys.client",
-		"fr.excilys.mapper" })
+		"fr.excilys.mapper",
+		"fr.excilys.jwtToken"})
 
 public class SpringConfig implements WebApplicationInitializer {
 
