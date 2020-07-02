@@ -12,13 +12,13 @@ import fr.excilys.model.UserCdb;
 import fr.excilys.service.ServiceUser;
 
 @Controller
-public class ControllerUser {
+public class ControllerHome {
 
 	private PasswordEncoder passwordEncoder;
 	
 	private ServiceUser serviceUser;
 	
-	public ControllerUser(ServiceUser serviceUser, PasswordEncoder passwordEncoder) {
+	public ControllerHome(ServiceUser serviceUser, PasswordEncoder passwordEncoder) {
 		this.serviceUser = serviceUser;
 		this.passwordEncoder = passwordEncoder;
 	}

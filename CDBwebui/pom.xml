@@ -35,6 +35,10 @@
 		<jacksonVersion>2.10.1</jacksonVersion>
 		<swaggerVersion>2.9.2</swaggerVersion>
 		<javaxWSVersion>2.1.1</javaxWSVersion>
+		<jwtVersions>0.9.0</jwtVersions>
+		<auth0Versio>1.5.0</auth0Versio>
+		<auth0SpringSecurityApi>1.0.0</auth0SpringSecurityApi>
+		<springSecurityTest>5.3.0.RELEASE</springSecurityTest>
 	</properties>
 
 
@@ -80,8 +84,14 @@
 	</dependencies>
 
 	<dependencyManagement>
-
+	
 		<dependencies>
+		 <dependency>
+	         <groupId>org.springframework.security</groupId>
+	         <artifactId>spring-security-test</artifactId>
+	         <version>${springSecurityTest}</version>
+	         <scope>test</scope>
+	     </dependency>
 			
 			<dependency>
 				<groupId>javax.ws.rs</groupId>
