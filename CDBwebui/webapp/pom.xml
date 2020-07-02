@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>CDBwebui</artifactId>
 		<groupId>fr.excilys</groupId>
-		<version>8.0.0</version>
+		<version>9.0.0</version>
 	</parent>
 
 	<artifactId>webapp</artifactId>
@@ -33,16 +33,14 @@
 				<artifactId>jackson-databind</artifactId>
 			</dependency>
 		<!-- Spring Security -->
-				<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-jwt</artifactId>
-			<version>1.1.0.RELEASE</version>
-		</dependency>
-		<dependency>
-    <groupId>io.jsonwebtoken</groupId>
-    <artifactId>jjwt</artifactId>
-    <version>0.9.0</version>
-</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-jwt</artifactId>
+			</dependency>
+			<dependency>
+			    <groupId>io.jsonwebtoken</groupId>
+			    <artifactId>jjwt</artifactId>
+			</dependency>
 		
 		<dependency>
 			<groupId>org.springframework.security</groupId>

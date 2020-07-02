@@ -11,6 +11,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import fr.excilys.model.Company.CompanyBuilder;
+
 @Entity
 @Table(name = "user")
 public class UserCdb {
@@ -53,6 +55,17 @@ public class UserCdb {
 			return this;
 		}
 
+
+		public Builder setName(String name) {
+			this.name = name;
+			return this;
+		}
+		
+		public Builder setpassword(String password) {
+			this.password = password;
+			return this;
+		}
+		
 		public UserCdb build() {
 			return new UserCdb(this);
 		}

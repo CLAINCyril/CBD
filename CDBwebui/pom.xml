@@ -6,7 +6,7 @@
 
 	<groupId>fr.excilys</groupId>
 	<artifactId>CDBwebui</artifactId>
-	<version>8.0.0</version>
+	<version>9.0.0</version>
 	<packaging>pom</packaging>
 
 	<name>CDBwebui Maven Webapp</name>
@@ -15,7 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<pomVersion>8.0.0</pomVersion>
+		<pomVersion>9.0.0</pomVersion>
 		<slf4jVersion>1.7.5</slf4jVersion>
 		<mysqlVersion>8.0.19</mysqlVersion>
 		<h2Version>1.4.200</h2Version>
@@ -33,12 +33,10 @@
 		<LogbackVersion>1.2.3</LogbackVersion>
 		<springJWT>1.1.0.RELEASE</springJWT>
 		<jacksonVersion>2.10.1</jacksonVersion>
-		<swaggerVersion>2.9.2</swaggerVersion>
 		<javaxWSVersion>2.1.1</javaxWSVersion>
 		<jwtVersions>0.9.0</jwtVersions>
-		<auth0Versio>1.5.0</auth0Versio>
-		<auth0SpringSecurityApi>1.0.0</auth0SpringSecurityApi>
 		<springSecurityTest>5.3.0.RELEASE</springSecurityTest>
+		<springSecurityJWT>1.1.0.RELEASE</springSecurityJWT>
 	</properties>
 
 
@@ -86,12 +84,22 @@
 	<dependencyManagement>
 	
 		<dependencies>
-		 <dependency>
-	         <groupId>org.springframework.security</groupId>
-	         <artifactId>spring-security-test</artifactId>
-	         <version>${springSecurityTest}</version>
-	         <scope>test</scope>
-	     </dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-jwt</artifactId>
+				<version>${springSecurityJWT}</version>
+			</dependency>
+			<dependency>
+			    <groupId>io.jsonwebtoken</groupId>
+			    <artifactId>jjwt</artifactId>
+			    <version>${jwtVersions}</version>
+			</dependency>
+			 <dependency>
+		         <groupId>org.springframework.security</groupId>
+		         <artifactId>spring-security-test</artifactId>
+		         <version>${springSecurityTest}</version>
+		         <scope>test</scope>
+		     </dependency>
 			
 			<dependency>
 				<groupId>javax.ws.rs</groupId>

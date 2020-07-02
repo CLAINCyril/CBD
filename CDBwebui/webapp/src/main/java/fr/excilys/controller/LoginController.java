@@ -6,11 +6,8 @@ import javax.naming.AuthenticationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,12 +25,9 @@ public class LoginController {
 
 	private JwtTokenUtil jwtTokenUtil;
 	private ServiceUser usersService;
-	private AuthenticationManager authenticationManager;
 
-	public LoginController(ServiceUser usersService, AuthenticationManager authenticationManager,
-			JwtTokenUtil jwtTokenUtil) {
+	public LoginController(ServiceUser usersService, JwtTokenUtil jwtTokenUtil) {
 		this.usersService = usersService;
-		this.authenticationManager = authenticationManager;
 		this.jwtTokenUtil = jwtTokenUtil;
 	}
 
@@ -55,11 +49,12 @@ public class LoginController {
 		Objects.requireNonNull(password);
 
 		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		} catch (DisabledException e) {
-			throw new AuthenticationException("USER_DISABLED" + e.getMessage());
-		} catch (BadCredentialsException e) {
-			throw new AuthenticationException("INVALID_CREDENTIALS" + e.getMessage());
+			 UserDetails userDetails = usersService.loadUserByUsername(username);
+			 if(password.equals(userDetails.getPassword())) {
+				 throw new AuthenticationException("INVALID_CREDENTIALS" );
+			 }
+		} catch (UsernameNotFoundException usernameNotFoundException) {
+			throw new UsernameNotFoundException("USER_DISABLED" );
 		}
 	}
 

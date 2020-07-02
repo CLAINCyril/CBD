@@ -19,7 +19,7 @@ import io.jsonwebtoken.impl.DefaultClock;
 public class JwtTokenUtil {
 
 	private Clock clock = DefaultClock.INSTANCE;
-	private String secret = "Secrtetetrt";
+	private String secret = "secret";
 	private Long expiration = 3600L;
 
 	public String getUsernameFromToken(String token) {
@@ -36,7 +36,11 @@ public class JwtTokenUtil {
 	}
 
 	public Boolean validateToken(String token, UserDetails userDetails) {
-		UserCdb user = (UserCdb) userDetails;
+		UserCdb user = new UserCdb.Builder()
+				.setName(userDetails.getUsername())
+				.setpassword(userDetails.getPassword())
+				.build();
+		
 		final String username = getUsernameFromToken(token);
 		return (username.equals(user.getName()) && !isTokenExpired(token));
 	}

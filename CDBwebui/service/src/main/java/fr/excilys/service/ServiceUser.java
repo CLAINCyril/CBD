@@ -30,8 +30,6 @@ public class ServiceUser implements UserDetailsService {
 
 	}
 
-
-
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Optional<UserCdb> optionalUser = userDAO.getUser(username);
@@ -56,7 +54,6 @@ public class ServiceUser implements UserDetailsService {
 				.name(newUserDto.getName())
 				.password((newUserDto.getPassword()))
 				.role(newUserDto.getRole()));
-		System.out.println(" juste avant persist  :  "+userCbd);
 		userDAO.persist(userCbd);
 		return userCbd;
 	}
