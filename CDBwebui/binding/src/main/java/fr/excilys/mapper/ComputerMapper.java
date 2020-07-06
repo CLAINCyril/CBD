@@ -1,14 +1,10 @@
 package fr.excilys.mapper;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import fr.excilys.DTO.CompanyDTO;
@@ -16,10 +12,8 @@ import fr.excilys.DTO.ComputerDTO;
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 
-import java.sql.ResultSet;
-
 @Component
-public class ComputerMapper implements RowMapper<Computer>{
+public class ComputerMapper {
 	
 	Computer computer;
 	Company company;
@@ -29,24 +23,6 @@ public class ComputerMapper implements RowMapper<Computer>{
 
 	}
 
-	public Optional<Computer> getComputer(ResultSet resDetailcomputer) throws SQLException {
-			company = new Company.CompanyBuilder().setName(resDetailcomputer.getString("company.name"))
-					.setId(resDetailcomputer.getInt("company_id")).build();
-			computer = new Computer.ComputerBuilder().setCompany(company)
-					.setId(resDetailcomputer.getInt("computer.id"))
-					.setName(resDetailcomputer.getString("computer.name"))
-					.setIntroduced(resDetailcomputer.getTimestamp("computer.introduced") != null
-							? resDetailcomputer.getTimestamp("computer.introduced").toLocalDateTime().toLocalDate()
-							: null)
-					.setDiscontinued(resDetailcomputer.getTimestamp("discontinued") != null
-							? resDetailcomputer.getTimestamp("computer.discontinued").toLocalDateTime().toLocalDate()
-							: null)
-					.build();
-
-		
-		return Optional.ofNullable(computer);
-
-	}
 
 	public  ComputerDTO convertFromComputerToComputerDTO(Computer computer) {
 		CompanyDTO companyDTO = new CompanyDTO();
@@ -98,11 +74,6 @@ public class ComputerMapper implements RowMapper<Computer>{
 				.map(Integer::valueOf)
 				.collect(Collectors.toList());
 		return numbers;
-	}
-
-	@Override
-	public Computer mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-		return 	getComputer(resultSet).get();
 	}
 
 

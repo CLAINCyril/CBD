@@ -11,6 +11,14 @@
     constraint pk_company primary key (id))
   ;
 
+  create table user (
+    id                        bigint not null auto_increment,
+    name                      varchar(255),
+    password                  varchar(255),
+    role                      varchar(255),
+    constraint pk_user primary key (id))
+  ;
+
   create table computer (
     id                        bigint not null auto_increment,
     name                      varchar(255),
@@ -23,7 +31,7 @@
   alter table computer add constraint fk_computer_company_1 foreign key (company_id) references company (id) on delete restrict on update restrict;
   create index ix_computer_company_1 on computer (company_id);
 
-  insert into company (id,name) values (  1,'Apple Inc.');
+insert into company (id,name) values (  1,'Apple Inc.');
 insert into company (id,name) values (  2,'Thinking Machines');
 insert into company (id,name) values (  3,'RCA');
 insert into company (id,name) values (  4,'Netronics');
@@ -43,6 +51,11 @@ insert into company (id,name) values ( 17,'Sony');
 insert into company (id,name) values ( 18,'OQO');
 insert into company (id,name) values ( 19,'NeXT');    
 insert into company (id,name) values ( 20,'Atari');
+
+insert into user (id,name,password,role) values (1, 'toto', 'toto', 'USER');
+insert into user (id,name,password,role) values (2, 'tata', 'tata', 'ADMIN');
+insert into user (id,name,password,role) values (3, 'admin', 'admin', 'ADMIN');
+insert into user (id,name,password,role) values (4, 'user', 'user', 'USER');
 
 insert into computer (id,name,introduced,discontinued,company_id) values (  1,'MacBook Pro 15.4 inch',null,null,1);
 insert into computer (id,name,introduced,discontinued,company_id) values (  2,'CM-2a',null,null,2);

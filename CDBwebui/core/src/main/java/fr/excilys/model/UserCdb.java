@@ -40,29 +40,18 @@ public class UserCdb {
 		private String password;
 		private String role;
 
-		public Builder name(String name) {
-			this.name = name;
-			return this;
-		}
-
-		public Builder role(String role) {
-			this.role = role;
-			return this;
-		}
-
-		public Builder password(String password) {
-			this.password = password;
-			return this;
-		}
-
-
 		public Builder setName(String name) {
 			this.name = name;
 			return this;
 		}
 		
-		public Builder setpassword(String password) {
+		public Builder setPassword(String password) {
 			this.password = password;
+			return this;
+		}
+		
+		public Builder setRole(String role) {
+			this.role = role;
 			return this;
 		}
 		

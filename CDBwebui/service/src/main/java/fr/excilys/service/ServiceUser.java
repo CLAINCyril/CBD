@@ -51,9 +51,9 @@ public class ServiceUser implements UserDetailsService {
 	
 	public UserCdb registerNewUserAccountUser(UserDTO newUserDto) {
 		UserCdb userCbd = new UserCdb(new Builder()
-				.name(newUserDto.getName())
-				.password((newUserDto.getPassword()))
-				.role(newUserDto.getRole()));
+				.setName(newUserDto.getName())
+				.setPassword((newUserDto.getPassword()))
+				.setRole(newUserDto.getRole()));
 		userDAO.persist(userCbd);
 		return userCbd;
 	}

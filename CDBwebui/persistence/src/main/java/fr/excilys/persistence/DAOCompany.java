@@ -74,11 +74,10 @@ public class DAOCompany {
 	 * @return Company
 	 */
 	public Optional<Company> getCompany(int id) {		
-		Optional<Company> optionalCompany= Optional.empty();
 		QCompany company = QCompany.company;
 		JPAQuery<Company> query = new JPAQuery<Company>(entityManager);
 
-		optionalCompany = Optional.of(query.from(company).where(company.id.eq(id)).fetchOne());
+		Optional<Company> optionalCompany = Optional.ofNullable(query.from(company).where(company.id.eq(id)).fetchOne());
 
 		return optionalCompany;
 		

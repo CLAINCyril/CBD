@@ -1,21 +1,15 @@
 package fr.excilys.mapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import fr.excilys.DTO.CompanyDTO;
 import fr.excilys.model.Company;
 
 @Component
-public class CompanyMapper implements RowMapper<Company> {
+public class CompanyMapper {
 
 	Company company;
 
@@ -23,11 +17,6 @@ public class CompanyMapper implements RowMapper<Company> {
 		super();
 	}
 
-	public Optional<Company> getCompany(ResultSet res) throws SQLException {
-		company = new Company.CompanyBuilder().setName(res.getString("company.name")).setId(res.getInt("company.id"))
-				.build();
-		return Optional.ofNullable(company);
-	}
 
 	public List<String> convertIdlistfromInteger(List<Integer> allCompanyid) {
 		List<String> listString = allCompanyid.stream().map(Integer -> Integer.toString()).collect(Collectors.toList());
@@ -36,6 +25,7 @@ public class CompanyMapper implements RowMapper<Company> {
 	}
 
 	public CompanyDTO convertFromCompanyToCompanyDTO(Company company) {
+		System.out.println(company);
 		CompanyDTO companyDTO = new CompanyDTO();
 		companyDTO.setId(Integer.toString((company.getId())));
 		companyDTO.setName(company.getName());
@@ -56,12 +46,6 @@ public class CompanyMapper implements RowMapper<Company> {
 				.build();
 
 		
-	}
-
-	@Override
-	public Company mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-
-		return getCompany(resultSet).get();
 	}
 
 }

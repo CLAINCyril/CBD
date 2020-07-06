@@ -12,6 +12,9 @@ import com.querydsl.jpa.impl.JPADeleteClause;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAUpdateClause;
 
+import fr.excilys.model.Company;
+import fr.excilys.model.QCompany;
+import fr.excilys.model.QComputer;
 import fr.excilys.model.QUserCdb;
 import fr.excilys.model.UserCdb;
 
@@ -46,8 +49,17 @@ public class DAOUser {
 
 		QUserCdb qUser = QUserCdb.userCdb;
 		new JPAUpdateClause(entityManager, qUser).where(qUser.name.eq(user.getName()))
-				.set(qUser.name, user.getName()).set(qUser.password, user.getPassword())
+				.set(qUser.name, user.getName())
+				.set(qUser.password, user.getPassword())
 				.execute();
 
 	}
+
+	public long countUser(){
+		JPAQuery<Void> query = new JPAQuery<Void>(entityManager);
+		QUserCdb qUser = QUserCdb.userCdb;
+		return query.from(qUser)
+				.fetchCount();
+
+		}
 }

@@ -42,7 +42,7 @@ public class CompanyDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		CompanyDTO other = (CompanyDTO) obj;
-		if (id != other.id)
+		if (!id.contentEquals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)

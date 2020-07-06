@@ -38,7 +38,7 @@ public class JwtTokenUtil {
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		UserCdb user = new UserCdb.Builder()
 				.setName(userDetails.getUsername())
-				.setpassword(userDetails.getPassword())
+				.setPassword(userDetails.getPassword())
 				.build();
 		
 		final String username = getUsernameFromToken(token);
