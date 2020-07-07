@@ -25,7 +25,6 @@ public class CompanyMapper {
 	}
 
 	public CompanyDTO convertFromCompanyToCompanyDTO(Company company) {
-		System.out.println(company);
 		CompanyDTO companyDTO = new CompanyDTO();
 		companyDTO.setId(Integer.toString((company.getId())));
 		companyDTO.setName(company.getName());

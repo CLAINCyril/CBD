@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,8 @@ import fr.excilys.service.ServiceUser;
 
 
 @RestController
-@RequestMapping("/login")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping("api/v1/login")
 public class LoginController {
 
 	private JwtTokenUtil jwtTokenUtil;

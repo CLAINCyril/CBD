@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import fr.excilys.service.Page;
 import fr.excilys.service.ServiceComputer;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("api/v1/computers")
 public class ControllerComputer {
 
@@ -68,7 +70,7 @@ public class ControllerComputer {
 
 		}
 		
-		return new ResponseEntity(HttpStatus.NOT_FOUND);
+		return ResponseEntity.notFound().build();
 
 
 	}

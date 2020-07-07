@@ -81,7 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring()
             .antMatchers(
                 HttpMethod.POST,
-                "/login"
+                "/api/v1/login"
             )
             .antMatchers(HttpMethod.OPTIONS, "/**");
 	}
