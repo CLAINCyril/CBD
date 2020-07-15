@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import fr.excilys.exception.DateException;
 import fr.excilys.mapper.ComputerMapper;
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
@@ -83,9 +84,10 @@ public class CliUI {
 	 * Creer un ordinateur a l'aide des params saisie a l'entrée.
 	 * 
 	 * @param sc
+	 * @throws DateException 
 	 * @throws SQLException 
 	 */
-	public void createComputer(Scanner sc){
+	public void createComputer(Scanner sc) throws DateException{
 		
 		
 
@@ -102,7 +104,7 @@ public class CliUI {
 
 	}
 
-	public void updateComputer(Scanner sc) {
+	public void updateComputer(Scanner sc) throws DateException {
 		
 
 		System.out.println("Veuillez saisir l'id :\n");
@@ -242,7 +244,7 @@ public class CliUI {
 
 	}
 
-	public CliUI() {
+	public CliUI() throws DateException {
 		this.computer = new Computer();
 		this.company = new Company();
 		this.tache = false;

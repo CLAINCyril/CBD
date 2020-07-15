@@ -10,25 +10,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.excilys.DTO.ComputerDTO;
+import fr.excilys.DTO.ListComputerParameter;
+import fr.excilys.exception.DateException;
 import fr.excilys.mapper.ComputerMapper;
 import fr.excilys.model.Computer;
 import fr.excilys.persistence.DAOComputer;
+import fr.excilys.validator.ValidatorComputer;
 
 enum EVITEINJECTION {
 	COMPUTER, INTRODUCED, DISCONTINUED, COMPANY;
-	
+ 
 	static String value(String string) {
 		switch (string) {
 		case "COMPUTER":
-			return (" computer.name");
+			return ("name");
 		case "INTRODUCED":
-			return (" computer.introduced");
+			return ("introduced");
 		case "DISCONTINUED":
-			return (" computer.discontinued");
+			return ("discontinued");
 		case "COMPANY":
-			return (" company.name");
+			return ("company.name");
 		default:
-			return (" computer.name");
+			return ("name");
 		}
 	}
 }
@@ -46,7 +49,9 @@ public class ServiceComputer {
 	}
 
 	@Transactional
-	public void persisteComputer(Computer computer) {
+	public void persisteComputer(Computer computer) throws DateException {
+		ValidatorComputer validate = new ValidatorComputer(computer);
+		validate.isValideComputer();
 		daoComputer.persisteComputer(computer);
 	}
 
@@ -80,30 +85,41 @@ public class ServiceComputer {
 	}
 
 	@Transactional
-	public void updateComputer(Computer computer) {
+	public void updateComputer(Computer computer) throws DateException {
+		ValidatorComputer validate = new ValidatorComputer(computer);
+		validate.isValideComputer();
 		daoComputer.updateComputer(computer);
 	}
 
 	@Transactional
-	public List<Computer> getPageComputerByName(String search, int offset, int number) {
-		return daoComputer.getPageComputerByName(search, offset, number);
+	public List<Computer> getPageComputerByName(String search, int offset, int number, String order) {
+		order = EVITEINJECTION.value(order.toUpperCase());
+		return daoComputer.getPageComputerByName(search, offset, number, order);
 	}
 
 	@Transactional
 	public List<Computer> getPageComputerOrder(int offset, int number, String order) {
-		order = EVITEINJECTION.value(order.toUpperCase());
+		order = EVITEINJECTION.value(order.toUpperCase()); 
 		return daoComputer.getPageComputerOrder(offset, number, order);
 	}
 	
-	public List<Computer> getPage(String order, String search, Page page) {
+	@Transactional
+	public List<Computer> getPage(ListComputerParameter listComputerParameter) {
 		List<Computer> computerList;
-		if (order != null) {
-			computerList = page.getPageOrderBy(order);
+		
+		String order = EVITEINJECTION.value(listComputerParameter.getOrder().toUpperCase()); 
+		String search = listComputerParameter.getSearch();
+		int offset = Integer.valueOf(listComputerParameter.getPageIterator());
+
+		int number = Integer.valueOf(listComputerParameter.getTaillePage());
+		
+		if (order != null && search == null) {
+			computerList = daoComputer.getPageComputerOrder(offset*number,number, order);
 		} else if (!("".equals(search)) && (search != null)) {
-			computerList = page.getPageByName(search);
+			computerList = daoComputer.getPageComputerByName(search, offset*number, number, order);
 
 		} else {
-			computerList = page.getPage();
+			computerList = getPageComputer( offset*number, number) ;
 		}
 		return computerList;
 	}
@@ -146,5 +162,9 @@ public class ServiceComputer {
 	public Computer mapComputerDTOToComputer(ComputerDTO computerDTO) {
 
 		return (computerMapper.fromComputerDTOToComputer(computerDTO));
+	}
+
+	public long countWithSearch(String search) {
+		return daoComputer.getNbRowSearch(search);
 	}
 }

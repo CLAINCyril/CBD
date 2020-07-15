@@ -30,7 +30,11 @@ public class Page {
 
 	
 	public Page(String pageIterator, String taillePage,ServiceComputer service) {
-		this.pageIterator = Integer.parseInt(pageIterator);
+		try {
+			this.pageIterator = Integer.parseInt(pageIterator);
+		}catch(NumberFormatException numberFormatException) {
+			this.pageIterator = 1;
+		}
 		this.taillePage = Integer.parseInt(taillePage);
 		sizeComputer =  service.getlength();
 		this.serviceComputer = service;
@@ -50,21 +54,21 @@ public class Page {
 	public List<Computer> getPage() {
 
 		ServiceComputer service = serviceComputer;
-		List<Computer> computerList = service.getPageComputer(pageIterator * taillePage, taillePage);
+		List<Computer> computerList = service.getPageComputer(pageIterator, taillePage);
 
 		return computerList;
 	}
 
-	public List<Computer> getPageByName(String search) {
+	public List<Computer> getPageByName(String search, String order) {
 		ServiceComputer service = serviceComputer;
-		List<Computer> computerList = service.getPageComputerByName(search, pageIterator * taillePage, taillePage);
+		List<Computer> computerList = service.getPageComputerByName(search, pageIterator, taillePage, order);
 		return computerList;
 	}
 	
 	public List<Computer> getPageOrderBy(String order) {
 		ServiceComputer service = serviceComputer;
 
-		List<Computer> computerList = service.getPageComputerOrder(pageIterator * taillePage, taillePage, order);
+		List<Computer> computerList = service.getPageComputerOrder(pageIterator, taillePage, order);
 		return computerList;
 	}
 

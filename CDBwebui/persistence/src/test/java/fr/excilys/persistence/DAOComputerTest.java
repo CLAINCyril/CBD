@@ -107,7 +107,7 @@ public class DAOComputerTest {
 	
 	@Test
 	public void assertTruePageContainApple() {
-		List<Computer> computers = daoComputer.getPageComputerByName("Apple", 0, 20);
+		List<Computer> computers = daoComputer.getPageComputerByName("Apple", 0, 20,"name");
 		assertTrue(computers.stream()
 				.map(computer -> computer.getName())
 				.allMatch(s -> s.contains("Apple")));
@@ -115,7 +115,7 @@ public class DAOComputerTest {
 
 	@Test
 	public void assertTruePageOrderByComputer() {
-		List<Computer> computers = daoComputer.getPageComputerOrder(0, 20, "computer");
+		List<Computer> computers = daoComputer.getPageComputerOrder(0, 20, "name");
 		List<String> computerOrderByName = computers.stream()
 						.map(computer -> computer.getName())
 						.sorted()

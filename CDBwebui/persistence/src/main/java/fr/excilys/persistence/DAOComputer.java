@@ -1,14 +1,17 @@
 package fr.excilys.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.stereotype.Repository;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPADeleteClause;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAUpdateClause;
@@ -85,30 +88,32 @@ public class DAOComputer {
 
 
 	}
-
-	public List<Computer> getPageComputerByName(String search, int offset, int number) {
+	
+	public List<Computer> getPageComputerByName(String search, int offset, int number, String order) {
 		JPAQuery<Computer> query = new JPAQuery<Computer>(entityManager);
+		PathBuilder<Computer> orderByExpression = new PathBuilder<>(Computer.class, "computer");	
+		PathBuilder<Object> path = orderByExpression.get(order);
 		QComputer computer = QComputer.computer;
 		QCompany company = QCompany.company;
-		
 		return query.from(computer).leftJoin(computer.company, company)
 				.where(computer.name.like("%" + search + "%"))
-				.orderBy(computer.name.asc())
+				.orderBy(new OrderSpecifier(Order.ASC,path))
 				.limit(number).offset(offset).fetch();
 
 	}
 
 	public List<Computer> getPageComputerOrder(int offset, int number, String order) {
 		JPAQuery<Computer> query = new JPAQuery<Computer>(entityManager);
+		PathBuilder<Computer> orderByExpression = new PathBuilder<>(Computer.class, "computer");	
+		PathBuilder<Object> path = orderByExpression.get(order);
 		QComputer computer = QComputer.computer;
 		QCompany company = QCompany.company;
-		
 		return query.from(computer).leftJoin(computer.company, company)
-				.orderBy(computer.name.asc())
+				.orderBy(new OrderSpecifier(Order.ASC,path))
 				.limit(number).offset(offset).fetch();
 
 	}
-	
+
 	public void deleteComputerWhereCompany(int idCompany) {
 		QComputer computer = QComputer.computer;
 
@@ -122,4 +127,11 @@ public class DAOComputer {
 				.fetchCount();
 
 		}
+
+	public long getNbRowSearch(String search) {
+		JPAQuery<Void> query = new JPAQuery<Void>(entityManager);
+		QComputer computer = QComputer.computer;
+		return query.from(computer)
+				.where(computer.name.like("%" + search + "%")).fetchCount();
+	}
 }

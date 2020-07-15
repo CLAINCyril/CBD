@@ -45,7 +45,7 @@ public class ComputerMapper {
 	 */
 	public static LocalDate ConvertStringToLocalDate(String date) {
 		if ((date != null) && !date.isEmpty()) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate dateTime = LocalDate.parse(date, formatter);
 			return dateTime;
 		} else {
