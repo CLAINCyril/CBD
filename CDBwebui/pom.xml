@@ -27,7 +27,7 @@
 		<javaxservletJstl>1.1.2</javaxservletJstl>
 		<orgApacheTaglibs>1.2.5</orgApacheTaglibs>
 		<orgApacheCommons>3.10</orgApacheCommons>
-		<junitVersion>4.12</junitVersion>
+		<junitVersion>4.13.1</junitVersion>
 		<springFrameworkVersion>5.2.7.RELEASE</springFrameworkVersion>
 		<springSecurityVersion>5.3.3.RELEASE</springSecurityVersion>
 		<LogbackVersion>1.2.3</LogbackVersion>
