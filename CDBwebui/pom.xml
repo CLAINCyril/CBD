@@ -32,7 +32,7 @@
 		<springSecurityVersion>5.3.3.RELEASE</springSecurityVersion>
 		<LogbackVersion>1.2.3</LogbackVersion>
 		<springJWT>1.1.0.RELEASE</springJWT>
-		<jacksonVersion>2.10.1</jacksonVersion>
+		<jacksonVersion>2.12.1</jacksonVersion>
 		<swaggerVersion>2.9.2</swaggerVersion>
 		<javaxWSVersion>2.1.1</javaxWSVersion>
 	</properties>
