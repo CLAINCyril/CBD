@@ -17,7 +17,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<pomVersion>8.0.0</pomVersion>
 		<slf4jVersion>1.7.5</slf4jVersion>
-		<mysqlVersion>8.0.19</mysqlVersion>
+		<mysqlVersion>8.0.28</mysqlVersion>
 		<h2Version>2.1.210</h2Version>
 		<querydslVersion>4.3.1</querydslVersion>
 		<hibernateVersion>5.4.17.Final</hibernateVersion>
